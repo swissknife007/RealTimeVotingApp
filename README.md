@@ -1,6 +1,6 @@
 # RealTimeVotingApp
 
-Team
+Team Members
 Charles Yip Guoli
 David Requena
 Hossam Zaki
