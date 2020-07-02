@@ -35,16 +35,16 @@ public class DataServlet extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     //Query to datastore
-    throws new IOException("Impliment Get");
+    throw new IOException("Implement Get");
   }
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     //Posting to datastore
-    throws new IOException("Impliment Post");
+    throw new IOException("Implement Post");
   }
 
   private String convertToJson(ArrayList comments) {
-    throws new IOException("Impliment if needed");
+    return "";
   }
 }
