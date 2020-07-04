@@ -27,8 +27,18 @@ window.onload = function () {
     var optionCell = document.getElementById("optionCell");
     var input = document.createElement("input");
     input.type = "text";
+    input.id = "Options";
     var br = document.createElement("br");
     optionCell.appendChild(input);
     optionCell.appendChild(br);
   };
 };
+
+function getInput(){
+fetch('/data').then(response=>response.json()).then((stats) => {
+
+    console.log(stats);
+})
+}
+
+

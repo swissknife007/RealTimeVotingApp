@@ -12,13 +12,33 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-
 async function getData() {
   throw "Impliment getData";
 }
 
 function createListElement(text) {
-  const liElement = document.createElement('li');
+  const liElement = document.createElement("li");
   liElement.innerText = text;
   return liElement;
 }
+
+window.onload = function () {
+  document.getElementById("addOption").onclick = function () {
+    var optionCell = document.getElementById("optionCell");
+    var input = document.createElement("input");
+    input.type = "text";
+    input.id = "Options";
+    var br = document.createElement("br");
+    optionCell.appendChild(input);
+    optionCell.appendChild(br);
+  };
+};
+
+function getInput(){
+fetch('/data').then(response=>response.json()).then((stats) => {
+
+    console.log(stats);
+})
+}
+
+

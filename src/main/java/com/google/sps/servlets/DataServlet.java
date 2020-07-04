@@ -13,6 +13,9 @@
 // limitations under the License.
 
 package com.google.sps.servlets;
+import java.io.PrintWriter;
+import com.google.sps.data.UserProfile;
+import com.google.gson.Gson;
 
 import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
@@ -26,7 +29,6 @@ import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.PreparedQuery;
 
-
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
   
@@ -34,6 +36,8 @@ public class DataServlet extends HttpServlet {
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+
     //Query to datastore
     throw new IOException("Implement Get");
   }
@@ -41,10 +45,32 @@ public class DataServlet extends HttpServlet {
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     //Posting to datastore
-    throw new IOException("Implement Post");
-  }
 
-  private String convertToJson(ArrayList comments) {
-    return "";
+        response.setContentType("text/html");
+        PrintWriter out = response.getWriter();
+        
+        // get all parameter names
+        Set<String> paramNames = request.getParameterMap().keySet();
+        String question = request.getParameter("question");
+        String option = request.getParameter("option");
+
+        //Instantiate object for JSON
+        UserProfile profile = new UserProfile(question,option);
+        Gson gson = new Gson();
+        String json = gson.toJson(profile);
+
+
+        //Instantiate database object
+
+        Entity UserEntity = new Entity("User");
+        UserEntity.setProperty("Question", question);
+        UserEntity.setProperty("Option",option);
+        DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+        datastore.put(UserEntity);
+
+        //Return JSON to testing
+        response.setContentType("application/json;");
+        response.getWriter().println(json);
   }
 }
+
