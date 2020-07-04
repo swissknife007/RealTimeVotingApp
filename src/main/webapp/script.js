@@ -35,10 +35,9 @@ window.onload = function () {
 };
 
 function getInput(){
-fetch('/data').then(response=>response.json()).then((stats) => {
-
+  fetch('/data').then(response=>response.json()).then((stats) => {
     console.log(stats);
-})
+  })
 }
 
 
