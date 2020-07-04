@@ -14,7 +14,7 @@
 
 package com.google.sps.servlets;
 import java.io.PrintWriter;
-import com.google.sps.data.UserProfile;
+import com.google.sps.data.Survey;
 import com.google.gson.Gson;
 
 import java.io.IOException;
@@ -46,27 +46,25 @@ public class DataServlet extends HttpServlet {
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     //Posting to datastore
 
-        response.setContentType("text/html");
-        PrintWriter out = response.getWriter();
-        
-        // get all parameter names
-        Set<String> paramNames = request.getParameterMap().keySet();
-        String question = request.getParameter("question");
-        String option = request.getParameter("option");
+        // get all parameter names and its values from HTTP request
+        final String question = "question";
+        final String option = "option";
+        final String questionValue = request.getParameter(question);
+        final String optionValue = request.getParameter(option);
 
-        //Instantiate object for JSON
-        UserProfile profile = new UserProfile(question,option);
+        //Create object to store the survey info into JSON
+        Survey survey = new Survey(questionValue,optionValue);
+
+        //Convert JSON by using GSON library
         Gson gson = new Gson();
-        String json = gson.toJson(profile);
+        String json = gson.toJson(survey);
 
-
-        //Instantiate database object
-
-        Entity UserEntity = new Entity("User");
-        UserEntity.setProperty("Question", question);
-        UserEntity.setProperty("Option",option);
-        DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-        datastore.put(UserEntity);
+        //Create entity to store data into database
+        final String surveyDataName = "survey";
+        Entity SurveyData = new Entity(surveyDataName);
+        SurveyData.setProperty(question, questionValue);
+        SurveyData.setProperty(option,optionValue);
+        datastore.put(SurveyData);
 
         //Return JSON to testing
         response.setContentType("application/json;");
