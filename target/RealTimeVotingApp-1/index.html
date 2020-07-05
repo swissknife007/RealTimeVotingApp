@@ -1,14 +1,38 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8">
-    <title>Voting App</title>
-    <link rel="stylesheet" href="style.css"></link>
-    <script src="script.js"></script>
-  </head>
-  <body>
-    <div class="container">
-      <h1>Voting App to be named</h1>
-    </div>
-  </body>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Voting App</title>
+  <link rel="stylesheet" href="style.css">
+
+  </link>
+  <script src="script.js"></script>
+</head>
+
+<body onload="getInput()">
+<form action="/data" method="POST" id ="reg-form">
+  <div class="container">
+    <h1>Voting App to be named</h1>
+    </textarea>
+    <br></br>
+    <table>
+      <tr>
+        <td>Question</td>
+        <td><input name="question" type="text" id="question" /></td>
+      </tr>
+
+      <tr>
+        <td style="vertical-align: top;">Options</td>
+        <td id="optionCell"><input name="option" type="text" id="Options" /><input type="button" id="addOption"
+            value="Add Options" /><br />
+        </td>
+      </tr>
+    </table>
+    <input type="submit" id="btn-register" value="click here to create a room">
+    <!-- <button onclick=""> click here to create a room</button> -->
+  </div>
+</form>
+</body>
+
 </html>

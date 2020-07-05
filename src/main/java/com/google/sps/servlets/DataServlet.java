@@ -13,6 +13,9 @@
 // limitations under the License.
 
 package com.google.sps.servlets;
+import java.io.PrintWriter;
+import com.google.sps.data.Survey;
+import com.google.gson.Gson;
 
 import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
@@ -26,7 +29,6 @@ import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.PreparedQuery;
 
-
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
   
@@ -34,6 +36,8 @@ public class DataServlet extends HttpServlet {
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+
     //Query to datastore
     throw new IOException("Implement Get");
   }
@@ -41,10 +45,30 @@ public class DataServlet extends HttpServlet {
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     //Posting to datastore
-    throw new IOException("Implement Post");
-  }
 
-  private String convertToJson(ArrayList comments) {
-    return "";
+        // get all parameter names and its values from HTTP request
+        final String question = "question";
+        final String option = "option";
+        final String questionValue = request.getParameter(question);
+        final String optionValue = request.getParameter(option);
+
+        //Create object to store the survey info into JSON
+        Survey survey = new Survey(questionValue,optionValue);
+
+        //Convert JSON by using GSON library
+        Gson gson = new Gson();
+        String json = gson.toJson(survey);
+
+        //Create entity to store data into database
+        final String surveyDataName = "survey";
+        Entity SurveyData = new Entity(surveyDataName);
+        SurveyData.setProperty(question, questionValue);
+        SurveyData.setProperty(option,optionValue);
+        datastore.put(SurveyData);
+
+        //Return JSON to testing
+        response.setContentType("application/json;");
+        response.getWriter().println(json);
   }
 }
+
