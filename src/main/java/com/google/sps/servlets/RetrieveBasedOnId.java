@@ -43,11 +43,21 @@ public class RetrieveBasedOnId extends HttpServlet {
     // Query to datastore
     final String id = request.getParameter("id");
 
-    Filter propertyFilter = new FilterPredicate("height", FilterOperator.EQUAL, id);
-    Query query = new Query("Person").setFilter(propertyFilter);
+    Filter propertyFilter = new FilterPredicate("id", FilterOperator.EQUAL, id);
+    Query query = new Query("survey").setFilter(propertyFilter);
     PreparedQuery results = datastore.prepare(query);
     for (Entity entity : results.asIterable()) {
+      String questionValue = (String) entity.getProperty("question");
+      String optionValue = (String) entity.getProperty("option");
+      Survey survey = new Survey(questionValue, optionValue);
+      Gson gson = new Gson();
+      String json = gson.toJson(survey);
+      System.out.println(json);
+      response.setContentType("application/json;");
+      response.getWriter().println(json);
+      break;
     }
+
     // Query<Entity> query = Query.newEntityQueryBuilder()
     // .setKind("Task")
     // .setFilter(CompositeFilter.and(
@@ -62,27 +72,27 @@ public class RetrieveBasedOnId extends HttpServlet {
     // Posting to datastore
 
     // get all parameter names and its values from HTTP request
-    final String question = "question";
-    final String option = "option";
-    final String questionValue = request.getParameter(question);
-    final String optionValue = request.getParameter(option);
+    // final String question = "question";
+    // final String option = "option";
+    // final String questionValue = request.getParameter(question);
+    // final String optionValue = request.getParameter(option);
 
-    // Create object to store the survey info into JSON
-    Survey survey = new Survey(questionValue, optionValue);
+    // // Create object to store the survey info into JSON
+    // Survey survey = new Survey(questionValue, optionValue);
 
-    // Convert JSON by using GSON library
-    Gson gson = new Gson();
-    String json = gson.toJson(survey);
+    // // Convert JSON by using GSON library
+    // Gson gson = new Gson();
+    // String json = gson.toJson(survey);
 
-    // Create entity to store data into database
-    final String surveyDataName = "survey";
-    Entity SurveyData = new Entity(surveyDataName);
-    SurveyData.setProperty(question, questionValue);
-    SurveyData.setProperty(option, optionValue);
-    datastore.put(SurveyData);
+    // // Create entity to store data into database
+    // final String surveyDataName = "survey";
+    // Entity SurveyData = new Entity(surveyDataName);
+    // SurveyData.setProperty(question, questionValue);
+    // SurveyData.setProperty(option, optionValue);
+    // datastore.put(SurveyData);
 
-    // Return JSON to testing
-    response.setContentType("application/json;");
-    response.getWriter().println(json);
+    // // Return JSON to testing
+    // response.setContentType("application/json;");
+    // response.getWriter().println(json);
   }
 }
