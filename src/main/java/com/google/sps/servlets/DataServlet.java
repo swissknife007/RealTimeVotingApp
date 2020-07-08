@@ -16,6 +16,11 @@ package com.google.sps.servlets;
 
 import java.io.IOException;
 import java.util.UUID;
+import java.util.*; 
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.ArrayList;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -48,10 +53,15 @@ public class DataServlet extends HttpServlet {
     final String question = "question";
     final String option = "option";
     final String questionValue = request.getParameter(question);
-    final String optionValue = request.getParameter(option);
+
+    //Retrieve the options values into string array  then store into StringList for datastore
+    final String[] retrievedOptionValue = request.getParameterValues(option);
+    final List<String> optionValue = new ArrayList<>();
+    for (int i =0; i <retrievedOptionValue.length;i++)
+        optionValue.add(retrievedOptionValue[i]);
 
     // Create object to store the survey info into JSON
-    Survey survey = new Survey(questionValue, optionValue);
+    Survey survey = new Survey(questionValue, retrievedOptionValue);
 
     // Convert JSON by using GSON library
     Gson gson = new Gson();
@@ -65,7 +75,7 @@ public class DataServlet extends HttpServlet {
     SurveyData.setProperty(question, questionValue);
     SurveyData.setProperty(option, optionValue);
     datastore.put(SurveyData);
-
+    
     // Return JSON to testing
     response.setContentType("application/json;");
     response.getWriter().println(json);

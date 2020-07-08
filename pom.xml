@@ -48,8 +48,6 @@
         <version>2.2.0</version>
         <configuration>
           <!-- TODO: set project ID. -->
-          <!-- !IMPORTANT! - CHANGE THE PROJECT ID TO YOURS ID
-          It can be found on  https://console.cloud.google.com/home/dashboard -->
           <deploy.projectId>summer20-sps-20</deploy.projectId>
           <deploy.version>1</deploy.version>
         </configuration>
