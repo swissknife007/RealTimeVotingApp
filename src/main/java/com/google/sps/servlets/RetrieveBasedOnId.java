@@ -47,7 +47,6 @@ public class RetrieveBasedOnId extends HttpServlet {
     Query query = new Query("survey").setFilter(propertyFilter);
     PreparedQuery results = datastore.prepare(query);
     for (Entity entity : results.asIterable()) {
-      System.out.println("yee");
       String questionValue = (String) entity.getProperty("question");
       String optionValue = (String) entity.getProperty("option");
       Survey survey = new Survey(questionValue, optionValue);
