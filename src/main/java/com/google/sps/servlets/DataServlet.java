@@ -13,62 +13,61 @@
 // limitations under the License.
 
 package com.google.sps.servlets;
-import java.io.PrintWriter;
-import com.google.sps.data.Survey;
-import com.google.gson.Gson;
 
 import java.io.IOException;
+import java.util.UUID;
+
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.*;
+
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.datastore.Query;
-import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.gson.Gson;
+import com.google.sps.data.Survey;
 
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
-  
+
   DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
-
-    //Query to datastore
+    // Query to datastore
     throw new IOException("Implement Get");
   }
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    //Posting to datastore
+    // Posting to datastore
 
-        // get all parameter names and its values from HTTP request
-        final String question = "question";
-        final String option = "option";
-        final String questionValue = request.getParameter(question);
-        final String optionValue = request.getParameter(option);
+    // get all parameter names and its values from HTTP request
+    final String question = "question";
+    final String option = "option";
+    final String questionValue = request.getParameter(question);
+    final String optionValue = request.getParameter(option);
 
-        //Create object to store the survey info into JSON
-        Survey survey = new Survey(questionValue,optionValue);
+    // Create object to store the survey info into JSON
+    Survey survey = new Survey(questionValue, optionValue);
 
-        //Convert JSON by using GSON library
-        Gson gson = new Gson();
-        String json = gson.toJson(survey);
+    // Convert JSON by using GSON library
+    Gson gson = new Gson();
+    String json = gson.toJson(survey);
 
-        //Create entity to store data into database
-        final String surveyDataName = "survey";
-        Entity SurveyData = new Entity(surveyDataName);
-        SurveyData.setProperty(question, questionValue);
-        SurveyData.setProperty(option,optionValue);
-        datastore.put(SurveyData);
+    // Create entity to store data into database
+    final String surveyDataName = "survey";
+    Entity SurveyData = new Entity(surveyDataName);
+    UUID id = UUID.randomUUID();
+    SurveyData.setProperty("id", id.toString());
+    SurveyData.setProperty(question, questionValue);
+    SurveyData.setProperty(option, optionValue);
+    datastore.put(SurveyData);
 
-        //Return JSON to testing
-        response.setContentType("application/json;");
-        response.getWriter().println(json);
+    // Return JSON to testing
+    response.setContentType("application/json;");
+    response.getWriter().println(json);
   }
 }
-
