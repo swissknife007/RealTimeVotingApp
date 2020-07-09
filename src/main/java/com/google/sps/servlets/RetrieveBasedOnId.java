@@ -41,7 +41,6 @@ public class RetrieveBasedOnId extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
-    // Query to datastore
     final String id = request.getParameter("id");
 
     Filter propertyFilter = new FilterPredicate("id", FilterOperator.EQUAL, id);
@@ -61,41 +60,10 @@ public class RetrieveBasedOnId extends HttpServlet {
     response.setContentType("application/json;");
     String str = "{\"error\":\"404\"}";
     response.getWriter().println(str);
-    // Query<Entity> query = Query.newEntityQueryBuilder()
-    // .setKind("Task")
-    // .setFilter(CompositeFilter.and(
-    // PropertyFilter.eq("id", id)))
-    // .build();
-    // QueryResults<Entity> tasks = datastore.run(query);
 
   }
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    // Posting to datastore
-
-    // get all parameter names and its values from HTTP request
-    // final String question = "question";
-    // final String option = "option";
-    // final String questionValue = request.getParameter(question);
-    // final String optionValue = request.getParameter(option);
-
-    // // Create object to store the survey info into JSON
-    // Survey survey = new Survey(questionValue, optionValue);
-
-    // // Convert JSON by using GSON library
-    // Gson gson = new Gson();
-    // String json = gson.toJson(survey);
-
-    // // Create entity to store data into database
-    // final String surveyDataName = "survey";
-    // Entity SurveyData = new Entity(surveyDataName);
-    // SurveyData.setProperty(question, questionValue);
-    // SurveyData.setProperty(option, optionValue);
-    // datastore.put(SurveyData);
-
-    // // Return JSON to testing
-    // response.setContentType("application/json;");
-    // response.getWriter().println(json);
   }
 }
