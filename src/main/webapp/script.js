@@ -28,6 +28,8 @@ window.onload = function () {
     var input = document.createElement("input");
     input.type = "text";
     input.id = "Options";
+    input.name = "option";
+    input.required = true;
     var br = document.createElement("br");
     optionCell.appendChild(input);
     optionCell.appendChild(br);
