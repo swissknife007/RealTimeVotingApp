@@ -51,11 +51,12 @@ public class DataServlet extends HttpServlet {
     final String option = "option";
     final String questionValue = request.getParameter(question);
 
-    //Retrieve the options values into string array  then store into StringList for datastore
+    // Retrieve the options values into string array then store into StringList for
+    // datastore
     final String[] retrievedOptionValue = request.getParameterValues(option);
     final List<String> optionValue = new ArrayList<>();
-    for (int i =0; i <retrievedOptionValue.length;i++)
-        optionValue.add(retrievedOptionValue[i]);
+    for (int i = 0; i < retrievedOptionValue.length; i++)
+      optionValue.add(retrievedOptionValue[i]);
 
     // Create object to store the survey info into JSON
     Survey survey = new Survey(questionValue, retrievedOptionValue);
@@ -72,9 +73,11 @@ public class DataServlet extends HttpServlet {
     SurveyData.setProperty(question, questionValue);
     SurveyData.setProperty(option, optionValue);
     datastore.put(SurveyData);
-    
+
     // Return JSON to testing
-    response.setContentType("application/json;");
-    response.getWriter().println(id);
+    response.setContentType("text/html;");
+    String html = "<h1>Here is your link! <br> https://summer20-sps-20.ue.r.appspot.com/votePage.html?id=" + id
+        + "</h1>";
+    response.getWriter().println(html);
   }
 }

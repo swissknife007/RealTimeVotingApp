@@ -56,9 +56,11 @@ public class RetrieveBasedOnId extends HttpServlet {
       String json = gson.toJson(survey);
       response.setContentType("application/json;");
       response.getWriter().println(json);
-      break;
+      return;
     }
-
+    response.setContentType("application/json;");
+    String str = "{\"error\":\"404\"}";
+    response.getWriter().println(str);
     // Query<Entity> query = Query.newEntityQueryBuilder()
     // .setKind("Task")
     // .setFilter(CompositeFilter.and(
