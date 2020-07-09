@@ -32,7 +32,7 @@ function getInput() {
           y.setAttribute("value", stats.option[i]);
           var label = document.createElement("label");
           label.appendChild(y);
-          label.innerHTML += "<span> " + stats.option[i] + "</span><br>";
+          label.innerHTML += "<br><span> " + stats.option[i] + "</span><br>";
           document.getElementById("vote-form").appendChild(label);
         }
       });
