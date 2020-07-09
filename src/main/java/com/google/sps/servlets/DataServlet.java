@@ -15,12 +15,9 @@
 package com.google.sps.servlets;
 
 import java.io.IOException;
-import java.util.UUID;
-import java.util.*; 
-
-import java.util.Arrays;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -78,6 +75,6 @@ public class DataServlet extends HttpServlet {
     
     // Return JSON to testing
     response.setContentType("application/json;");
-    response.getWriter().println(json);
+    response.getWriter().println(id);
   }
 }
