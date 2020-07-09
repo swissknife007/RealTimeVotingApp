@@ -28,6 +28,7 @@ function getInput() {
         for (i = 0; i < stats.option.length; i++) {
           var y = document.createElement("INPUT");
           y.setAttribute("type", "radio");
+          y.setAttribute("name", "choice");
           y.setAttribute("value", stats.option[i]);
           var label = document.createElement("label");
           label.appendChild(y);
