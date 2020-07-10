@@ -65,5 +65,19 @@ public class RetrieveBasedOnId extends HttpServlet {
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    // get all parameter names and its values from HTTP request
+    final String question = "content";
+    final String option = "choice";
+    final String questionValue = request.getParameter(question);
+    final String chosenValue = request.getParameter(option);
+
+    // Create entity to store choice into database
+    final String votingDataName = "vote";
+    Entity voteData = new Entity(votingDataName);
+    //UUID id = UUID.randomUUID();
+    //voteData.setProperty("id", id.toString());
+    voteData.setProperty(question, questionValue);
+    voteData.setProperty(option, chosenValue);
+    datastore.put(voteData);
   }
 }

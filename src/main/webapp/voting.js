@@ -33,7 +33,7 @@ function getInput() {
           var label = document.createElement("label");
           label.appendChild(y);
           label.innerHTML += "<br><span> " + stats.option[i] + "</span><br>";
-          document.getElementById("vote-form").appendChild(label);
+          document.getElementById("voting").appendChild(label);
         }
       });
   } catch {
