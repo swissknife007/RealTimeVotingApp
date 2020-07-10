@@ -68,14 +68,25 @@ public class RetrieveBasedOnId extends HttpServlet {
     // get all parameter names and its values from HTTP request
     final String question = "question";
     final String option = "choice";
+    final String roomID = "roomID";
+    final String IP = "IP";
     final String questionValue = request.getParameter(question);
     final String chosenValue = request.getParameter(option);
+    final String ip = request.getParameter(IP);
+    final String id = request.getParameter(roomID);
+    System.out.println(ip);
+    System.out.println(id);
+    System.out.println(chosenValue);
+
+    System.out.println(request.getParameterMap());
 
     // Create entity to store choice into database
     final String votingDataName = "vote";
     Entity voteData = new Entity(votingDataName);
     voteData.setProperty(question, questionValue);
     voteData.setProperty(option, chosenValue);
+    voteData.setProperty(roomID, id);
+    voteData.setProperty(IP, ip);
     datastore.put(voteData);
   }
 }
