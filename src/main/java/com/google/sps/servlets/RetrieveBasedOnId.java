@@ -66,7 +66,7 @@ public class RetrieveBasedOnId extends HttpServlet {
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     // get all parameter names and its values from HTTP request
-    final String question = "content";
+    final String question = "question";
     final String option = "choice";
     final String questionValue = request.getParameter(question);
     final String chosenValue = request.getParameter(option);

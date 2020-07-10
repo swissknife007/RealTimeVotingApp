@@ -9,14 +9,15 @@
   <body onload="getInput()">
     <h1 id="title" name="title"></h1>
     <form action="/id" method="POST" id="voting"
-        onsubmit="this.content.value=document.getElementById('title').innerHTML;">
+        onsubmit="this.question.value=document.getElementById('title').innerHTML;">
       <input
         type="submit"
         id="vote-register"
         value="click here to vote"
       />
-      <textarea name="content" style="display:none;" />
       <br/>
+      <textarea name="question" style="display:none;" />
+      
       <!-- <button onclick=""> click here to create a room</button> -->
     </form>
   </body>
