@@ -12,7 +12,7 @@
   <script src="script.js"></script>
 </head>
 
-<body >
+<body>
 <form action="/data" method="POST" id ="vote-form">
   <div class="container">
     <h1>Real Time Voting App</h1>
@@ -25,9 +25,12 @@
       </tr>
 
       <tr>
-        <td>Options</td>
-        <td id="optionCell"><input name="option" type="text" id="Options" required/><input type="button" id="addOption"
-            value="Add Options" /><br />
+
+        <td style="vertical-align: top;">Options</td>
+        <td id="optionCell">
+            <input name="option" type="text" id="Options" required/>
+            <input type="button" id="addOption" value="Add Options"/>
+            <br/>
         </td>
       </tr>
     </table>

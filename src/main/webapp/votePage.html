@@ -7,14 +7,17 @@
   </head>
 
   <body onload="getInput()">
-    <h1 id="title"></h1>
-    <form action="/data" method="POST" id="vote-form">
+    <h1 id="title" name="title"></h1>
+    <form action="/id" method="POST" id="voting"
+        onsubmit="this.question.value=document.getElementById('title').innerHTML;">
       <input
         type="submit"
-        id="btn-register"
-        value="click here to create a room"
+        id="vote-register"
+        value="click here to vote"
       />
-      <!-- <button onclick=""> click here to create a room</button> -->
+      <br/>
+      <textarea name="question" style="display:none;" />
+      <br/>
     </form>
   </body>
 </html>
