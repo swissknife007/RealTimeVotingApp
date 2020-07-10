@@ -4,8 +4,10 @@
 <head>
   <meta charset="UTF-8">
   <title>Voting App</title>
-  <link rel="stylesheet" href="style.css">
 
+  <link href="https://fonts.googleapis.com/css2?family=Cardo:wght@700&family=Josefin+Sans&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://kit.fontawesome.com/de2fa200e7.js" crossorigin="anonymous"></script>
   </link>
   <script src="script.js"></script>
 </head>
@@ -13,7 +15,7 @@
 <body>
 <form action="/data" method="POST" id ="vote-form">
   <div class="container">
-    <h1>Voting App to be named</h1>
+    <h1>Real Time Voting App</h1>
     </textarea>
     <br></br>
     <table>
@@ -23,6 +25,7 @@
       </tr>
 
       <tr>
+
         <td style="vertical-align: top;">Options</td>
         <td id="optionCell">
             <input name="option" type="text" id="Options" required/>
@@ -31,10 +34,42 @@
         </td>
       </tr>
     </table>
+    <br></br>
     <input type="submit" id="btn-register" value="click here to create a room">
     <!-- <button onclick=""> click here to create a room</button> -->
   </div>
 </form>
+
+<!--Simple Footer -->
+
+<div class = "footer">
+    <div class="footer-content">
+        <div class="footer-section about">
+            <h1 class="logo-text"> Real Time Voting App</h1>
+            <p> This is a Project  For Summer SPS2020. Its an app that allows you to vote in real time</p>
+        </div>
+        <div class="footer-section links">
+            <div class="socials">
+                <a href="#"><i class="fab fa-facebook"></i></a>
+                <a href="#"><i class="fab fa-github"></i></a>
+                <a href="#"><i class="fab fa-google"></i></a>
+            </div>
+        </div>
+        <div class="footer-section Contact Us">
+            <div class="socials">
+                <h1>Contact Us</h1>
+                <p>Team20SPS@gmail.com</p>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-bottom">
+        &copy; Google Summer SPS2020 | Team 20
+    </div>
+    
+</div>
+<!--Simple Footer -->
 </body>
 
 </html>
