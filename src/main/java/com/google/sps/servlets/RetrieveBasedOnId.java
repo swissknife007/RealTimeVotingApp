@@ -74,8 +74,6 @@ public class RetrieveBasedOnId extends HttpServlet {
     // Create entity to store choice into database
     final String votingDataName = "vote";
     Entity voteData = new Entity(votingDataName);
-    //UUID id = UUID.randomUUID();
-    //voteData.setProperty("id", id.toString());
     voteData.setProperty(question, questionValue);
     voteData.setProperty(option, chosenValue);
     datastore.put(voteData);
