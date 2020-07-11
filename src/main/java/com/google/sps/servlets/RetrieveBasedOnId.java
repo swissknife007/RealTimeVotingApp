@@ -22,6 +22,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.appengine.api.datastore.Blob;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
@@ -31,6 +32,7 @@ import com.google.appengine.api.datastore.Query.Filter;
 import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.FilterPredicate;
 import com.google.gson.Gson;
+import com.google.sps.data.Encryption;
 import com.google.sps.data.Survey;
 
 @WebServlet("/id")
@@ -65,28 +67,25 @@ public class RetrieveBasedOnId extends HttpServlet {
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    // get all parameter names and its values from HTTP request
+    Encryption.registerEncryption();
+
     final String question = "question";
     final String option = "choice";
     final String roomID = "roomID";
-    final String IP = "IP";
+    final String ipAddress = "IP";
     final String questionValue = request.getParameter(question);
     final String chosenValue = request.getParameter(option);
-    final String ip = request.getParameter(IP);
+    final String ip = request.getParameter(ipAddress);
     final String id = request.getParameter(roomID);
-    System.out.println(ip);
-    System.out.println(id);
-    System.out.println(chosenValue);
 
-    System.out.println(request.getParameterMap());
+    Blob blob = new Blob(Encryption.encrypt(ip));
 
-    // Create entity to store choice into database
     final String votingDataName = "vote";
     Entity voteData = new Entity(votingDataName);
     voteData.setProperty(question, questionValue);
     voteData.setProperty(option, chosenValue);
     voteData.setProperty(roomID, id);
-    voteData.setProperty(IP, ip);
+    voteData.setProperty(ipAddress, blob);
     datastore.put(voteData);
   }
 }
