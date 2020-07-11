@@ -45,7 +45,6 @@ public class DataServlet extends HttpServlet {
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     // Posting to datastore
-
     // get all parameter names and its values from HTTP request
     final String question = "question";
     final String option = "option";
