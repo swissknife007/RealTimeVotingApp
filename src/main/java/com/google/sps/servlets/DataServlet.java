@@ -66,9 +66,10 @@ public class DataServlet extends HttpServlet {
 
     // Create entity to store data into database
     final String surveyDataName = "survey";
+    final String roomID = "roomID";
     Entity SurveyData = new Entity(surveyDataName);
     UUID id = UUID.randomUUID();
-    SurveyData.setProperty("id", id.toString());
+    SurveyData.setProperty(roomID, id.toString());
     SurveyData.setProperty(question, questionValue);
     SurveyData.setProperty(option, optionValue);
     datastore.put(SurveyData);

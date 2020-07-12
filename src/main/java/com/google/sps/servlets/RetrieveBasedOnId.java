@@ -13,6 +13,8 @@
 // limitations under the License.
 
 package com.google.sps.servlets;
+import java.util.Enumeration; // delete
+import java.io.PrintWriter;
 
 import java.io.IOException;
 import java.util.List;
@@ -43,9 +45,10 @@ public class RetrieveBasedOnId extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
-    final String id = request.getParameter("id");
+      //old id
+    final String roomID = request.getParameter("id");
 
-    Filter propertyFilter = new FilterPredicate("id", FilterOperator.EQUAL, id);
+    Filter propertyFilter = new FilterPredicate("roomID", FilterOperator.EQUAL, roomID);
     Query query = new Query("survey").setFilter(propertyFilter);
     PreparedQuery results = datastore.prepare(query);
     for (Entity entity : results.asIterable()) {
@@ -87,5 +90,9 @@ public class RetrieveBasedOnId extends HttpServlet {
     voteData.setProperty(roomID, id);
     voteData.setProperty(ipAddress, blob);
     datastore.put(voteData);
-  }
+
+    response.setContentType("text/html;");
+    String vote = "Thank you for your voting";
+    response.getWriter().println(vote);
+    }
 }
