@@ -78,14 +78,14 @@ public class RetrieveBasedOnId extends HttpServlet {
     final String ip = request.getParameter(ipAddress);
     final String id = request.getParameter(roomID);
 
-    Blob blob = new Blob(Encryption.encrypt(ip));
+    //Blob blob = new Blob(Encryption.encrypt(ip));
 
     final String votingDataName = "vote";
     Entity voteData = new Entity(votingDataName);
     voteData.setProperty(question, questionValue);
     voteData.setProperty(option, chosenValue);
     voteData.setProperty(roomID, id);
-    voteData.setProperty(ipAddress, blob);
+    voteData.setProperty(ipAddress, ip);
     datastore.put(voteData);
   }
 }
