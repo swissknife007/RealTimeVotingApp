@@ -17,7 +17,7 @@ function getInput() {
           return;
         }
         document.getElementById("title").innerHTML = stats.question;
-
+    
         for (i = 0; i < stats.option.length; i++) {
           var y = document.createElement("INPUT");
           y.setAttribute("type", "radio");

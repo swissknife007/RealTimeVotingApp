@@ -74,7 +74,7 @@ public class DataServlet extends HttpServlet {
     SurveyData.setProperty(option, optionValue);
     datastore.put(SurveyData);
 
-    // Return JSON to testing
+        // Return JSON to testing
     response.setContentType("text/html;");
     String html = "<h1>Here is your link! <br> https://summer20-sps-20.ue.r.appspot.com/votePage.html?id=" + id
         + "</h1>";
