@@ -81,6 +81,20 @@ public class RetrieveBasedOnId extends HttpServlet {
     final String ip = request.getParameter(ipAddress);
     final String id = request.getParameter(roomID);
 
+    Filter propertyFilter = new FilterPredicate("roomID", FilterOperator.EQUAL, id);
+    Query query = new Query("vote").setFilter(propertyFilter);
+    PreparedQuery voteResults = datastore.prepare(query);
+    for (Entity entity : voteResults.asIterable()) {
+      String ipValue = (String) entity.getProperty("IP");
+      if (ipValue.equals(ip)) {
+        response.setContentType("text/html;");
+        String vote = "<h1>You have already voted for this survey! <br> You can check the results here <br> https://summer20-sps-20.ue.r.appspot.com/showVotes.html?id=" + id
+        + "</h1>";
+        response.getWriter().println(vote);
+        return;
+      }
+    }
+
     //Blob blob = new Blob(Encryption.encrypt(ip));
 
     final String votingDataName = "vote";
