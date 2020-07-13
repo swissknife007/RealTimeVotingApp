@@ -91,7 +91,8 @@ public class RetrieveVotes extends HttpServlet {
       }
         catch(Exception error)
         {
-            response.getWriter().println(error);
+            String sendingError = null;
+            response.getWriter().println(sendingError);
         }
 }
 }

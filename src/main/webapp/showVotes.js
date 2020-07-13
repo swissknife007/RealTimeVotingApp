@@ -12,7 +12,10 @@ var url_string = window.location.href;
       .then((response) => response.json())
       .then((stats) => {
         console.log(stats);
-
+        if (stats == null)
+        {
+            document.getElementById('question').innerHTML = "ERROR! INVALID ID";
+        }
         const data = new google.visualization.DataTable();
         data.addColumn('string', 'Options');
         data.addColumn('number', 'Count');
