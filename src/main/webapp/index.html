@@ -1,75 +1,137 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <title>Voting App</title>
+    <meta charset="UTF-8">
 
-  <link href="https://fonts.googleapis.com/css2?family=Cardo:wght@700&family=Josefin+Sans&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
-  <script src="https://kit.fontawesome.com/de2fa200e7.js" crossorigin="anonymous"></script>
-  </link>
-  <script src="script.js"></script>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
+    <title>Voting App</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Cardo:wght@700&family=Josefin+Sans&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://kit.fontawesome.com/de2fa200e7.js" crossorigin="anonymous"></script>
+    </link>
+    <script src="script.js"></script>
 </head>
 
 <body>
-<form action="/data" method="POST" id ="vote-form">
-  <div class="container">
-    <h1>Real Time Voting App</h1>
-    </textarea>
-    <br></br>
-    <table>
-      <tr>
-        <td>Question</td>
-        <td><input name="question" type="text" id="question" required /></td>
-      </tr>
+    <h1 style="text-align: center;">Real-Time Voting App</h1>
 
-      <tr>
+    <form action="/data" method="POST" id="vote-form">
+        <div class="container">
 
-        <td style="vertical-align: top;">Options</td>
-        <td id="optionCell">
-            <input name="option" type="text" id="Options" required/>
-            <input type="button" id="addOption" value="Add Options"/>
-            <br/>
-        </td>
-      </tr>
-    </table>
-    <br></br>
-    <input type="submit" id="btn-register" value="click here to create a room">
-    <!-- <button onclick=""> click here to create a room</button> -->
-  </div>
-</form>
+            <br></br>
+            <table>
+                <div class="row-2">
+                    <div class="col mb-4">
+                        <input name="question" type="text" id="question" required class="form-control"
+                            placeholder="Question">
+                    </div>
 
-<!--Simple Footer -->
+                    <tr>
 
-<div class = "footer">
-    <div class="footer-content">
-        <div class="footer-section about">
-            <h1 class="logo-text"> Real Time Voting App</h1>
-            <p> This is a Project  For Summer SPS2020. Its an app that allows you to vote in real time</p>
+                        <td style="vertical-align: top;">Options</td>
+
+                        <td id="optionCell">
+                            <div class="row">
+                                <div class="col-sm-12 col-md-6 ">
+                                    <input class="form-control" type="button" id="addOption" value="Add Options" />
+                                    </br>
+                                </div>
+                                </br>
+                                <div class="col-sm-12 col-md-6 ">
+                                    <input class="form-control" type="button" id="btn" value="Delete Options" />
+                                    </br>
+                                </div>
+                                <div class="col">
+                                    <input class="form-control" name="option" type="text" id="Options" required
+                                        placeholder="option 1" />
+                                    </br>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+            </table>
+            <br></br>
+            <input type="submit" id="btn-register" value="click here to create a room">
+            <br></br>
+            <!-- <button onclick=""> click here to create a room</button> -->
         </div>
-        <div class="footer-section links">
-            <div class="socials">
-                <a href="#"><i class="fab fa-facebook"></i></a>
-                <a href="#"><i class="fab fa-github"></i></a>
-                <a href="#"><i class="fab fa-google"></i></a>
+    </form>
+
+    <!--Simple Footer -->
+
+    <div class="footer">
+        <div class="row">
+            <div class="footer-content"></div>
+
+            <div class="col-sm-12 col-md-4">
+                <div class="card mb-4">
+                    <div class="card-body text-center">
+                        <div class="footer-section about">
+                            <h5 class="card-title"> Real Time Voting App</h1>
+                                <p> This is a Project For Summer SPS2020. Its an app that allows you to vote in real
+                                    time</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-12 col-md-4">
+                <div class="card mb-4">
+                    <div class="card-body text-center">
+                        <div class="footer-section links">
+                            <div class="socials">
+                                <a href="#"><i class="fab fa-facebook"></i></a>
+                                <a href="#"><i class="fab fa-github"></i></a>
+                                <a href="#"><i class="fab fa-google"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-sm-12 col-md-4">
+                <div class="card mb-4">
+                    <div class="footer-section Contact Us">
+                        <div class="socials">
+                            <h1>Contact Us</h1>
+                            <p>Team20SPS@gmail.com</p>
+
+                        </div>
+                    </div>
+                </div>
+
+
             </div>
         </div>
-        <div class="footer-section Contact Us">
-            <div class="socials">
-                <h1>Contact Us</h1>
-                <p>Team20SPS@gmail.com</p>
-
-            </div>
+        <div class="footer-bottom">
+            &copy; Google Summer SPS2020 | Team 20
         </div>
-    </div>
 
-    <div class="footer-bottom">
-        &copy; Google Summer SPS2020 | Team 20
     </div>
-    
-</div>
-<!--Simple Footer -->
+    <!--Simple Footer -->
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+        integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous">
+    </script>
 </body>
 
 </html>
