@@ -1,0 +1,20 @@
+{
+  "name": "RealTimeVotingApp",
+  "version": "1.0.0",
+  "description": "Team Members\r Charles Yip Guoli\r David Requena\r Hossam Zaki\r Tomi Olusina",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/swissknife007/RealTimeVotingApp.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/swissknife007/RealTimeVotingApp/issues"
+  },
+  "homepage": "https://github.com/swissknife007/RealTimeVotingApp#readme"
+}
