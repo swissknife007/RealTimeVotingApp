@@ -13,6 +13,8 @@
 // limitations under the License.
 
 package com.google.sps.servlets;
+import java.util.Enumeration; // delete
+import java.io.PrintWriter;
 
 import java.io.IOException;
 import java.util.List;
@@ -22,6 +24,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.appengine.api.datastore.Blob;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
@@ -31,6 +34,7 @@ import com.google.appengine.api.datastore.Query.Filter;
 import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.FilterPredicate;
 import com.google.gson.Gson;
+import com.google.sps.data.Encryption;
 import com.google.sps.data.Survey;
 
 @WebServlet("/id")
@@ -41,9 +45,10 @@ public class RetrieveBasedOnId extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
-    final String id = request.getParameter("id");
+      //old id
+    final String roomID = request.getParameter("id");
 
-    Filter propertyFilter = new FilterPredicate("id", FilterOperator.EQUAL, id);
+    Filter propertyFilter = new FilterPredicate("roomID", FilterOperator.EQUAL, roomID);
     Query query = new Query("survey").setFilter(propertyFilter);
     PreparedQuery results = datastore.prepare(query);
     for (Entity entity : results.asIterable()) {
@@ -65,17 +70,44 @@ public class RetrieveBasedOnId extends HttpServlet {
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    // get all parameter names and its values from HTTP request
+    Encryption.registerEncryption();
+
     final String question = "question";
     final String option = "choice";
+    final String roomID = "roomID";
+    final String ipAddress = "IP";
     final String questionValue = request.getParameter(question);
     final String chosenValue = request.getParameter(option);
+    final String ip = request.getParameter(ipAddress);
+    final String id = request.getParameter(roomID);
 
-    // Create entity to store choice into database
+    Filter propertyFilter = new FilterPredicate("roomID", FilterOperator.EQUAL, id);
+    Query query = new Query("vote").setFilter(propertyFilter);
+    PreparedQuery voteResults = datastore.prepare(query);
+    for (Entity entity : voteResults.asIterable()) {
+      String ipValue = (String) entity.getProperty("IP");
+      if (ipValue.equals(ip)) {
+        response.setContentType("text/html;");
+        String vote = "<h1>You have already voted for this survey! <br> You can check the results here <br> https://summer20-sps-20.ue.r.appspot.com/showVotes.html?id=" + id
+        + "</h1>";
+        response.getWriter().println(vote);
+        return;
+      }
+    }
+
+    //Blob blob = new Blob(Encryption.encrypt(ip));
+
     final String votingDataName = "vote";
     Entity voteData = new Entity(votingDataName);
     voteData.setProperty(question, questionValue);
     voteData.setProperty(option, chosenValue);
+    voteData.setProperty(roomID, id);
+    voteData.setProperty(ipAddress, ip);
     datastore.put(voteData);
-  }
+
+    response.setContentType("text/html;");
+    String vote = "<h1>Thank you for voting! <br> Here is your link to check the result <br> https://summer20-sps-20.ue.r.appspot.com/showVotes.html?id=" + id
+        + "</h1>";
+    response.getWriter().println(vote);
+    }
 }

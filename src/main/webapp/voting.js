@@ -17,7 +17,7 @@ function getInput() {
           return;
         }
         document.getElementById("title").innerHTML = stats.question;
-
+    
         for (i = 0; i < stats.option.length; i++) {
           var y = document.createElement("INPUT");
           y.setAttribute("type", "radio");
@@ -28,8 +28,47 @@ function getInput() {
           label.innerHTML += "<span> " + stats.option[i] + "</span><br>";
           document.getElementById("voting").appendChild(label);
         }
+        $.getJSON("https://extreme-ip-lookup.com/json/", function (data) {
+          ip = data.query;
+          console.log(data);
+          var url_string = window.location.href;
+          var url = new URL(url_string);
+          var id = url.searchParams.get("id");
+          var form = document.getElementById("voting");
+          var z = document.createElement("INPUT");
+          z.setAttribute("type", "hidden");
+          z.setAttribute("name", "roomID");
+          z.setAttribute("value", id);
+          form.appendChild(z);
+          var x = document.createElement("INPUT");
+          x.setAttribute("type", "hidden");
+          x.setAttribute("name", "IP");
+          x.setAttribute("value", ip);
+          form.appendChild(x);
+        });
       });
   } catch {
     document.getElementById("title").innerHTML = "404";
   }
 }
+
+// function registerVote() {
+//   $.getJSON("https://extreme-ip-lookup.com/json/", function (data) {
+//     ip = data.query;
+//     console.log(data);
+//     var url_string = window.location.href;
+//     var url = new URL(url_string);
+//     var id = url.searchParams.get("id");
+//     var form = document.getElementById("voting");
+//     var z = document.createElement("INPUT");
+//     z.setAttribute("type", "hidden");
+//     z.setAttribute("name", "id");
+//     z.setAttribute("value", id);
+//     form.appendChild(z);
+//     var x = document.createElement("INPUT");
+//     x.setAttribute("type", "hidden");
+//     x.setAttribute("name", "id");
+//     x.setAttribute("value", ip);
+//     form.appendChild(y);
+//   });
+// }

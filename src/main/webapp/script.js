@@ -29,17 +29,22 @@ window.onload = function () {
     input.type = "text";
     input.id = "Options";
     input.name = "option";
+    input.classList = "form-control";
     input.required = true;
     var br = document.createElement("br");
     optionCell.appendChild(input);
     optionCell.appendChild(br);
   };
+  var btn = document.getElementById("btn");
+  btn.onclick = function () {
+    document.getElementById("Options").remove();
+  };
 };
 
-function getInput(){
-  fetch('/data').then(response=>response.json()).then((stats) => {
-    console.log(stats);
-  })
+function getInput() {
+  fetch("/data")
+    .then((response) => response.json())
+    .then((stats) => {
+      console.log(stats);
+    });
 }
-
-

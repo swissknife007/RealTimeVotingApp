@@ -18,6 +18,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.time.ZonedDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -37,7 +40,6 @@ public class DataServlet extends HttpServlet {
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-
     // Query to datastore
     throw new IOException("Implement Get");
   }
@@ -45,7 +47,6 @@ public class DataServlet extends HttpServlet {
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     // Posting to datastore
-
     // get all parameter names and its values from HTTP request
     final String question = "question";
     final String option = "option";
@@ -67,14 +68,21 @@ public class DataServlet extends HttpServlet {
 
     // Create entity to store data into database
     final String surveyDataName = "survey";
+    final String roomID = "roomID";
+    final String timestamp = "timestamp";
+    //Add timestamp to database
+    ZonedDateTime time = ZonedDateTime.now(ZoneId.of("US/Eastern"));
+    String timestampValue = time.toString();
+
     Entity SurveyData = new Entity(surveyDataName);
     UUID id = UUID.randomUUID();
-    SurveyData.setProperty("id", id.toString());
+    SurveyData.setProperty(roomID, id.toString());
     SurveyData.setProperty(question, questionValue);
     SurveyData.setProperty(option, optionValue);
+    SurveyData.setProperty(timestamp,timestampValue);
     datastore.put(SurveyData);
 
-    // Return JSON to testing
+        // Return JSON to testing
     response.setContentType("text/html;");
     String html = "<h1>Here is your link! <br> https://summer20-sps-20.ue.r.appspot.com/votePage.html?id=" + id
         + "</h1>";
