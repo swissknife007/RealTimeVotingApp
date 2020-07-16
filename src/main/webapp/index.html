@@ -23,9 +23,17 @@
 </head>
 
 <body>
-    <h1 style="text-align: center;">Real-Time Voting App</h1>
+
+    <div class="jumbotron" style="text-align: center; margin: 0px;">
+        <h1 class="display-4">Real-Time Voting App</h1>
+        <p class="lead">This is a Project For Summer SPS2020. Its an app that allows you to vote in real
+            time</p>
+        <hr class="my-4">
+
+    </div>
+
     <form action="/data" method="POST" id="vote-form">
-        <div class="container">
+        <div class="container" style="text-align: center;">
             <br></br>
             <table>
                 <div class="row-2">
@@ -56,59 +64,34 @@
                     </tr>
             </table>
             <br></br>
-            <input type="submit" id="btn-register" value="click here to create a room">
+            <input class="btn btn-primary" type="submit" id="btn-register" value="Click Here to Create a Room">
             <br></br>
             <!-- <button onclick=""> click here to create a room</button> -->
         </div>
     </form>
+    <div class="container" style="text-align: center;">
+        <h3>Members</h3>
+        <ul class="list-group">
+            <li class="list-group-item ">Abhishek Jindal <a id="icon" href="https://github.com/swissknife007"><i
+                        class="fab fa-github"></i></a></li>
+            <li class="list-group-item">Charles Yip Guoli<a id="icon" href="https://github.com/MaltoMight"><i
+                        class="fab fa-github"></i></a>
+            </li>
+            <li class="list-group-item">David Requena <a id="icon" href="https://github.com/arq1999"><i
+                        class="fab fa-github"></i></a>
+            </li>
+            <li class="list-group-item">Hossam A Zaki <a id="icon" href="https://github.com/hossam-zaki"> <i class=" fab
+                    fa-github"></i></a>
+            </li>
+            <li class="list-group-item">Tomi Olusina <a id="icon" href="https://github.com/oolusina"><i
+                        class="fab fa-github"></i></a></i></li>
+        </ul>
+    </div>
+
 
     <!--Simple Footer -->
 
     <div class="footer">
-        <div class="row">
-            <div class="footer-content"></div>
-
-            <div class="col-sm-12 col-md-4">
-                <div class="card mb-4">
-                    <div class="card-body text-center">
-                        <div class="footer-section about">
-                            <h5 class="card-title"> Real Time Voting App</h1>
-                                <p> This is a Project For Summer SPS2020. Its an app that allows you to vote in real
-                                    time</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-sm-12 col-md-4">
-                <div class="card mb-4">
-                    <div class="card-body text-center">
-                        <div class="footer-section links">
-                            <div class="socials">
-                                <a href="#"><i class="fab fa-facebook"></i></a>
-                                <a href="#"><i class="fab fa-github"></i></a>
-                                <a href="#"><i class="fab fa-google"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-            <div class="col-sm-12 col-md-4">
-                <div class="card mb-4">
-                    <div class="footer-section Contact Us">
-                        <div class="socials">
-                            <h1>Contact Us</h1>
-                            <p>Team20SPS@gmail.com</p>
-
-                        </div>
-                    </div>
-                </div>
-
-
-            </div>
-        </div>
         <div class="footer-bottom">
             &copy; Google Summer SPS2020 | Team 20
         </div>

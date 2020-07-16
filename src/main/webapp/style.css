@@ -10,6 +10,7 @@ h1 {
 table {
   font-family: "Josefin Sans", sans-serif;
   border-collapse: collapse;
+  min-height: 100%;
 }
 
 th,
@@ -18,49 +19,34 @@ td {
   text-align: left;
 }
 
-.footer {
-  height: 300px;
-  position: relative;
-  font-family: "Josefin Sans", sans-serif;
-}
-
-.footer {
-  min-height: 100%;
-}
-
-.footer .footer-content {
-  height: 200px;
-  display: flex;
-}
-.footer .footer-content .footer-section {
-  flex: 1;
-  padding: 25px;
-}
-
-.footer .footer-content .links {
-  text-align: center;
-}
-
-.footer .footer-content .links .socials a {
-  border: 1px solid black;
+#icon {
+  border: 1px solid grey;
   width: 45px;
   height: 45px;
-  padding-top: 20px;
-  padding-right: 10px;
-  padding-left: 10px;
-  margin-right: 40px;
-  margin-top: 50px;
+  padding: 5px;
+  margin: 40px;
   text-align: center;
   display: inline-block;
   font-size: 1.3em;
   border-radius: 5px;
   transition: all 0.3s;
 }
-
-.footer .footer-content .links .socials a:hover {
+#icon:hover {
   border: 1px solid red;
   color: red;
   transition: all 0.3s;
+}
+
+.container {
+  min-height: 100%;
+}
+.footer {
+  position: relative;
+  font-family: "Josefin Sans", sans-serif;
+}
+
+.footer {
+  min-height: 100%;
 }
 
 .footer .footer-bottom {
