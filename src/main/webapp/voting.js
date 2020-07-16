@@ -19,6 +19,7 @@ function getInput() {
         document.getElementById("title").innerHTML = stats.question;
     
         for (i = 0; i < stats.option.length; i++) {
+          document.getElementById("voting").appendChild(document.createElement("br"));
           var y = document.createElement("INPUT");
           y.setAttribute("type", "radio");
           y.setAttribute("name", "choice");
