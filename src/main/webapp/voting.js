@@ -54,6 +54,18 @@ function getInput() {
   }
 }
 
+
+
+function Copy() {
+    alert("The URL of this page is: " + window.location.href + " and it was also copy in your clipboard!");
+  var Url = document.getElementById("url");
+  Url.innerHTML = window.location.href;
+  console.log(Url.innerHTML);
+  Url.select();
+  document.execCommand("copy");
+}
+
+
 // function registerVote() {
 //   $.getJSON("https://extreme-ip-lookup.com/json/", function (data) {
 //     ip = data.query;

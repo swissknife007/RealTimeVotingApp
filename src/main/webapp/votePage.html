@@ -36,12 +36,25 @@
 
     <div class="container" style="text-align: center;">
         <h1 id="title" name="title"></h1>
+
+    <div>
+        <input class="btn btn-primary" type="button" value="Copy Url" onclick="Copy();" />
+        <br>
+        <br /><textarea id="url" rows="1" cols="50" ></textarea>
+        <br>
+      </div>
+
+
         <form action="/id" method="POST" id="voting"
             onsubmit="this.question.value=document.getElementById('title').innerHTML;">
     <input class="btn btn-primary" type="submit" id="vote-register" value="click here to vote" />
             <textarea name="question" style="display: none;   " />
             
             </form>
+
+
+                
+
 
     </div>
 
