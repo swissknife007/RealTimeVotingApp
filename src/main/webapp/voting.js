@@ -24,6 +24,7 @@ function getInput() {
           y.setAttribute("type", "radio");
           y.setAttribute("name", "choice");
           y.setAttribute("value", stats.option[i]);
+          y.classList = "form-control";
           var label = document.createElement("label");
           label.appendChild(y);
           label.innerHTML += "<span> " + stats.option[i] + "</span><br>";
