@@ -48,6 +48,10 @@ window.onload = function () {
 
   var map_btn = document.getElementById("map_survey");
   map_btn.onclick = function () {
+    var container = document.getElementById("container");
+    var div_map = document.createElement("div");
+    div_map.id = "map";
+    container.appendChild(div_map);
     map = new google.maps.Map(
       document.getElementById('map'),
       {center: {lat: 38.5949, lng: -94.8923}, zoom: 4});
