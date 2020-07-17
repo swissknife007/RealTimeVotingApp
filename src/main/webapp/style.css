@@ -37,6 +37,12 @@ td {
   transition: all 0.3s;
 }
 
+#map {
+  border: thin solid rgb(239, 238, 238);
+  height: 500px;
+  width: 500px;
+}
+
 .container {
   min-height: 100%;
 }

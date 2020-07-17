@@ -20,6 +20,7 @@
     <script src="https://kit.fontawesome.com/de2fa200e7.js" crossorigin="anonymous"></script>
     </link>
     <script src="script.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=MAP_API_KEY"></script>
 </head>
 
 <body>
@@ -33,7 +34,7 @@
     </div>
 
     <form action="/data" method="POST" id="vote-form">
-        <div class="container" style="text-align: center;">
+        <div id="container" class="container" style="text-align: center;">
             <br></br>
             <table>
                 <div class="row-2">
@@ -54,12 +55,20 @@
                                     <input class="form-control" type="button" id="btn" value="Delete Options" />
                                     </br>
                                 </div>
-                                <div class="col">
-                                    <input class="form-control" name="option" type="text" id="Options" required
-                                        placeholder="option 1" />
+                                </br>
+                                <div class="col-sm-12 col-md-6 ">
+                                    <input class="form-control" type="button" id="map_btn" value="Add Map" />
+                                    </br>
+                                </div>
+                                </br>
+                                <div class="col-sm-12 col-md-6 ">
+                                    <input class="form-control" type="button" id="map_del_btn" value="Delete Map" />
                                     </br>
                                 </div>
                             </div>
+                            <input class="form-control" name="option" type="text" id="Options" required
+                                placeholder="option 1" />
+                            <br id="added">
                         </td>
                     </tr>
             </table>
@@ -67,6 +76,7 @@
             <input class="btn btn-primary" type="submit" id="btn-register" value="Click Here to Create a Room">
             <br></br>
             <!-- <button onclick=""> click here to create a room</button> -->
+            
         </div>
     </form>
     <div class="container" style="text-align: center;">
