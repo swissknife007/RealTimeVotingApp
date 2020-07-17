@@ -45,6 +45,13 @@ window.onload = function () {
     document.getElementById("Options").remove();
     document.getElementById("added").remove();
   };
+
+  var map_btn = document.getElementById("map_survey");
+  map_btn.onclick = function () {
+    map = new google.maps.Map(
+      document.getElementById('map'),
+      {center: {lat: 38.5949, lng: -94.8923}, zoom: 4});
+  };
 };
 
 function getInput() {
