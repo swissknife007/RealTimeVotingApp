@@ -31,7 +31,7 @@ public class Search extends HttpServlet {
     
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        // System.out.println("this is post request");
+        System.out.println("this is post request");
         // Enumeration enumeration = request.getParameterNames();
         // Map<String, Object> modelMap = new HashMap<>();
         // while(enumeration.hasMoreElements()){
