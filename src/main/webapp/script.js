@@ -12,6 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+let map;
+/* Editable marker that displays when a user clicks in the map. */
+let editMarker;
+
 async function getData() {
   throw "Impliment getData";
 }
@@ -32,12 +36,14 @@ window.onload = function () {
     input.classList = "form-control";
     input.required = true;
     var br = document.createElement("br");
+    br.id = "added";
     optionCell.appendChild(input);
     optionCell.appendChild(br);
   };
   var btn = document.getElementById("btn");
   btn.onclick = function () {
     document.getElementById("Options").remove();
+    document.getElementById("added").remove();
   };
 };
 
@@ -47,4 +53,18 @@ function getInput() {
     .then((stats) => {
       console.log(stats);
     });
+}
+
+/** Creates a map that allows users to add markers. */
+function createMap() {
+  map = new google.maps.Map(
+      document.getElementById('map'),
+      {center: {lat: 38.5949, lng: -94.8923}, zoom: 4});
+
+  // When the user clicks in the map, show a marker with a text box the user can
+  // edit.
+  //map.addListener('click', (event) => {
+    //createMarkerForEdit(event.latLng.lat(), event.latLng.lng());
+  //});
+  //fetchMarkers();
 }
