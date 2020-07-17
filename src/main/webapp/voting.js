@@ -19,10 +19,12 @@ function getInput() {
         document.getElementById("title").innerHTML = stats.question;
     
         for (i = 0; i < stats.option.length; i++) {
+          document.getElementById("voting").appendChild(document.createElement("br"));
           var y = document.createElement("INPUT");
           y.setAttribute("type", "radio");
           y.setAttribute("name", "choice");
           y.setAttribute("value", stats.option[i]);
+          y.classList = "form-control";
           var label = document.createElement("label");
           label.appendChild(y);
           label.innerHTML += "<span> " + stats.option[i] + "</span><br>";
@@ -51,6 +53,18 @@ function getInput() {
     document.getElementById("title").innerHTML = "404";
   }
 }
+
+
+
+function Copy() {
+    alert("The URL of this page is: " + window.location.href + " and it was also copy in your clipboard!");
+  var Url = document.getElementById("url");
+  Url.innerHTML = window.location.href;
+  console.log(Url.innerHTML);
+  Url.select();
+  document.execCommand("copy");
+}
+
 
 // function registerVote() {
 //   $.getJSON("https://extreme-ip-lookup.com/json/", function (data) {
