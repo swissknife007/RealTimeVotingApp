@@ -46,15 +46,21 @@ window.onload = function () {
     document.getElementById("added").remove();
   };
 
-  var map_btn = document.getElementById("map_survey");
+  var map_btn = document.getElementById("map_btn");
   map_btn.onclick = function () {
-    var container = document.getElementById("container");
-    var div_map = document.createElement("div");
-    div_map.id = "map";
-    container.appendChild(div_map);
-    map = new google.maps.Map(
-      document.getElementById('map'),
-      {center: {lat: 38.5949, lng: -94.8923}, zoom: 4});
+    if (document.getElementById('map') == null) {
+        var container = document.getElementById("container");
+        var div_map = document.createElement("div");
+        div_map.id = "map";
+        container.appendChild(div_map);
+        map = new google.maps.Map(
+        document.getElementById('map'),
+        {center: {lat: 38.5949, lng: -94.8923}, zoom: 4});
+  }};
+
+  var map_del_btn = document.getElementById("map_del_btn");
+  map_del_btn.onclick = function () {
+    document.getElementById("map").remove();
   };
 };
 
