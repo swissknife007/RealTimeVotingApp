@@ -70,8 +70,18 @@ window.onload = function () {
   };
 };
 
-function getInput() {
-  fetch("/data")
+function searchRoom() {
+    console.log("Activating Search fUNCTION");
+    var question = document.getElementById("searchBar").value;
+    console.log("Element Searchbar is " + question);
+    document.getElementById("answer").innerHTML = question;
+    const data = {"searchBar":question}
+    var bodyValue = "searchBar:" + question;
+  fetch("/search", {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify(data)
+      })
     .then((response) => response.json())
     .then((stats) => {
       console.log(stats);
@@ -118,3 +128,5 @@ function buildInfoWindowInput(lat, lng) {
 
   return containerDiv;
 }*/
+
+
