@@ -98,7 +98,8 @@ function searchRoom() {
                 absoluteURL.pathname = "votePage.html";
                 let queryParameter = "?id=";
                 let i = 0;
-                let x = "<ul>";
+                let x = "<h2> You entered: " + parameterValue + " </h2><br>";
+                x += "<ul>";
                 for(i in stats.RoomID)
                 {   
                     x+= "<li><a href='"+absoluteURL + queryParameter + stats.RoomID[i].ID + "'/>" + stats.RoomID[i].Title +"</a></li>";

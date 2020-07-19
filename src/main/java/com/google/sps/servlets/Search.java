@@ -50,8 +50,6 @@ public class Search extends HttpServlet {
             jsonObj.put("ID",(String) entity.getProperty("roomID"));
             jsonObj.put("Title", (String) entity.getProperty("question"));
             jsonArray.put(jsonObj);
-            System.out.println((String) entity.getProperty("question"));
-            System.out.println((String) entity.getProperty("roomID"));
         }
         json.put("RoomID",jsonArray);
         if (resultValues.size() == 0)
