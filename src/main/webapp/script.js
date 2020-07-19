@@ -70,13 +70,58 @@ window.onload = function () {
   };
 };
 
-function getInput() {
-  fetch("/data")
-    .then((response) => response.json())
-    .then((stats) => {
-      console.log(stats);
-    });
+function searchRoom() {
+    var url_string = window.location.href;
+    var url = new URL(url_string);
+    const parameter = "searchBar";
+    var parameterValue = url.searchParams.get(parameter);
+    console.log("ParameterValue is " + parameterValue);
+
+    var route = "/search?" + parameter + "=" + parameterValue;
+    console.log("Route is " + route);
+    fetch(route)
+        .then((response) => response.json())
+        .then((stats) => {
+            console.log(stats);
+            let tag = document.createElement("h2");
+
+            // Attaches loading to variable to be deleted after query is processed
+            var loading = document.getElementById("str-loading");
+            var animLoading = document.getElementById("loading");
+            if (stats == null)
+            {
+                loading.remove();
+                animLoading.parentNode.removeChild(animLoading);
+                let result = document.createTextNode("No matches found");
+                tag.appendChild(result);
+                let div = document.getElementById("searchResults");
+                div.appendChild(tag);
+            }
+            else
+            {
+                let address = location.protocol + '//' + location.host;
+                let absoluteURL = new URL(address);
+                absoluteURL.pathname = "votePage.html";
+                let queryParameter = "?id=";
+                let i = 0;
+                let x = "<h2> You entered: " + parameterValue + " </h2><br>";
+                x += "<ul>";
+                for(i in stats.roomID)
+                {   
+                    x+= "<li><a href='"+absoluteURL + queryParameter + stats.roomID[i].ID + "'/>" + stats.roomID[i].title +"</a></li>";
+                    i++;
+                }
+                x+= "</ul>";
+
+                // Remove the loading screen from search page as the query is ready to display
+                loading.remove();
+                animLoading.parentNode.removeChild(animLoading);                
+                document.getElementById("searchResults").innerHTML = x; 
+                console.log("You have " + i + " questions found");
+            }    
+            });
 }
+
 
 //Creates a marker that shows a textbox the user can edit
 function createMarkerForEdit(lat, lng) {
@@ -118,3 +163,5 @@ function buildInfoWindowInput(lat, lng) {
 
   return containerDiv;
 }*/
+
+
