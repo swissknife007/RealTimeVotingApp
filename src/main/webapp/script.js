@@ -84,8 +84,14 @@ function searchRoom() {
         .then((stats) => {
             console.log(stats);
             let tag = document.createElement("h2");
+
+            // Attaches loading to variable to be deleted after query is processed
+            var loading = document.getElementById("str-loading");
+            var animLoading = document.getElementById("loading");
             if (stats == null)
             {
+                loading.remove();
+                animLoading.parentNode.removeChild(animLoading);
                 let result = document.createTextNode("No matches found");
                 tag.appendChild(result);
                 let div = document.getElementById("searchResults");
@@ -100,13 +106,17 @@ function searchRoom() {
                 let i = 0;
                 let x = "<h2> You entered: " + parameterValue + " </h2><br>";
                 x += "<ul>";
-                for(i in stats.RoomID)
+                for(i in stats.roomID)
                 {   
-                    x+= "<li><a href='"+absoluteURL + queryParameter + stats.RoomID[i].ID + "'/>" + stats.RoomID[i].Title +"</a></li>";
+                    x+= "<li><a href='"+absoluteURL + queryParameter + stats.roomID[i].ID + "'/>" + stats.roomID[i].title +"</a></li>";
                     i++;
                 }
                 x+= "</ul>";
-               document.getElementById("searchResults").innerHTML = x; 
+
+                // Remove the loading screen from search page as the query is ready to display
+                loading.remove();
+                animLoading.parentNode.removeChild(animLoading);                
+                document.getElementById("searchResults").innerHTML = x; 
                 console.log("You have " + i + " questions found");
             }    
             });

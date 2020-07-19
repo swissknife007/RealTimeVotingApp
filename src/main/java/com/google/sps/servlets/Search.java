@@ -35,6 +35,9 @@ public class Search extends HttpServlet {
         final String entity_questionDB = "survey";
         final String questionTitle = "question";
         final String questionTitleIndex = "questionIndex";
+        final String roomID = "roomID";
+        final String id = "ID";
+        final String title = "title";
         Query query = new Query(entity_questionDB).addFilter(questionTitleIndex,FilterOperator.IN,itemList);
         PreparedQuery Results = datastore.prepare(query);
         List<String> resultValues = new ArrayList<>();
@@ -46,20 +49,20 @@ public class Search extends HttpServlet {
         //Get the room ID & titles and insert into JSON
         for (Entity entity:Results.asIterable()){
             jsonObj = new JSONObject();
-            resultValues.add((String) entity.getProperty("roomID"));
-            jsonObj.put("ID",(String) entity.getProperty("roomID"));
-            jsonObj.put("Title", (String) entity.getProperty("question"));
+            resultValues.add((String) entity.getProperty(roomID));
+            jsonObj.put(id,(String) entity.getProperty(roomID));
+            jsonObj.put(title, (String) entity.getProperty(questionTitle));
             jsonArray.put(jsonObj);
         }
-        json.put("RoomID",jsonArray);
+        json.put(roomID,jsonArray);
         if (resultValues.size() == 0)
         {
             String error = null;
             response.getWriter().println(error);
         }
         else{
-        response.setContentType("application/json");
-        response.getWriter().println(json.toString());
+            response.setContentType("application/json");
+            response.getWriter().println(json.toString());
         }
     }
 }

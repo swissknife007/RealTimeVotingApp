@@ -54,7 +54,7 @@ public class DataServlet extends HttpServlet {
     final String questionValue = request.getParameter(question);
     String [] questionValueIndex = questionValue.split(" ",0);
 
-    //Lower case all string before send to DB
+    // Lower case all string before send to DB
     for (int i = 0; i < questionValueIndex.length;i++)
         questionValueIndex[i] = questionValueIndex[i].toLowerCase();
     // Retrieve the options values into string array then store into StringList for
@@ -76,10 +76,10 @@ public class DataServlet extends HttpServlet {
     final String roomID = "roomID";
     final String timestamp = "timestamp";
     final String questionIndex = "questionIndex";
+
     //Add timestamp to database
     ZonedDateTime time = ZonedDateTime.now(ZoneId.of("US/Eastern"));
     String timestampValue = time.toString();
-
     Entity SurveyData = new Entity(surveyDataName);
     UUID id = UUID.randomUUID();
     SurveyData.setProperty(roomID, id.toString());
@@ -89,12 +89,8 @@ public class DataServlet extends HttpServlet {
     SurveyData.setProperty(questionIndex,Arrays.asList(questionValueIndex));
     datastore.put(SurveyData);
 
-        // Return JSON to testing
-    response.setContentType("text/html;");
-
-    //String html = "<h1>Here is your link! <br> https://summer20-sps-20.ue.r.appspot.com/votePage.html?id=" + id
-    //    + "</h1>";
-
+    // Return JSON to testing
+    response.setContentType("text/html");
     String html = "<h1>Loading...</h1> <meta http-equiv='refresh' content='1; url=https://summer20-sps-20.ue.r.appspot.com/votePage.html?id=" 
         + id + "' />";
     response.getWriter().println(html);
