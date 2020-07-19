@@ -29,6 +29,8 @@ public class Search extends HttpServlet {
 
         String returnedValue = request.getParameter("searchBar");
         String [] arrOfStr = returnedValue.split(" ",0);
+        for (int i = 0; i < arrOfStr.length;i++)
+            arrOfStr[i] = arrOfStr[i].toLowerCase();
         List<String> itemList = Arrays.asList(arrOfStr);
         final String entity_questionDB = "survey";
         final String questionTitle = "question";

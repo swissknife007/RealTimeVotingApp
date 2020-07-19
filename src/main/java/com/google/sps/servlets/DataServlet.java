@@ -54,6 +54,9 @@ public class DataServlet extends HttpServlet {
     final String questionValue = request.getParameter(question);
     String [] questionValueIndex = questionValue.split(" ",0);
 
+    //Lower case all string before send to DB
+    for (int i = 0; i < questionValueIndex.length;i++)
+        questionValueIndex[i] = questionValueIndex[i].toLowerCase();
     // Retrieve the options values into string array then store into StringList for
     // datastore
     final String[] retrievedOptionValue = request.getParameterValues(option);
