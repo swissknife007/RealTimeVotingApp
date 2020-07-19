@@ -13,8 +13,9 @@
 // limitations under the License.
 
 package com.google.sps.servlets;
-
+import java.net.*;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -51,6 +52,7 @@ public class DataServlet extends HttpServlet {
     final String question = "question";
     final String option = "option";
     final String questionValue = request.getParameter(question);
+    String [] questionValueIndex = questionValue.split(" ",0);
 
     // Retrieve the options values into string array then store into StringList for
     // datastore
@@ -70,6 +72,7 @@ public class DataServlet extends HttpServlet {
     final String surveyDataName = "survey";
     final String roomID = "roomID";
     final String timestamp = "timestamp";
+    final String questionIndex = "questionIndex";
     //Add timestamp to database
     ZonedDateTime time = ZonedDateTime.now(ZoneId.of("US/Eastern"));
     String timestampValue = time.toString();
@@ -80,12 +83,15 @@ public class DataServlet extends HttpServlet {
     SurveyData.setProperty(question, questionValue);
     SurveyData.setProperty(option, optionValue);
     SurveyData.setProperty(timestamp,timestampValue);
+    SurveyData.setProperty(questionIndex,Arrays.asList(questionValueIndex));
     datastore.put(SurveyData);
 
         // Return JSON to testing
     response.setContentType("text/html;");
+
     //String html = "<h1>Here is your link! <br> https://summer20-sps-20.ue.r.appspot.com/votePage.html?id=" + id
     //    + "</h1>";
+
     String html = "<h1>Loading...</h1> <meta http-equiv='refresh' content='1; url=https://summer20-sps-20.ue.r.appspot.com/votePage.html?id=" 
         + id + "' />";
     response.getWriter().println(html);

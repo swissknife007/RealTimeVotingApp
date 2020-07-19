@@ -1,5 +1,6 @@
 package com.google.sps.servlets;
 import org.json.JSONObject;
+import org.json.JSONArray;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -26,42 +27,39 @@ public class Search extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
-
-        //CASE 1: RESPONSE RETURNED AS TITLE CATEGORY
-        System.out.println("this is post request");
         String returnedValue = request.getParameter("searchBar");
+        String [] arrOfStr = returnedValue.split(" ",0);
+        List<String> itemList = Arrays.asList(arrOfStr);
         final String entity_questionDB = "survey";
-        System.out.println("Returned value is " + returnedValue);
-
-
-        //If is question TITLE
         final String questionTitle = "question";
-        Query query = new Query(entity_questionDB).addFilter(questionTitle,FilterOperator.EQUAL,returnedValue);
+        final String questionTitleIndex = "questionIndex";
+        Query query = new Query(entity_questionDB).addFilter(questionTitleIndex,FilterOperator.IN,itemList);
         PreparedQuery Results = datastore.prepare(query);
         List<String> resultValues = new ArrayList<>();
-
-        //Get the room ID
-        for (Entity entity:Results.asIterable()){
-            resultValues.add((String) entity.getProperty("roomID"));
-        }
-        if (resultValues.size() == 0)
-            response.getWriter().println("No matching room");
-        else{
-        //JSON setup for return
+        List<String> questionTitles = new ArrayList<>();
         JSONObject json = new JSONObject();
-        for(int i =0; i < resultValues.size() ;i++)
-        {
-            json.put("RoomID", resultValues);
+        JSONArray jsonArray = new JSONArray();
+        JSONObject jsonObj;  
+
+        //Get the room ID & titles and insert into JSON
+        for (Entity entity:Results.asIterable()){
+            jsonObj = new JSONObject();
+            resultValues.add((String) entity.getProperty("roomID"));
+            jsonObj.put("ID",(String) entity.getProperty("roomID"));
+            jsonObj.put("Title", (String) entity.getProperty("question"));
+            jsonArray.put(jsonObj);
+            System.out.println((String) entity.getProperty("question"));
+            System.out.println((String) entity.getProperty("roomID"));
         }
-        json.put("RoomID", resultValues);
+        json.put("RoomID",jsonArray);
+        if (resultValues.size() == 0)
+        {
+            String error = null;
+            response.getWriter().println(error);
+        }
+        else{
         response.setContentType("application/json");
         response.getWriter().println(json.toString());
         }
-
-        
-        // // response.getWriter().println("The room is " + parameter);
-
-        // //  response.getWriter().println(json);
-
     }
 }

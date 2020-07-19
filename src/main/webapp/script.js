@@ -71,22 +71,46 @@ window.onload = function () {
 };
 
 function searchRoom() {
-    console.log("Activating Search fUNCTION");
-    var question = document.getElementById("searchBar").value;
-    console.log("Element Searchbar is " + question);
-    document.getElementById("answer").innerHTML = question;
-    const data = {"searchBar":question}
-    var bodyValue = "searchBar:" + question;
-  fetch("/search", {
-        method: 'POST',
-        headers: {'Content-Type':'application/json'},
-        body: JSON.stringify(data)
-      })
-    .then((response) => response.json())
-    .then((stats) => {
-      console.log(stats);
-    });
+    var url_string = window.location.href;
+    var url = new URL(url_string);
+    const parameter = "searchBar";
+    var parameterValue = url.searchParams.get(parameter);
+    console.log("ParameterValue is " + parameterValue);
+
+    var route = "/search?" + parameter + "=" + parameterValue;
+    console.log("Route is " + route);
+    fetch(route)
+        .then((response) => response.json())
+        .then((stats) => {
+            console.log(stats);
+            let tag = document.createElement("h2");
+            if (stats == null)
+            {
+                let result = document.createTextNode("No matches found");
+                tag.appendChild(result);
+                let div = document.getElementById("searchResults");
+                div.appendChild(tag);
+            }
+            else
+            {
+                let address = location.protocol + '//' + location.host;
+                let absoluteURL = new URL(address);
+                absoluteURL.pathname = "votePage.html";
+                let queryParameter = "?id=";
+                let i = 0;
+                let x = "<ul>";
+                for(i in stats.RoomID)
+                {   
+                    x+= "<li><a href='"+absoluteURL + queryParameter + stats.RoomID[i].ID + "'/>" + stats.RoomID[i].Title +"</a></li>";
+                    i++;
+                }
+                x+= "</ul>";
+               document.getElementById("searchResults").innerHTML = x; 
+                console.log("You have " + i + " questions found");
+            }    
+            });
 }
+
 
 //Creates a marker that shows a textbox the user can edit
 function createMarkerForEdit(lat, lng) {

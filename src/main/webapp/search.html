@@ -24,7 +24,7 @@
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDFqi_fBQV7louPU53yrBCIzx0e3n0tn7o"></script>
 </head>
 
-<body>
+<body onload="searchRoom()">
 
     <div class="jumbotron" style="text-align: center; margin: 0px;">
         <h1 class="display-4">Real-Time Voting App</h1>
@@ -34,9 +34,12 @@
 
     </div>
 
-    <h2 style="text-align:center; margin:0px;">Results of Search</h2>
-    <div class= "searchResults">
-        
+    <div>
+        <div class ="title">
+            <h2>Results of Search</h2><br>
+        </div>
+        <div id="searchResults">
+        </div>
     </div>
 
 
