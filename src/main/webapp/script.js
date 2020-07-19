@@ -64,7 +64,6 @@ window.onload = function () {
       map.addListener('click', (event) => {
         createEditMarker(event.latLng.lat(), event.latLng.lng());
       });
-      //fetchMarkers();
     }
   };
 
@@ -133,7 +132,7 @@ function postMarker(lat, lng, content) {
   fetch('/markers', {method: 'POST', body: params});
 }
 
-/** Fetches markers from the backend and adds them to the map. */
+/** Fetches markers from the backend and adds them to the map.
 function fetchMarkers() {
   fetch('/markers').then(response => response.json()).then((markers) => {
     markers.forEach(
@@ -141,7 +140,7 @@ function fetchMarkers() {
             createDisplayMarker(marker.lat, marker.lng, marker.content)
         });
   });
-}
+} */
 
 /** Creates a marker that shows a read-only info window when clicked. */
 function createDisplayMarker(lat, lng, content) {

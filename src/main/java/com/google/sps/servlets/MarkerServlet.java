@@ -35,6 +35,8 @@ import org.jsoup.safety.Whitelist;
 @WebServlet("/markers")
 public class MarkerServlet extends HttpServlet {
 
+  DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+
   /** Responds with a JSON array containing marker data. */
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -54,15 +56,18 @@ public class MarkerServlet extends HttpServlet {
     double lng = Double.parseDouble(request.getParameter("lng"));
     String content = Jsoup.clean(request.getParameter("content"), Whitelist.none());
 
-    Marker marker = new Marker(lat, lng, content);
-    storeMarker(marker);
+    Entity markerEntity = new Entity("Marker");
+    markerEntity.setProperty("lat", lat);
+    markerEntity.setProperty("lng", lng);
+    markerEntity.setProperty("content", content);
+
+    datastore.put(markerEntity);
   }
 
   /** Fetches markers from Datastore. */
   private Collection<Marker> getMarkers() {
     Collection<Marker> markers = new ArrayList<>();
 
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     Query query = new Query("Marker");
     PreparedQuery results = datastore.prepare(query);
 
@@ -75,16 +80,5 @@ public class MarkerServlet extends HttpServlet {
       markers.add(marker);
     }
     return markers;
-  }
-
-  /** Stores a marker in Datastore. */
-  public void storeMarker(Marker marker) {
-    Entity markerEntity = new Entity("Marker");
-    markerEntity.setProperty("lat", marker.getLat());
-    markerEntity.setProperty("lng", marker.getLng());
-    markerEntity.setProperty("content", marker.getContent());
-
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    datastore.put(markerEntity);
   }
 }
