@@ -39,6 +39,7 @@ import com.google.sps.data.Survey;
 
 @WebServlet("/id")
 public class RetrieveBasedOnId extends HttpServlet {
+    private String roomID;
 
   DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
@@ -46,7 +47,7 @@ public class RetrieveBasedOnId extends HttpServlet {
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
       //old id
-    final String roomID = request.getParameter("id");
+   roomID = request.getParameter("id");
 
     Filter propertyFilter = new FilterPredicate("roomID", FilterOperator.EQUAL, roomID);
     Query query = new Query("survey").setFilter(propertyFilter);
@@ -79,7 +80,7 @@ public class RetrieveBasedOnId extends HttpServlet {
     final String questionValue = request.getParameter(question);
     final String chosenValue = request.getParameter(option);
     final String ip = request.getParameter(ipAddress);
-    final String id = request.getParameter(roomID);
+    final String id = roomID;
 
     Filter propertyFilter = new FilterPredicate("roomID", FilterOperator.EQUAL, id);
     Query query = new Query("vote").setFilter(propertyFilter);
