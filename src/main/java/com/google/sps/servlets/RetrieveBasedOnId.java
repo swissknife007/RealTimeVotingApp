@@ -13,8 +13,6 @@
 // limitations under the License.
 
 package com.google.sps.servlets;
-import java.util.Enumeration; // delete
-import java.io.PrintWriter;
 
 import java.io.IOException;
 import java.util.List;
@@ -24,7 +22,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.google.appengine.api.datastore.Blob;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
@@ -33,7 +30,7 @@ import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.Filter;
 import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.FilterPredicate;
-import com.google.gson.Gson;
+import com.google.appengine.repackaged.com.google.gson.Gson;
 import com.google.sps.data.Encryption;
 import com.google.sps.data.Survey;
 
@@ -54,8 +51,9 @@ public class RetrieveBasedOnId extends HttpServlet {
     for (Entity entity : results.asIterable()) {
       String questionValue = (String) entity.getProperty("question");
       List<String> optionValue = (List<String>) entity.getProperty("option");
+      String mostSimilar = (String) entity.getProperty("mostSimilarQuestion");
 
-      Survey survey = new Survey(questionValue, optionValue.toArray(new String[optionValue.size()]));
+      Survey survey = new Survey(questionValue, optionValue.toArray(new String[optionValue.size()]), mostSimilar);
       Gson gson = new Gson();
       String json = gson.toJson(survey);
       response.setContentType("application/json;");
