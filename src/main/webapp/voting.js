@@ -65,6 +65,9 @@ function Copy() {
   document.execCommand("copy");
 }
 
+function goBack() {
+  window.history.back();
+}
 
 // function registerVote() {
 //   $.getJSON("https://extreme-ip-lookup.com/json/", function (data) {

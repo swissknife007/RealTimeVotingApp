@@ -26,6 +26,8 @@
 
 <body onload="getInput()">
 
+    
+
     <div class="jumbotron" style="text-align: center; margin: 0px;">
         <h1 class="display-4">Real-Time Voting App</h1>
         <p class="lead">This is a Project For Summer SPS2020. Its an app that allows you to vote in real
@@ -36,20 +38,53 @@
     <div class="container" style="text-align: center;">
         <h1 id="title" name="title"></h1>
 
-        <div>
-            <input class="btn btn-primary" type="button" value="Copy Url" onclick="Copy();" />
-            <br><br>
-            <textarea id="url" rows="3" cols="50" ></textarea>
-            <br>
-        </div>
-
         <form action="/id" method="POST" id="voting"
             onsubmit="this.question.value=document.getElementById('title').innerHTML;">
             
-            <input class="btn btn-primary" type="submit" id="vote-register" value="click here to vote" />
-            <textarea name="question" style="display: none;   " />   
+            <button  onclick="goBack()" type="button" class="btn btn-danger">Go Back</button> <input class="btn btn-primary" type="submit" id="vote-register" value="click here to vote" />
+            <textarea name="question" style="display:none;"></textarea> 
         </form>
     </div>
+<br>
+
+    <!--Social and Share -->
+    <br>
+    <div class="container"
+        <div class="row">
+            <div id="social" class="card" style="text-align: center;"> 
+                <div class="card-body">
+                    <h5 class="card-title">Share!</h5>
+                    <div>
+                        <input class="btn btn-primary" type="button" value="Copy Url" onclick="Copy();" />
+                        <br><br>
+                        <textarea class="form-control" id="url" rows="3" ></textarea>
+                        <br>
+                     </div>
+
+                    <!--Facebook-->
+                    <div id="fb-root"></div>
+                    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v7.0&appId=2667458256844253&autoLogAppEvents=1" nonce="3bSmYODx"></script>
+                    <div class="fb-share-button" data-href="https://dtest" data-layout="button_count" data-size="small"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdtest%2F&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">Share</a></div>
+
+                    <!--Twitter-->
+                    <br>
+                    <br>
+                    <a href="https://twitter.com/share" class="twitter-share-button" data-hashtags="your_hash_tag" data-via="your_screen_name" data-count="vertical">Tweet</a>
+                    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    <!--Social and Share -->
+<br>
+<br>
+<br>
+    <!--Simple Footer -->
+    <footer class="footer">
+        &copy; Google Summer SPS2020 | Team 20
+    </footer>
+    <!--Simple Footer -->
 
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
