@@ -65,7 +65,9 @@ public class DataServlet extends HttpServlet {
       optionValue.add(retrievedOptionValue[i]);
 
     // Create object to store the survey info into JSON
-    Survey survey = new Survey(questionValue, retrievedOptionValue);
+    ComputeDistance computer = new ComputeDistance();
+    String mostSimilarQuestion = computer.findSimilarStrings(questionValue);
+    Survey survey = new Survey(questionValue, retrievedOptionValue, mostSimilarQuestion);
 
     // Convert JSON by using GSON library
     Gson gson = new Gson();
@@ -82,8 +84,6 @@ public class DataServlet extends HttpServlet {
     String timestampValue = time.toString();
     Entity SurveyData = new Entity(surveyDataName);
     UUID id = UUID.randomUUID();
-    ComputeDistance computer = new ComputeDistance();
-    String mostSimilarQuestion = computer.findSimilarStrings(questionValue);
     System.out.println(mostSimilarQuestion);
     SurveyData.setProperty(roomID, id.toString());
     SurveyData.setProperty(question, questionValue);
@@ -95,7 +95,7 @@ public class DataServlet extends HttpServlet {
 
     // Return JSON to testing
     response.setContentType("text/html");
-    String html = "<h1>Loading...</h1> <meta http-equiv='refresh' content='1; url=https://summer20-sps-20.ue.r.appspot.com/votePage.html?id="
+    String html = "<h1>Loading...</h1> <meta http-equiv='refresh' content='1; url=https://8080-dot-12536895-dot-devshell.appspot.com/votePage.html?id="
         + id + "' />";
     response.getWriter().println(html);
   }

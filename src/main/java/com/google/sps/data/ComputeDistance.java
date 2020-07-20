@@ -31,16 +31,18 @@ public class ComputeDistance {
                 if (splitLine.length != 6) {
                     continue;
                 }
-                double firstComp = this.compute(query, splitLine[3]);
+                String firstStr = splitLine[3].substring(1, splitLine[3].length() - 1);
+                double firstComp = this.compute(query, firstStr);
                 if (firstComp < minDist) {
                     minDist = firstComp;
-                    result = splitLine[3];
+                    result = firstStr;
                 }
 
-                double secondComp = this.compute(query, splitLine[4]);
+                String secondStr = splitLine[4].substring(1, splitLine[4].length() - 1);
+                double secondComp = this.compute(query, secondStr);
                 if (secondComp < minDist) {
                     minDist = secondComp;
-                    result = splitLine[4];
+                    result = secondStr;
                 }
             }
             br.close();
