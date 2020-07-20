@@ -44,11 +44,12 @@ var url_string = window.location.href;
 
         const options = {
             'width':500,
-            'height':400
+            'height':400, 
+            backgroundColor: "#EFEEEE"
         };
 
         const chart = new google.visualization.PieChart(
-            document.getElementById('chart-container'));
+            document.getElementById('chartContainer'));
         chart.draw(data, options);
             });
 

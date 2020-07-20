@@ -20,6 +20,7 @@
     <script src="https://kit.fontawesome.com/de2fa200e7.js" crossorigin="anonymous"></script>
     </link>
     <script src="script.js"></script>
+    <!-- API Key restricted set up on google cloud -->
     <script src="https://maps.googleapis.com/maps/api/js?key=MAP_API_KEY"></script>
 </head>
 
@@ -33,9 +34,23 @@
 
     </div>
 
+<!-- Search Bar -->
+<form action="/search.html" method="GET" id="search-form">
+    <div id="container-search" class="container" style="text-align:center;">
+        <h2> Enter the question title to be searched</h2>
+        <br><br>
+        <input id="searchBar" name="searchBar" type="text" required class="form-control" placeholder="Enter a room title to search for">
+        <input class="btn btn-primary" type="submit" id="btn-search" value="Click here to search for the room">
+        <br><br>
+        <h2 id="answer"></h2>
+    </div>
+</form>
+
+
     <form action="/data" method="POST" id="vote-form">
         <div id="container" class="container" style="text-align: center;">
             <br></br>
+            <h2> Create a room to vote</h2><br><br>
             <table>
                 <div class="row-2">
                     <div class="col mb-4">
