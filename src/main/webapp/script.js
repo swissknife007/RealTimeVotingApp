@@ -13,8 +13,9 @@
 // limitations under the License.
 
 let map;
-/* Editable marker that displays when a user clicks in the map. */
+// Editable marker
 let editMarker;
+let allMarkers = [];
 
 const USA_lat = 37.0902;
 const USA_lng = -95.7129;
@@ -43,14 +44,14 @@ window.onload = function () {
     optionCell.appendChild(input);
     optionCell.appendChild(br);
   };
-  var btn = document.getElementById("btn");
-  btn.onclick = function () {
+  
+  document.getElementById("btn").onclick = function () {
     document.getElementById("Options").remove();
     document.getElementById("added").remove();
   };
 
-  var map_btn = document.getElementById("map_btn");
-  map_btn.onclick = function () {
+  // Sets up map
+  document.getElementById("map_btn").onclick = function () {
     if (document.getElementById('map') == null) {
       var container = document.getElementById("container");
       var div_map = document.createElement("div");
@@ -60,17 +61,27 @@ window.onload = function () {
       map = new google.maps.Map(
       document.getElementById('map'),
       {center: {lat: USA_lat, lng: USA_lng}, zoom: 4});
-
+      // Allows for marker placement
       map.addListener('click', (event) => {
         createEditMarker(event.latLng.lat(), event.latLng.lng());
       });
     }
   };
 
-  var map_del_btn = document.getElementById("map_del_btn");
-  map_del_btn.onclick = function () {
+  // Deletes map
+  document.getElementById("map_del_btn").onclick = function () {
     document.getElementById("map").remove();
+    allMarkers = [];
   };
+
+  // Calls post function from MapRoom and passes in markers from global list
+  // as parameters
+  document.getElementById("map-register").onclick = function () {
+    const params = new URLSearchParams();
+    params.append('markers', allMarkers);
+    params.append('question', document.getElementById("question").value);
+    fetch('/mapRoom', {method: 'POST', body: params});
+  }
 };
 
 function searchRoom() {
@@ -196,4 +207,5 @@ function createDisplayMarker(lat, lng, content) {
   marker.addListener('click', () => {
     infoWindow.open(map, marker);
   });
+  allMarkers.push({lat, lng, content});
 }
