@@ -95,7 +95,7 @@ public class DataServlet extends HttpServlet {
 
     // Return JSON to testing
     response.setContentType("text/html");
-    String html = "<h1>Loading...</h1> <meta http-equiv='refresh' content='1; url=https://8080-dot-12536895-dot-devshell.appspot.com/votePage.html?id="
+    String html = "<h1>Loading...</h1> <meta http-equiv='refresh' content='1; url=https://summer20-sps-20.ue.r.appspot.com/votePage.html?id="
         + id + "' />";
     response.getWriter().println(html);
   }
