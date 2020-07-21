@@ -13,8 +13,6 @@
 // limitations under the License.
 
 package com.google.sps.servlets;
-import java.util.Enumeration; // delete
-import java.io.PrintWriter;
 
 import java.io.IOException;
 import java.util.List;
@@ -24,7 +22,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.google.appengine.api.datastore.Blob;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
@@ -39,15 +36,15 @@ import com.google.sps.data.Survey;
 
 @WebServlet("/id")
 public class RetrieveBasedOnId extends HttpServlet {
-    private String roomID;
+  private String roomID;
 
   DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
-      //old id
-   roomID = request.getParameter("id");
+    // old id
+    roomID = request.getParameter("id");
 
     Filter propertyFilter = new FilterPredicate("roomID", FilterOperator.EQUAL, roomID);
     Query query = new Query("survey").setFilter(propertyFilter);
@@ -80,7 +77,7 @@ public class RetrieveBasedOnId extends HttpServlet {
     final String questionValue = request.getParameter(question);
     final String chosenValue = request.getParameter(option);
     final String ip = request.getParameter(ipAddress);
-    final String id = roomID;
+    final String id = request.getParameter(roomID);
 
     Filter propertyFilter = new FilterPredicate("roomID", FilterOperator.EQUAL, id);
     Query query = new Query("vote").setFilter(propertyFilter);
@@ -89,16 +86,18 @@ public class RetrieveBasedOnId extends HttpServlet {
       String ipValue = (String) entity.getProperty("IP");
       if (ipValue.equals(ip)) {
         response.setContentType("text/html;");
-        //String vote = "<h1>You have already voted for this survey! <br> You can check the results here <br> https://summer20-sps-20.ue.r.appspot.com/showVotes.html?id=" + id
-        //    + "</h1>";
-        String vote = "<h1>You have already voted for this survey!</h1> <meta http-equiv='refresh' content='2; url = https://summer20-sps-20.ue.r.appspot.com/showVotes.html?id=" 
+        // String vote = "<h1>You have already voted for this survey! <br> You can check
+        // the results here <br>
+        // https://summer20-sps-20.ue.r.appspot.com/showVotes.html?id=" + id
+        // + "</h1>";
+        String vote = "<h1>You have already voted for this survey!</h1> <meta http-equiv='refresh' content='2; url = https://summer20-sps-20.ue.r.appspot.com/showVotes.html?id="
             + id + "' />";
         response.getWriter().println(vote);
         return;
       }
     }
 
-    //Blob blob = new Blob(Encryption.encrypt(ip));
+    // Blob blob = new Blob(Encryption.encrypt(ip));
 
     final String votingDataName = "vote";
     Entity voteData = new Entity(votingDataName);
@@ -109,10 +108,11 @@ public class RetrieveBasedOnId extends HttpServlet {
     datastore.put(voteData);
 
     response.setContentType("text/html;");
-    //String vote = "<h1>Thank you for voting! <br> Here is your link to check the result <br> https://summer20-sps-20.ue.r.appspot.com/showVotes.html?id=" + id
-    //    + "</h1>";
-    String vote = "<h1>Thank you for voting!</h1> <meta http-equiv='refresh' content='2; url=https://summer20-sps-20.ue.r.appspot.com/showVotes.html?id=" 
+    // String vote = "<h1>Thank you for voting! <br> Here is your link to check the
+    // result <br> https://summer20-sps-20.ue.r.appspot.com/showVotes.html?id=" + id
+    // + "</h1>";
+    String vote = "<h1>Thank you for voting!</h1> <meta http-equiv='refresh' content='2; url=https://8080-dot-12536895-dot-devshell.appspot.com/showVotes.html?id="
         + id + "' />";
     response.getWriter().println(vote);
-    }
+  }
 }
