@@ -84,7 +84,6 @@ public class DataServlet extends HttpServlet {
     String timestampValue = time.toString();
     Entity SurveyData = new Entity(surveyDataName);
     UUID id = UUID.randomUUID();
-    System.out.println(mostSimilarQuestion);
     SurveyData.setProperty(roomID, id.toString());
     SurveyData.setProperty(question, questionValue);
     SurveyData.setProperty(option, optionValue);

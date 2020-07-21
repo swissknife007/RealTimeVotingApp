@@ -42,7 +42,7 @@ public class RetrieveBasedOnId extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
-      //old id
+    // old id
     final String roomID = request.getParameter("id");
 
     Filter propertyFilter = new FilterPredicate("roomID", FilterOperator.EQUAL, roomID);
@@ -86,16 +86,18 @@ public class RetrieveBasedOnId extends HttpServlet {
       String ipValue = (String) entity.getProperty("IP");
       if (ipValue.equals(ip)) {
         response.setContentType("text/html;");
-        //String vote = "<h1>You have already voted for this survey! <br> You can check the results here <br> https://summer20-sps-20.ue.r.appspot.com/showVotes.html?id=" + id
-        //    + "</h1>";
-        String vote = "<h1>You have already voted for this survey!</h1> <meta http-equiv='refresh' content='2; url = https://summer20-sps-20.ue.r.appspot.com/showVotes.html?id=" 
+        // String vote = "<h1>You have already voted for this survey! <br> You can check
+        // the results here <br>
+        // https://summer20-sps-20.ue.r.appspot.com/showVotes.html?id=" + id
+        // + "</h1>";
+        String vote = "<h1>You have already voted for this survey!</h1> <meta http-equiv='refresh' content='2; url = https://summer20-sps-20.ue.r.appspot.com/showVotes.html?id="
             + id + "' />";
         response.getWriter().println(vote);
         return;
       }
     }
 
-    //Blob blob = new Blob(Encryption.encrypt(ip));
+    // Blob blob = new Blob(Encryption.encrypt(ip));
 
     final String votingDataName = "vote";
     Entity voteData = new Entity(votingDataName);
@@ -106,10 +108,11 @@ public class RetrieveBasedOnId extends HttpServlet {
     datastore.put(voteData);
 
     response.setContentType("text/html;");
-    //String vote = "<h1>Thank you for voting! <br> Here is your link to check the result <br> https://summer20-sps-20.ue.r.appspot.com/showVotes.html?id=" + id
-    //    + "</h1>";
-    String vote = "<h1>Thank you for voting!</h1> <meta http-equiv='refresh' content='2; url=https://summer20-sps-20.ue.r.appspot.com/showVotes.html?id=" 
+    // String vote = "<h1>Thank you for voting! <br> Here is your link to check the
+    // result <br> https://summer20-sps-20.ue.r.appspot.com/showVotes.html?id=" + id
+    // + "</h1>";
+    String vote = "<h1>Thank you for voting!</h1> <meta http-equiv='refresh' content='2; url=https://summer20-sps-20.ue.r.appspot.com/showVotes.html?id="
         + id + "' />";
     response.getWriter().println(vote);
-    }
+  }
 }

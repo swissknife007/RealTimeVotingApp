@@ -2,6 +2,8 @@ package com.google.sps.data;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 import info.debatty.java.stringsimilarity.NormalizedLevenshtein;
 
@@ -28,9 +30,27 @@ public class ComputeDistance {
 
             while ((line = br.readLine()) != null) {
                 String[] splitLine = line.split(",");
+
+                String url1String = "https://www.quora.com/"
+                        + splitLine[3].replace(' ', '-').substring(1, splitLine[3].length() - 1);
+                URL url1 = new URL(url1String);
+                HttpURLConnection huc1 = (HttpURLConnection) url1.openConnection();
+                int responseCode1 = huc1.getResponseCode();
+
+                String url2String = "https://www.quora.com/"
+                        + splitLine[4].replace(' ', '-').substring(1, splitLine[4].length() - 1);
+                URL url2 = new URL(url2String);
+                HttpURLConnection huc2 = (HttpURLConnection) url2.openConnection();
+                int responseCode2 = huc2.getResponseCode();
+
+                if ((responseCode1 == HttpURLConnection.HTTP_NOT_FOUND)
+                        || (responseCode2 == HttpURLConnection.HTTP_NOT_FOUND)) {
+                    continue;
+                }
                 if (splitLine.length != 6) {
                     continue;
                 }
+
                 String firstStr = splitLine[3].substring(1, splitLine[3].length() - 1);
                 double firstComp = this.compute(query, firstStr);
                 if (firstComp < minDist) {
