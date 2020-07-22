@@ -31,6 +31,7 @@ import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.gson.Gson;
+import com.google.sps.data.ComputeDistance;
 import com.google.sps.data.Survey;
 
 @WebServlet("/data")
@@ -64,7 +65,10 @@ public class DataServlet extends HttpServlet {
       optionValue.add(retrievedOptionValue[i]);
 
     // Create object to store the survey info into JSON
-    Survey survey = new Survey(questionValue, retrievedOptionValue);
+    ComputeDistance computer = new ComputeDistance(getServletContext());
+    String mostSimilarQuestion = computer.findSimilarStrings(questionValue);
+    System.out.println(mostSimilarQuestion);
+    Survey survey = new Survey(questionValue, retrievedOptionValue, mostSimilarQuestion);
 
     // Convert JSON by using GSON library
     Gson gson = new Gson();
@@ -75,7 +79,7 @@ public class DataServlet extends HttpServlet {
     final String roomID = "roomID";
     final String timestamp = "timestamp";
     final String questionIndex = "questionIndex";
-
+    final String mostSimilarQuestionLabel = "mostSimilarQuestion";
     // Add timestamp to database
     ZonedDateTime time = ZonedDateTime.now(ZoneId.of("US/Eastern"));
     String timestampValue = time.toString();
@@ -85,12 +89,13 @@ public class DataServlet extends HttpServlet {
     SurveyData.setProperty(question, questionValue);
     SurveyData.setProperty(option, optionValue);
     SurveyData.setProperty(timestamp, timestampValue);
+    SurveyData.setProperty(mostSimilarQuestionLabel, mostSimilarQuestion);
     SurveyData.setProperty(questionIndex, Arrays.asList(questionValueIndex));
     datastore.put(SurveyData);
 
     // Return JSON to testing
     response.setContentType("text/html");
-    String html = "<h1>Loading...</h1> <meta http-equiv='refresh' content='1; url=https://8080-dot-12536895-dot-devshell.appspot.com/votePage.html?id="
+    String html = "<h1>Loading...</h1> <meta http-equiv='refresh' content='1; url=https://summer20-sps-20.ue.r.appspot.com/votePage.html?id="
         + id + "' />";
     response.getWriter().println(html);
   }

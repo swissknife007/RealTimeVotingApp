@@ -30,7 +30,7 @@ import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.Filter;
 import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.FilterPredicate;
-import com.google.gson.Gson;
+import com.google.appengine.repackaged.com.google.gson.Gson;
 import com.google.sps.data.Encryption;
 import com.google.sps.data.Survey;
 
@@ -44,16 +44,16 @@ public class RetrieveBasedOnId extends HttpServlet {
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
     // old id
-    roomID = request.getParameter("id");
-
+    final String roomID = request.getParameter("id");
     Filter propertyFilter = new FilterPredicate("roomID", FilterOperator.EQUAL, roomID);
     Query query = new Query("survey").setFilter(propertyFilter);
     PreparedQuery results = datastore.prepare(query);
     for (Entity entity : results.asIterable()) {
       String questionValue = (String) entity.getProperty("question");
       List<String> optionValue = (List<String>) entity.getProperty("option");
+      String mostSimilar = (String) entity.getProperty("mostSimilarQuestion");
 
-      Survey survey = new Survey(questionValue, optionValue.toArray(new String[optionValue.size()]));
+      Survey survey = new Survey(questionValue, optionValue.toArray(new String[optionValue.size()]), mostSimilar);
       Gson gson = new Gson();
       String json = gson.toJson(survey);
       response.setContentType("application/json;");
@@ -111,7 +111,7 @@ public class RetrieveBasedOnId extends HttpServlet {
     // String vote = "<h1>Thank you for voting! <br> Here is your link to check the
     // result <br> https://summer20-sps-20.ue.r.appspot.com/showVotes.html?id=" + id
     // + "</h1>";
-    String vote = "<h1>Thank you for voting!</h1> <meta http-equiv='refresh' content='2; url=https://8080-dot-12536895-dot-devshell.appspot.com/showVotes.html?id="
+    String vote = "<h1>Thank you for voting!</h1> <meta http-equiv='refresh' content='2; url=https://summer20-sps-20.ue.r.appspot.com/showVotes.html?id="
         + id + "' />";
     response.getWriter().println(vote);
   }
