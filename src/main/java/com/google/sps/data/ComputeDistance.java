@@ -1,15 +1,24 @@
 package com.google.sps.data;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.PriorityQueue;
+import java.util.Scanner;
+
+import javax.servlet.ServletContext;
 
 import info.debatty.java.stringsimilarity.NormalizedLevenshtein;
 
 public class ComputeDistance {
+
+    private ServletContext context;
+
+    public ComputeDistance(ServletContext context) {
+        this.context = context;
+    }
 
     /*
      * Helper method to compute the distance between two strings
@@ -41,61 +50,70 @@ public class ComputeDistance {
     // Main method to return the most similar string
     public String findSimilarStrings(String query) {
         String result = "";
-        String filename = "../../train.csv";
         // class with CSV file as a parameter.
         try {
+
             PriorityQueue<QuoraQuestion> q = new PriorityQueue<>();
             HashSet<String> h = new HashSet<String>();
-            BufferedReader br = new BufferedReader(new FileReader(filename));
-            String line;
-            while ((line = br.readLine()) != null) {
-                String[] splitLine = line.split(",");
-                if (splitLine.length != 6) {
-                    continue;
-                }
-                String firstStr = splitLine[3].substring(1, splitLine[3].length() - 1);
-                double firstComp = this.compute(query, firstStr);
-                if (q.size() < 10) {
-                    if (!h.contains(firstStr)) {
-                        QuoraQuestion toAdd = new QuoraQuestion(firstStr, firstComp);
-                        q.add(toAdd);
-                        h.add(firstStr);
 
+            List<String> listOfData = new ArrayList<String>();
+            listOfData.add("/WEB-INF/data/segmentaa.csv");
+            listOfData.add("/WEB-INF/data/segmentab.csv");
+            listOfData.add("/WEB-INF/data/segmentac.csv");
+
+            for (String fileName : listOfData) {
+
+                Scanner scanner = new Scanner(context.getResourceAsStream(fileName));
+
+                while (scanner.hasNextLine()) {
+                    String[] splitLine = scanner.nextLine().split(",");
+                    if (splitLine.length != 6) {
+                        continue;
                     }
-                } else {
-                    if (!h.contains(firstStr)) {
-                        QuoraQuestion toAdd = new QuoraQuestion(firstStr, firstComp);
-                        if (firstComp < q.peek().getScore()) {
-                            q.remove();
+                    String firstStr = splitLine[3].substring(1, splitLine[3].length() - 1);
+                    double firstComp = this.compute(query, firstStr);
+                    if (q.size() < 10) {
+                        if (!h.contains(firstStr)) {
+                            QuoraQuestion toAdd = new QuoraQuestion(firstStr, firstComp);
                             q.add(toAdd);
+                            h.add(firstStr);
+
                         }
-                        h.add(firstStr);
+                    } else {
+                        if (!h.contains(firstStr)) {
+                            QuoraQuestion toAdd = new QuoraQuestion(firstStr, firstComp);
+                            if (firstComp < q.peek().getScore()) {
+                                q.remove();
+                                q.add(toAdd);
+                            }
+                            h.add(firstStr);
+
+                        }
 
                     }
-
-                }
-                String secondStr = splitLine[4].substring(1, splitLine[4].length() - 1);
-                double secondComp = this.compute(query, secondStr);
-                if (q.size() < 10) {
-                    if (!h.contains(secondStr)) {
-                        QuoraQuestion toAdd = new QuoraQuestion(secondStr, secondComp);
-                        q.add(toAdd);
-                        h.add(secondStr);
-                    }
-                } else {
-                    if (!h.contains(secondStr)) {
-                        QuoraQuestion toAdd = new QuoraQuestion(secondStr, secondComp);
-                        if (secondComp < q.peek().getScore()) {
-                            q.remove();
+                    String secondStr = splitLine[4].substring(1, splitLine[4].length() - 1);
+                    double secondComp = this.compute(query, secondStr);
+                    if (q.size() < 10) {
+                        if (!h.contains(secondStr)) {
+                            QuoraQuestion toAdd = new QuoraQuestion(secondStr, secondComp);
                             q.add(toAdd);
+                            h.add(secondStr);
                         }
-                        h.add(secondStr);
+                    } else {
+                        if (!h.contains(secondStr)) {
+                            QuoraQuestion toAdd = new QuoraQuestion(secondStr, secondComp);
+                            if (secondComp < q.peek().getScore()) {
+                                q.remove();
+                                q.add(toAdd);
+                            }
+                            h.add(secondStr);
+
+                        }
 
                     }
-
                 }
+                scanner.close();
             }
-            br.close();
             Double minVal = Double.MAX_VALUE;
             while (q.size() > 0) {
                 QuoraQuestion ques = q.remove();
@@ -106,7 +124,7 @@ public class ComputeDistance {
                         minVal = ques.getScore();
                     }
                 }
-                Thread.sleep(100);
+                Thread.sleep(1000);
             }
 
             return result;

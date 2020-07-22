@@ -65,7 +65,7 @@ public class DataServlet extends HttpServlet {
       optionValue.add(retrievedOptionValue[i]);
 
     // Create object to store the survey info into JSON
-    ComputeDistance computer = new ComputeDistance();
+    ComputeDistance computer = new ComputeDistance(getServletContext());
     String mostSimilarQuestion = computer.findSimilarStrings(questionValue);
     System.out.println(mostSimilarQuestion);
     Survey survey = new Survey(questionValue, retrievedOptionValue, mostSimilarQuestion);
