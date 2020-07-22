@@ -219,4 +219,5 @@ function createDisplayMarker(lat, lng, content) {
   markerLats.push(lat);
   markerLngs.push(lng);
   markerContents.push(content);
+  console.log(markerLats + "\n" + markerLngs + "\n" + markerContents);
 }

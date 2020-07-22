@@ -50,17 +50,50 @@ public class MapRoom extends HttpServlet {
     // Posting to datastore
     // get all parameter names and its values from HTTP request
     final String question = "question";
-    final String option = "markers";
+    final String lats = "lats";
+    final String lngs = "lngs";
+    final String contents = "contents";
+
     final String questionValue = request.getParameter(question);
     String [] questionValueIndex = questionValue.split(" ",0);
+    String[] latValues = request.getParameter(lats).split(",",0);
+    String[] lngValues = request.getParameter(lngs).split(",",0);
+    String[] contentValues = request.getParameter(contents).split(",",0);
 
     // Lower case all string before send to DB
     for (int i = 0; i < questionValueIndex.length;i++)
         questionValueIndex[i] = questionValueIndex[i].toLowerCase();
-    // Retrieve the options values into string array then store into StringList for
-    // datastore
-    //final String[] retrievedOptionValue = request.getParameterValues(option);
-    // ISSUE
-    System.out.println(request.getParameterValues(option)[0]);
+    
+    // Create entity to store data into database
+    final String surveyDataName = "map-survey";
+    final String roomID = "roomID";
+    final String timestamp = "timestamp";
+    final String questionIndex = "questionIndex";
+    final String latitude = "latitude";
+    final String longitude = "longitude";
+    final String content = "content";
+
+    //Add timestamp to database
+    ZonedDateTime time = ZonedDateTime.now(ZoneId.of("US/Eastern"));
+    String timestampValue = time.toString();
+    UUID id = UUID.randomUUID();
+
+    for (int ms = 0; ms < latValues.length; ms++) {
+        Entity MapData = new Entity(surveyDataName);
+        MapData.setProperty(roomID, id.toString());
+        MapData.setProperty(timestamp,timestampValue);
+        MapData.setProperty(question, questionValue);
+        MapData.setProperty(questionIndex, Arrays.asList(questionValueIndex));
+        MapData.setProperty(latitude, latValues[ms]);
+        MapData.setProperty(longitude, lngValues[ms]);
+        MapData.setProperty(content, contentValues[ms]);
+        datastore.put(MapData);
+    }
+
+    // Return JSON to testing
+    response.setContentType("text/html");
+    String html = "<h1>Loading...</h1> <meta http-equiv='refresh' content='1; url=https://summer20-sps-20.ue.r.appspot.com/votePage.html?id=" 
+        + id + "' />";
+    response.getWriter().println(html);
   }
 }

@@ -8,7 +8,6 @@ function getInput() {
     fetch(route)
       .then((response) => response.json())
       .then((stats) => {
-        console.log(stats);
         if (stats.error) {
           document.getElementById("title").innerHTML = "404";
           var myobj = document.getElementById("btn-register");
@@ -32,7 +31,6 @@ function getInput() {
         }
         $.getJSON("https://extreme-ip-lookup.com/json/", function (data) {
           ip = data.query;
-          console.log(data);
           var url_string = window.location.href;
           var url = new URL(url_string);
           var id = url.searchParams.get("id");
