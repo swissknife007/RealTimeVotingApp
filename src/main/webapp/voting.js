@@ -21,8 +21,7 @@ function getInput() {
         var link = document.createTextNode("here!"); 
         a.append(link);
         a.title = "here!";  
-        // a.href = "https://www.quora.com/" + stats.mostSimilarQuestion.replace(/\s+/g, '-');  
-
+        a.href = "https://www.quora.com/" + stats.mostSimilarQuestion.replace(/\s+/g, '-');  
         for (i = 0; i < stats.option.length; i++) {
           document
             .getElementById("voting")
