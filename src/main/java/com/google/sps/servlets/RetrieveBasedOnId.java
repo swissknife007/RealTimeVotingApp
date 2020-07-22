@@ -36,6 +36,7 @@ import com.google.sps.data.Survey;
 
 @WebServlet("/id")
 public class RetrieveBasedOnId extends HttpServlet {
+  private String roomID;
 
   DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
@@ -44,7 +45,6 @@ public class RetrieveBasedOnId extends HttpServlet {
 
     // old id
     final String roomID = request.getParameter("id");
-
     Filter propertyFilter = new FilterPredicate("roomID", FilterOperator.EQUAL, roomID);
     Query query = new Query("survey").setFilter(propertyFilter);
     PreparedQuery results = datastore.prepare(query);
