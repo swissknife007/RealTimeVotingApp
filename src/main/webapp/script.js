@@ -15,7 +15,9 @@
 let map;
 // Editable marker
 let editMarker;
-let allMarkers = [];
+let markerLats = [];
+let markerLngs = [];
+let markerContents = [];
 
 const USA_lat = 37.0902;
 const USA_lng = -95.7129;
@@ -71,15 +73,22 @@ window.onload = function () {
   // Deletes map
   document.getElementById("map_del_btn").onclick = function () {
     document.getElementById("map").remove();
-    allMarkers = [];
+    markerLats = [];
+    markerLngs = [];
+    markerContents = [];
   };
 
   // Calls post function from MapRoom and passes in markers from global list
   // as parameters
   document.getElementById("map-register").onclick = function () {
     const params = new URLSearchParams();
-    params.append('markers', allMarkers);
+    params.append('lats', markerLats);
+    params.append('lngs', markerLngs);
+    params.append('contents', markerContents);
     params.append('question', document.getElementById("question").value);
+    markerLats = [];
+    markerLngs = [];
+    markerContents = [];
     fetch('/mapRoom', {method: 'POST', body: params});
   }
 };
@@ -165,7 +174,7 @@ function buildInfoWindow(lat, lng) {
   button.appendChild(document.createTextNode('Submit Marker'));
 
   button.onclick = () => {
-    postMarker(lat, lng, textBox.value);
+    //postMarker(lat, lng, textBox.value);
     createDisplayMarker(lat, lng, textBox.value);
     editMarker.setMap(null);
   };
@@ -207,5 +216,7 @@ function createDisplayMarker(lat, lng, content) {
   marker.addListener('click', () => {
     infoWindow.open(map, marker);
   });
-  allMarkers.push({lat, lng, content});
+  markerLats.push(lat);
+  markerLngs.push(lng);
+  markerContents.push(content);
 }
