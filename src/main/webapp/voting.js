@@ -31,7 +31,10 @@ function getInput() {
           y.classList = "form-control";
           var label = document.createElement("label");
           label.appendChild(y);
-          label.innerHTML += "<span> " + stats.option[i] + "</span><br>";
+          if (stats.questionType == "questionPicture")
+            label.innerHTML+= "<span> <img src='" + stats.option[i] + "'>";
+          else
+            label.innerHTML += "<span> " + stats.option[i] + "</span><br>";
           document.getElementById("voting").appendChild(label);
         }
         $.getJSON("https://extreme-ip-lookup.com/json/", function (data) {

@@ -37,6 +37,7 @@ public class RetrieveVotes extends HttpServlet {
       final String roomID = "roomID";
       final String idValue = request.getParameter(id);
       final String entity_questionDB = "survey";
+      String questionTypeValue = null;
       Query Firstquery = new Query(entity_questionDB).addFilter(roomID,FilterOperator.EQUAL,idValue);
       PreparedQuery FirstResults = datastore.prepare(Firstquery);
      String questionValue = null;
@@ -45,9 +46,17 @@ public class RetrieveVotes extends HttpServlet {
      //Retrieve all the OPTIONS available
       for (Entity FirstEntity:FirstResults.asIterable()){
         questionValue = (String) FirstEntity.getProperty("question");
-        optionsAvailable = (List<String>) FirstEntity.getProperty("option");
-      }
+        questionTypeValue = (String)FirstEntity.getProperty("questionType");
+        optionsAvailable = (List<String>) FirstEntity.getProperty("option"); 
 
+      }
+    
+    //   if (questionTypeValue == "questionPicture")
+    //   {
+    //     for (int i = 0;i < optionsAvailable.size();i++)
+    //     String url = optionsAvailable;
+    //     System.out.println("URL is " + url); 
+    //   } 
       if (questionValue == null) 
         throw new Exception("Error! Invalid ID");
         final String entity_voteDB = "vote";
@@ -61,12 +70,14 @@ public class RetrieveVotes extends HttpServlet {
         {
             hm.put(optionsAvailable.get(i),0);
         }
+        System.out.println("Inside of retrieveVOtes");
 
         //Retrieve all votes computed and iterate to count repeated votes.
         for (Entity SecondEntity:SecondResults.asIterable()){
             retur = (String) SecondEntity.getProperty("choice");
+            retur = retur.substring(retur.lastIndexOf("/")+1,retur.length());
             for (int j = 0; j < optionsAvailable.size();j++){
-                if (optionsAvailable.get(j).contains(retur))
+                if (optionsAvailable.get(j).contains(retur)) // not triggering this function
                 {
                     hm.put(optionsAvailable.get(j),(hm.get(optionsAvailable.get(j))+1));
                 }
@@ -85,6 +96,7 @@ public class RetrieveVotes extends HttpServlet {
             jsonArray.put(jsonObj);
         }
         json.put("question",questionValue);
+        json.put("questionType", questionTypeValue);
         json.put("options",jsonArray);
         response.setContentType("application/json");
         response.getWriter().println(json.toString());

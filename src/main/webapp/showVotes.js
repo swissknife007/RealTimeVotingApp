@@ -31,11 +31,20 @@ var url_string = window.location.href;
         var x ="";
         x+= "<h2> Results: </h2>";
         x+= "<ul>";
-
+        var j = 1;
         for (i in stats.options)
         {
-            x+= "<li>" + stats.options[i].OptionName + " has " + stats.options[i].NumberOfVotes + " votes </li>";
-            data.addRow([stats.options[i].OptionName,stats.options[i].NumberOfVotes])
+            if (stats.questionType == "questionPicture")
+            {
+                x+= "<li>Option " + j  + "<img src='" + stats.options[i].OptionName + "'>" + "has " + stats.options[i].NumberOfVotes + " votes </li>";
+                data.addRow(['Option' + j , stats.options[i].NumberOfVotes]);
+            }
+            else
+            {
+                x+= "<li>" + stats.options[i].OptionName + " has " + stats.options[i].NumberOfVotes + " votes </li>";
+                data.addRow([stats.options[i].OptionName,stats.options[i].NumberOfVotes]);
+            }
+            j++;
         }
         x+= "</ul>";
         

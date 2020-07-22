@@ -28,14 +28,14 @@ function createListElement(text) {
 
 window.onload = function () {
   document.getElementById("addOption").onclick = function () {
-    var optionCell = document.getElementById("optionCell");
+    let optionCell = document.getElementById("optionCell");
     var input = document.createElement("input");
     input.type = "text";
     input.id = "Options";
     input.name = "option";
     input.classList = "form-control";
     input.required = true;
-    var br = document.createElement("br");
+    let br = document.createElement("br");
     br.id = "added";
     optionCell.appendChild(input);
     optionCell.appendChild(br);
@@ -68,6 +68,24 @@ window.onload = function () {
   map_del_btn.onclick = function () {
     document.getElementById("map").remove();
   };
+};
+
+function addPictures(id)
+{
+    let vid = document.getElementById(id);
+    let input = document.createElement("input");
+    let optionCell = document.getElementById("optionCell2");
+    input.name = "image";
+    input.type = "file";
+    // input.value = "Add Pictures";
+    input.accept= "image/png, image/jpeg";
+    input.required = true;
+    let br = document.createElement("br");
+    br.id = "added";
+    optionCell.appendChild(input);
+    optionCell.appendChild(br);
+// <input name="image" class="addFile" type="file" id="addFile" value="Add Pictures" accept="image/png, image/jpeg" required />
+
 };
 
 function searchRoom() {
@@ -163,5 +181,65 @@ function buildInfoWindowInput(lat, lng) {
 
   return containerDiv;
 }*/
+var blobURL = "";
+//Get the BLOB URL once
+fetch('/blobstore-upload-url')
+          .then((response) => {
+            return response.text();
+          })
+          .then((imageUploadUrl) => {
+              console.log("After fetching the url " );
+              blobURL = imageUploadUrl;
+              console.log("BLOBURL is " +blobURL);
+            // const messageForm = document.getElementById('my-form');
+            // messageForm.action = imageUploadUrl;
+            // messageForm.classList.remove('hidden');
+          });
+function enableQuestion(id)
+{
 
+    const textURL = "/data";
+    const questionText = "questionText";
+    const questionTypeText = "questionTypeText";
+    const questionTypePictures = "questionTypePictures";
+    const questionPictures = "questionPicture";
+    const formId = "vote-form";
+    var textSection = document.getElementById(questionTypeText);
+    var pictureSection = document.getElementById(questionTypePictures);
+    var form = document.getElementById(formId);
+    var enctypeValue = "multipart/form-data";
+ 
+    // Text-type selected
+    if (id == questionText)
+    {
+        if (!(textSection.hidden))
+        {
+            document.getElementById(id).checked = false;
+            textSection.hidden = true;
+            pictureSection.hidden = true;
+        }
+        else{
+            form.action = textURL;
+            form.removeAttribute("enctype");
+            pictureSection.hidden = true;
+            textSection.hidden = false;
+        }
 
+    }
+    // Image-type selected
+    else 
+        // Unchecking the option marked
+       if (!(pictureSection.hidden))
+        {
+            document.getElementById(id).checked = false;
+            textSection.hidden = true;
+            pictureSection.hidden = true;
+        }
+        //Change the URL request accordingly to the choice chosen accordingly
+        else{
+            form.action = blobURL;
+            form.enctype = enctypeValue;
+            pictureSection.hidden = false;
+            textSection.hidden = true;
+        }
+}
