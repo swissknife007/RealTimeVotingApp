@@ -67,6 +67,7 @@ public class DataServlet extends HttpServlet {
     // Create object to store the survey info into JSON
     ComputeDistance computer = new ComputeDistance();
     String mostSimilarQuestion = computer.findSimilarStrings(questionValue);
+    System.out.println(mostSimilarQuestion);
     Survey survey = new Survey(questionValue, retrievedOptionValue, mostSimilarQuestion);
 
     // Convert JSON by using GSON library

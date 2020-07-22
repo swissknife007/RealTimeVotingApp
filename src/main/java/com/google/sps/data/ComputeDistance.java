@@ -22,7 +22,6 @@ public class ComputeDistance {
 
     public boolean testConnection(String forTest) {
         String url1String = "https://www.quora.com/" + forTest.replace(' ', '-');
-        System.out.println(url1String);
         URL url1;
         try {
             url1 = new URL(url1String);
@@ -97,48 +96,19 @@ public class ComputeDistance {
                 }
             }
             br.close();
+            Double minVal = Double.MAX_VALUE;
             while (q.size() > 0) {
-                System.out.println(this.testConnection(q.remove().getUrl()));
-                Thread.sleep(1000);
+                QuoraQuestion ques = q.remove();
+                System.out.println(this.testConnection(ques.getUrl()));
+                if (this.testConnection(ques.getUrl())) {
+                    if (ques.getScore() < minVal) {
+                        result = ques.getUrl();
+                        minVal = ques.getScore();
+                    }
+                }
+                Thread.sleep(100);
             }
-            // while ((line = br.readLine()) != null) {
-            // String[] splitLine = line.split(",");
 
-            // String url1String = "https://www.quora.com/"
-            // + splitLine[3].replace(' ', '-').substring(1, splitLine[3].length() - 1);
-            // URL url1 = new URL(url1String);
-            // HttpURLConnection huc1 = (HttpURLConnection) url1.openConnection();
-            // int responseCode1 = huc1.getResponseCode();
-
-            // String url2String = "https://www.quora.com/"
-            // + splitLine[4].replace(' ', '-').substring(1, splitLine[4].length() - 1);
-            // URL url2 = new URL(url2String);
-            // HttpURLConnection huc2 = (HttpURLConnection) url2.openConnection();
-            // int responseCode2 = huc2.getResponseCode();
-
-            // if ((responseCode1 == HttpURLConnection.HTTP_NOT_FOUND)
-            // || (responseCode2 == HttpURLConnection.HTTP_NOT_FOUND)) {
-            // continue;
-            // }
-            // if (splitLine.length != 6) {
-            // continue;
-            // }
-
-            // String firstStr = splitLine[3].substring(1, splitLine[3].length() - 1);
-            // double firstComp = this.compute(query, firstStr);
-            // if (firstComp < minDist) {
-            // minDist = firstComp;
-            // result = firstStr;
-            // }
-
-            // String secondStr = splitLine[4].substring(1, splitLine[4].length() - 1);
-            // double secondComp = this.compute(query, secondStr);
-            // if (secondComp < minDist) {
-            // minDist = secondComp;
-            // result = secondStr;
-            // }
-            // }
-            // br.close();
             return result;
         } catch (Exception e) {
             // TODO Auto-generated catch block
