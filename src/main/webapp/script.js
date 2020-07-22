@@ -89,6 +89,7 @@ window.onload = function () {
     markerLats = [];
     markerLngs = [];
     markerContents = [];
+    location.href = "https://8080-dot-12522647-dot-devshell.appspot.com/votePage";
     fetch('/mapRoom', {method: 'POST', body: params});
   }
 };
