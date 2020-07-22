@@ -25,15 +25,16 @@
 </head>
 
 <body>
+    <div class="content">
+        <div class="jumbotron" style="text-align: center; margin: 0px;">
+            <h1 class="display-4">Real-Time Voting App</h1>
+            <p class="lead">This is a Project For Summer SPS2020. Its an app that allows you to vote in real
+                time</p>
+            <hr class="my-4">
 
-    <div class="jumbotron" style="text-align: center; margin: 0px;">
-        <h1 class="display-4">Real-Time Voting App</h1>
-        <p class="lead">This is a Project For Summer SPS2020. Its an app that allows you to vote in real
-            time</p>
-        <hr class="my-4">
+        </div>
 
-    </div>
-
+<!-- <<<<<<< HEAD -->
 <!-- Search Bar -->
 <form action="/search.html" method="GET" id="search-form">
     <div id="container-search" class="container" style="text-align:center;">
@@ -48,6 +49,23 @@
 
 
 <div class="questionSection">
+<!-- ======= -->
+        <!-- Search Bar -->
+        <!-- <form action="/search.html" method="GET" id="search-form">
+            <div id="container-search" class="container" style="text-align:center;">
+                <h2> Enter the question title to be searched</h2>
+                <br><br>
+                <input id="searchBar" name="searchBar" type="text" required class="form-control"
+                    placeholder="Enter a room title to search for">
+                <br>
+                <input class="btn btn-primary" type="submit" id="btn-search" value="Click here to search for the room">
+                <br><br>
+                <h2 id="answer"></h2>
+            </div>
+        </form>
+
+
+>>>>>>> questionsimilarity -->
         <form action="/data" method="POST" id="vote-form">
             <div id="container" class="container" style="text-align: center;">
                 <br></br>
@@ -59,6 +77,7 @@
                                 placeholder="Question">
                         </div>
                         <tr>
+<!-- <<<<<<< HEAD -->
                             <td style="vertical-align: top;">Question Type</td>
                             <td id="questionTypeCell">
                                 <div class="row">
@@ -126,10 +145,42 @@
                             </tr>
 
                     </table>
+<!-- =======
+                            <td style="vertical-align: top;">Options</td>
+                            <td id="optionCell">
+                                <div class="row">
+                                    <div class="col-sm-12 col-md-6 ">
+                                        <input class="form-control" type="button" id="addOption" value="Add Options" />
+                                        </br>
+                                    </div>
+                                    </br>
+                                    <div class="col-sm-12 col-md-6 ">
+                                        <input class="form-control" type="button" id="btn" value="Delete Options" />
+                                        </br>
+                                    </div>
+                                    </br>
+                                    <div class="col-sm-12 col-md-6 ">
+                                        <input class="form-control" type="button" id="map_btn" value="Add Map" />
+                                        </br>
+                                    </div>
+                                    </br>
+                                    <div class="col-sm-12 col-md-6 ">
+                                        <input class="form-control" type="button" id="map_del_btn" value="Delete Map" />
+                                        </br>
+                                    </div>
+                                </div>
+                                <input class="form-control" name="option" type="text" id="Options" required
+                                    placeholder="option 1" />
+                                <br id="added">
+                            </td>
+                        </tr>
+                </table>
+>>>>>>> questionsimilarity -->
                 <br></br>
                 <input class="btn btn-primary" type="submit" id="btn-register" value="Click Here to Create a Room">
                 <br></br>
                 <!-- <button onclick=""> click here to create a room</button> -->
+<!-- <<<<<<< HEAD -->
                 
             </div>
         </form>
@@ -155,13 +206,78 @@
 
 
     <!--Simple Footer -->
+<!-- =======
 
-    <div class="footer">
-        <div class="footer-bottom">
-            &copy; Google Summer SPS2020 | Team 20
+            </div>
+        </form>
+        <div class="container" style="text-align: center;">
+            <h3>Members</h3>
+            <ul class="list-group">
+                <li class="list-group-item ">Abhishek Jindal <a id="icon" href="https://github.com/swissknife007"><i
+                            class="fab fa-github"></i></a></li>
+                <li class="list-group-item">Charles Yip Guoli<a id="icon" href="https://github.com/MaltoMight"><i
+                            class="fab fa-github"></i></a>
+                </li>
+                <li class="list-group-item">David Requena <a id="icon" href="https://github.com/arq1999"><i
+                            class="fab fa-github"></i></a>
+                </li>
+                <li class="list-group-item">Hossam A Zaki <a id="icon" href="https://github.com/hossam-zaki"> <i class=" fab
+                        fa-github"></i></a>
+                </li>
+                <li class="list-group-item">Tomi Olusina <a id="icon" href="https://github.com/oolusina"><i
+                            class="fab fa-github"></i></a></i></li>
+            </ul>
         </div>
+>>>>>>> questionsimilarity -->
 
+        <!--Social and Share -->
+        <br>
+        <div class="container">
+            <div class="row">
+                <div id="social" class="card" style="text-align: center;">
+                    <div class="card-body">
+                        <h5 class="card-title">Share!</h5>
+
+                        <!--Facebook-->
+                        <div id="fb-root"></div>
+                        <script async defer crossorigin="anonymous"
+                            src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v7.0&appId=2667458256844253&autoLogAppEvents=1"
+                            nonce="3bSmYODx"></script>
+                        <div class="fb-share-button" data-href="https://dtest" data-layout="button_count"
+                            data-size="small"><a target="_blank"
+                                href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdtest%2F&amp;src=sdkpreparse"
+                                class="fb-xfbml-parse-ignore">Share</a></div>
+
+                        <!--Twitter-->
+                        <br>
+                        <br>
+                        <a href="https://twitter.com/share" class="twitter-share-button" data-hashtags="your_hash_tag"
+                            data-via="your_screen_name" data-count="vertical">Tweet</a>
+                        <script>
+                            ! function (d, s, id) {
+                                var js, fjs = d.getElementsByTagName(s)[0],
+                                    p = /^http:/.test(d.location) ? 'http' : 'https';
+                                if (!d.getElementById(id)) {
+                                    js = d.createElement(s);
+                                    js.id = id;
+                                    js.src = p + '://platform.twitter.com/widgets.js';
+                                    fjs.parentNode.insertBefore(js, fjs);
+                                }
+                            }(document, 'script', 'twitter-wjs');
+                        </script>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+    <!--Social and Share -->
+    <br>
+    <br>
+    <br>
+    <!--Simple Footer -->
+    <footer class="footer">
+        &copy; Google Summer SPS2020 | Team 20
+    </footer>
     <!--Simple Footer -->
 
     <!-- Optional JavaScript -->

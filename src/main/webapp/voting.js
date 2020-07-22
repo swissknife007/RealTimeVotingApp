@@ -17,8 +17,11 @@ function getInput() {
           return;
         }
         document.getElementById("title").innerHTML = stats.question;
-        document.getElementById("similar").innerHTML =
-          "A similar question on Quora is: " + stats.mostSimilarQuestion;
+        var a = document.getElementById("similar");
+        var link = document.createTextNode("here!"); 
+        a.append(link);
+        a.title = "here!";  
+        a.href = "https://www.quora.com/" + stats.mostSimilarQuestion.replace(/\s+/g, '-');  
 
         for (i = 0; i < stats.option.length; i++) {
           document
@@ -73,6 +76,11 @@ function Copy() {
   Url.select();
   document.execCommand("copy");
 }
+
+function goBack() {
+  window.history.back();
+}
+
 
 // function registerVote() {
 //   $.getJSON("https://extreme-ip-lookup.com/json/", function (data) {
