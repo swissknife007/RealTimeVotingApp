@@ -21,7 +21,7 @@ function getInput() {
         var link = document.createTextNode("here!"); 
         a.append(link);
         a.title = "here!";  
-        a.href = "https://www.quora.com/" + stats.mostSimilarQuestion.replace(/\s+/g, '-');  
+        // a.href = "https://www.quora.com/" + stats.mostSimilarQuestion.replace(/\s+/g, '-');  
 
         for (i = 0; i < stats.option.length; i++) {
           document
@@ -31,6 +31,7 @@ function getInput() {
           y.setAttribute("type", "radio");
           y.setAttribute("name", "choice");
           y.setAttribute("value", stats.option[i]);
+          console.log("STATS.OPTIONS IS  = " + stats.option[i]);
           y.classList = "form-control";
           var label = document.createElement("label");
           label.appendChild(y);

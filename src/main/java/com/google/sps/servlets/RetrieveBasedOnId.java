@@ -46,10 +46,7 @@ public class RetrieveBasedOnId extends HttpServlet {
 
     // old id
     final String roomID = request.getParameter("id");
-// <<<<<<< HEAD
     
-// =======
-// >>>>>>> questionsimilarity
     Filter propertyFilter = new FilterPredicate("roomID", FilterOperator.EQUAL, roomID);
     Query query = new Query("survey").setFilter(propertyFilter);
     PreparedQuery results = datastore.prepare(query);

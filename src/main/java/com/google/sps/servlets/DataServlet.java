@@ -60,36 +60,8 @@ public class DataServlet extends HttpServlet {
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     final String question = "question";
-// <<<<<<< HEAD
     String questionTypeValue = request.getParameter("questionType");
     final String questionTypePicture = "questionPicture";
-// =======
-//     final String option = "option";
-//     final String questionValue = request.getParameter(question);
-//     String[] questionValueIndex = questionValue.split(" ", 0);
-
-//     // Lower case all string before send to DB
-//     for (int i = 0; i < questionValueIndex.length; i++)
-//       questionValueIndex[i] = questionValueIndex[i].toLowerCase();
-//     // Retrieve the options values into string array then store into StringList for
-//     // datastore
-//     final String[] retrievedOptionValue = request.getParameterValues(option);
-//     final List<String> optionValue = new ArrayList<>();
-//     for (int i = 0; i < retrievedOptionValue.length; i++)
-//       optionValue.add(retrievedOptionValue[i]);
-
-//     // Create object to store the survey info into JSON
-//     ComputeDistance computer = new ComputeDistance(getServletContext());
-//     String mostSimilarQuestion = computer.findSimilarStrings(questionValue);
-//     System.out.println(mostSimilarQuestion);
-//     Survey survey = new Survey(questionValue, retrievedOptionValue, mostSimilarQuestion);
-
-//     // Convert JSON by using GSON library
-//     Gson gson = new Gson();
-//     String json = gson.toJson(survey);
-
-//     // Create entity to store data into database
-// >>>>>>> questionsimilarity
     final String surveyDataName = "survey";
     final String roomID = "roomID";
     final String timestamp = "timestamp";
@@ -101,7 +73,6 @@ public class DataServlet extends HttpServlet {
     ZonedDateTime time = ZonedDateTime.now(ZoneId.of("US/Eastern"));
     String timestampValue = time.toString();
     UUID id = UUID.randomUUID();
-// <<<<<<< HEAD
     final String option = "option";
     String questionType = "questionType";
     ComputeDistance computer = new ComputeDistance(getServletContext());
@@ -190,17 +161,6 @@ public class DataServlet extends HttpServlet {
   }
 
         // Return JSON to testing
-// =======
-//     SurveyData.setProperty(roomID, id.toString());
-//     SurveyData.setProperty(question, questionValue);
-//     SurveyData.setProperty(option, optionValue);
-//     SurveyData.setProperty(timestamp, timestampValue);
-//     SurveyData.setProperty(mostSimilarQuestionLabel, mostSimilarQuestion);
-//     SurveyData.setProperty(questionIndex, Arrays.asList(questionValueIndex));
-//     datastore.put(SurveyData);
-
-//     // Return JSON to testing
-// >>>>>>> questionsimilarity
     response.setContentType("text/html");
     String html = "<h1>Loading...</h1> <meta http-equiv='refresh' content='1; url=https://summer20-sps-20.ue.r.appspot.com/votePage.html?id="
         + id + "' />";
