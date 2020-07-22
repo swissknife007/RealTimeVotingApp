@@ -79,7 +79,6 @@ function addPictures(id)
     input.type = "file";
     // input.value = "Add Pictures";
     input.accept= "image/png, image/jpeg";
-    input.required = true;
     let br = document.createElement("br");
     br.id = "added";
     optionCell.appendChild(input);
