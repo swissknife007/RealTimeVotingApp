@@ -17,9 +17,16 @@ function getInput() {
           return;
         }
         document.getElementById("title").innerHTML = stats.question;
-    
+        var a = document.getElementById("similar");
+        var link = document.createTextNode("here!"); 
+        a.append(link);
+        a.title = "here!";  
+        a.href = "https://www.quora.com/" + stats.mostSimilarQuestion.replace(/\s+/g, '-');  
+
         for (i = 0; i < stats.option.length; i++) {
-          document.getElementById("voting").appendChild(document.createElement("br"));
+          document
+            .getElementById("voting")
+            .appendChild(document.createElement("br"));
           var y = document.createElement("INPUT");
           y.setAttribute("type", "radio");
           y.setAttribute("name", "choice");
@@ -54,15 +61,21 @@ function getInput() {
   }
 }
 
-
-
 function Copy() {
-    alert("The URL of this page is: " + window.location.href + " and it was also copy in your clipboard!");
+  alert(
+    "The URL of this page is: " +
+      window.location.href +
+      " and it was also copy in your clipboard!"
+  );
   var Url = document.getElementById("url");
   Url.innerHTML = window.location.href;
   console.log(Url.innerHTML);
   Url.select();
   document.execCommand("copy");
+}
+
+function goBack() {
+  window.history.back();
 }
 
 

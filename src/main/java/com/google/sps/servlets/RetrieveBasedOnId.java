@@ -13,8 +13,6 @@
 // limitations under the License.
 
 package com.google.sps.servlets;
-import java.util.Enumeration; // delete
-import java.io.PrintWriter;
 
 import java.io.IOException;
 import java.util.List;
@@ -24,7 +22,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.google.appengine.api.datastore.Blob;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
@@ -33,29 +30,30 @@ import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.Filter;
 import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.FilterPredicate;
-import com.google.gson.Gson;
+import com.google.appengine.repackaged.com.google.gson.Gson;
 import com.google.sps.data.Encryption;
 import com.google.sps.data.Survey;
 
 @WebServlet("/id")
 public class RetrieveBasedOnId extends HttpServlet {
+  private String roomID;
 
   DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
-      //old id
+    // old id
     final String roomID = request.getParameter("id");
-
     Filter propertyFilter = new FilterPredicate("roomID", FilterOperator.EQUAL, roomID);
     Query query = new Query("survey").setFilter(propertyFilter);
     PreparedQuery results = datastore.prepare(query);
     for (Entity entity : results.asIterable()) {
       String questionValue = (String) entity.getProperty("question");
       List<String> optionValue = (List<String>) entity.getProperty("option");
+      String mostSimilar = (String) entity.getProperty("mostSimilarQuestion");
 
-      Survey survey = new Survey(questionValue, optionValue.toArray(new String[optionValue.size()]));
+      Survey survey = new Survey(questionValue, optionValue.toArray(new String[optionValue.size()]), mostSimilar);
       Gson gson = new Gson();
       String json = gson.toJson(survey);
       response.setContentType("application/json;");
@@ -88,16 +86,18 @@ public class RetrieveBasedOnId extends HttpServlet {
       String ipValue = (String) entity.getProperty("IP");
       if (ipValue.equals(ip)) {
         response.setContentType("text/html;");
-        //String vote = "<h1>You have already voted for this survey! <br> You can check the results here <br> https://summer20-sps-20.ue.r.appspot.com/showVotes.html?id=" + id
-        //    + "</h1>";
-        String vote = "<h1>You have already voted for this survey!</h1> <meta http-equiv='refresh' content='2; url = https://summer20-sps-20.ue.r.appspot.com/showVotes.html?id=" 
+        // String vote = "<h1>You have already voted for this survey! <br> You can check
+        // the results here <br>
+        // https://summer20-sps-20.ue.r.appspot.com/showVotes.html?id=" + id
+        // + "</h1>";
+        String vote = "<h1>You have already voted for this survey!</h1> <meta http-equiv='refresh' content='2; url = https://summer20-sps-20.ue.r.appspot.com/showVotes.html?id="
             + id + "' />";
         response.getWriter().println(vote);
         return;
       }
     }
 
-    //Blob blob = new Blob(Encryption.encrypt(ip));
+    // Blob blob = new Blob(Encryption.encrypt(ip));
 
     final String votingDataName = "vote";
     Entity voteData = new Entity(votingDataName);
@@ -108,10 +108,11 @@ public class RetrieveBasedOnId extends HttpServlet {
     datastore.put(voteData);
 
     response.setContentType("text/html;");
-    //String vote = "<h1>Thank you for voting! <br> Here is your link to check the result <br> https://summer20-sps-20.ue.r.appspot.com/showVotes.html?id=" + id
-    //    + "</h1>";
-    String vote = "<h1>Thank you for voting!</h1> <meta http-equiv='refresh' content='2; url=https://summer20-sps-20.ue.r.appspot.com/showVotes.html?id=" 
+    // String vote = "<h1>Thank you for voting! <br> Here is your link to check the
+    // result <br> https://summer20-sps-20.ue.r.appspot.com/showVotes.html?id=" + id
+    // + "</h1>";
+    String vote = "<h1>Thank you for voting!</h1> <meta http-equiv='refresh' content='2; url=https://summer20-sps-20.ue.r.appspot.com/showVotes.html?id="
         + id + "' />";
     response.getWriter().println(vote);
-    }
+  }
 }
