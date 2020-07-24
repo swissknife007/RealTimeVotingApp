@@ -22,7 +22,6 @@ function getInput() {
         a.append(link);
         a.title = "here!";  
         a.href = "https://www.quora.com/" + stats.mostSimilarQuestion.replace(/\s+/g, '-');  
-
         for (i = 0; i < stats.option.length; i++) {
           document
             .getElementById("voting")
@@ -31,10 +30,14 @@ function getInput() {
           y.setAttribute("type", "radio");
           y.setAttribute("name", "choice");
           y.setAttribute("value", stats.option[i]);
+          console.log("STATS.OPTIONS IS  = " + stats.option[i]);
           y.classList = "form-control";
           var label = document.createElement("label");
           label.appendChild(y);
-          label.innerHTML += "<span> " + stats.option[i] + "</span><br>";
+          if (stats.questionType == "questionPicture")
+            label.innerHTML+= "<span> <img src='" + stats.option[i] + "'>";
+          else
+            label.innerHTML += "<span> " + stats.option[i] + "</span><br>";
           document.getElementById("voting").appendChild(label);
         }
         $.getJSON("https://extreme-ip-lookup.com/json/", function (data) {

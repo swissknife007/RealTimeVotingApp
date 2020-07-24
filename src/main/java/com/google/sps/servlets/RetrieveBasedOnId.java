@@ -21,6 +21,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
@@ -45,15 +46,17 @@ public class RetrieveBasedOnId extends HttpServlet {
 
     // old id
     final String roomID = request.getParameter("id");
+    
     Filter propertyFilter = new FilterPredicate("roomID", FilterOperator.EQUAL, roomID);
     Query query = new Query("survey").setFilter(propertyFilter);
     PreparedQuery results = datastore.prepare(query);
     for (Entity entity : results.asIterable()) {
       String questionValue = (String) entity.getProperty("question");
+      String questionTypeValue = (String) entity.getProperty("questionType");
       List<String> optionValue = (List<String>) entity.getProperty("option");
       String mostSimilar = (String) entity.getProperty("mostSimilarQuestion");
 
-      Survey survey = new Survey(questionValue, optionValue.toArray(new String[optionValue.size()]), mostSimilar);
+      Survey survey = new Survey(questionValue, optionValue.toArray(new String[optionValue.size()]), mostSimilar,questionTypeValue);
       Gson gson = new Gson();
       String json = gson.toJson(survey);
       response.setContentType("application/json;");
@@ -76,6 +79,9 @@ public class RetrieveBasedOnId extends HttpServlet {
     final String ipAddress = "IP";
     final String questionValue = request.getParameter(question);
     final String chosenValue = request.getParameter(option);
+    List<String> test = new ArrayList<>();
+    test.add(chosenValue);
+    System.out.println("Chosen Value is " + chosenValue);
     final String ip = request.getParameter(ipAddress);
     final String id = request.getParameter(roomID);
 
@@ -102,7 +108,7 @@ public class RetrieveBasedOnId extends HttpServlet {
     final String votingDataName = "vote";
     Entity voteData = new Entity(votingDataName);
     voteData.setProperty(question, questionValue);
-    voteData.setProperty(option, chosenValue);
+    voteData.setProperty(option, chosenValue); 
     voteData.setProperty(roomID, id);
     voteData.setProperty(ipAddress, ip);
     datastore.put(voteData);

@@ -33,22 +33,19 @@
             <hr class="my-4">
 
         </div>
-
-        <!-- Search Bar -->
-        <form action="/search.html" method="GET" id="search-form">
-            <div id="container-search" class="container" style="text-align:center;">
-                <h2> Enter the question title to be searched</h2>
-                <br><br>
-                <input id="searchBar" name="searchBar" type="text" required class="form-control"
-                    placeholder="Enter a room title to search for">
-                <br>
-                <input class="btn btn-primary" type="submit" id="btn-search" value="Click here to search for the room">
-                <br><br>
-                <h2 id="answer"></h2>
-            </div>
-        </form>
+<form action="/search.html" method="GET" id="search-form">
+    <div id="container-search" class="container" style="text-align:center;">
+        <h2> Enter the question title to be searched</h2>
+        <br><br>
+        <input id="searchBar" name="searchBar" type="text" required class="form-control" placeholder="Enter a room title to search for">
+        <input class="btn btn-primary" type="submit" id="btn-search" value="Click here to search for the room">
+        <br><br>
+        <h2 id="answer"></h2>
+    </div>
+</form>
 
 
+<div class="questionSection">
         <form action="/data" method="POST" id="vote-form">
             <div id="container" class="container" style="text-align: center;">
                 <br></br>
@@ -60,60 +57,103 @@
                                 placeholder="Question">
                         </div>
                         <tr>
-                            <td style="vertical-align: top;">Options</td>
-                            <td id="optionCell">
+                            <td style="vertical-align: top;">Question Type</td>
+                            <td id="questionTypeCell">
                                 <div class="row">
                                     <div class="col-sm-12 col-md-6 ">
-                                        <input class="form-control" type="button" id="addOption" value="Add Options" />
-                                        </br>
+                                        <input onclick="enableQuestion(this.id)" type="radio" id="questionText" name="questionType" value="questionText">
+                                        <label for="questionText">Text/map</label><br>
                                     </div>
-                                    </br>
                                     <div class="col-sm-12 col-md-6 ">
-                                        <input class="form-control" type="button" id="btn" value="Delete Options" />
-                                        </br>
-                                    </div>
-                                    </br>
-                                    <div class="col-sm-12 col-md-6 ">
-                                        <input class="form-control" type="button" id="map_btn" value="Add Map" />
-                                        </br>
-                                    </div>
-                                    </br>
-                                    <div class="col-sm-12 col-md-6 ">
-                                        <input class="form-control" type="button" id="map_del_btn" value="Delete Map" />
-                                        </br>
-                                    </div>
+                                        <input onclick="enableQuestion(this.id)" type="radio" id="questionPicture" name="questionType" value="questionPicture">
+                                        <label for="questionPicture">Picture</label><br>      
+                                    </div>                              
                                 </div>
-                                <input class="form-control" name="option" type="text" id="Options" required
-                                    placeholder="option 1" />
-                                <br id="added">
-                            </td>
                         </tr>
-                </table>
+                        <!-- Question Text -->
+                            <tr id="questionTypeText" hidden>
+                                <td style="vertical-align: top;">Options</td>
+                                <td id="optionCell">
+                                    <div class="row">
+                                        <div class="col-sm-12 col-md-6 ">
+                                            <input class="form-control" type="button" id="addOption" value="Add Options" />
+                                            </br>
+                                        </div>
+                                        </br>
+                                        <div class="col-sm-12 col-md-6 ">
+                                            <input class="form-control" type="button" id="btn" value="Delete Options" />
+                                            </br>
+                                        </div>
+                                        </br>
+                                        <div class="col-sm-12 col-md-6 ">
+                                            <input class="form-control" type="button" id="map_btn" value="Add Map" />
+                                            </br>
+                                        </div>
+                                        </br>
+                                        <div class="col-sm-12 col-md-6 ">
+                                            <input class="form-control" type="button" id="map_del_btn" value="Delete Map" />
+                                            </br>
+                                        </div>
+                                    </div>
+                                    <input class="form-control" name="option" type="text" id="Options"
+                                        placeholder="option 1" />
+                                    <br id="added">
+                                </td>
+                            </tr>
+
+                            <!-- Picture  -->
+                            <tr id="questionTypePictures" hidden>
+                                <td style="vertical-align: top;">Options</td> 
+                                <td id="optionCell2">
+                                    <div class="col-sm-12 col-md-6 ">
+                                        <input onclick="addPictures(this.id)" class="form-control" type="button" id="addPicture" value="Add More Pictures" />
+                                    </br>
+                                        </div>  
+                                    <div class="row">
+                                        <!-- Fix  -->
+                                        <div class="col-sm-12 col-md-6 ">
+                                            <input name="image" class="addFile" type="file" id="addFile" value="Add Pictures" accept="image/png, image/jpeg"  />
+                                            </br>
+                                        </div>
+                                        <div class="col-sm-12 col-md-6 ">
+                                            <input name="image" class="addFile" type="file" id="addFile" value="Add Pictures" accept="image/png, image/jpeg"  />
+                                            </br>
+                                        </div>                               
+                                    </div>      
+                                </td>
+                            </tr>
+
+                    </table>
                 <br></br>
                 <input class="btn btn-primary" type="submit" id="btn-register" value="Click Here to Create a Room">
                 <br></br>
                 <!-- <button onclick=""> click here to create a room</button> -->
 
+                
             </div>
         </form>
-        <div class="container" style="text-align: center;">
-            <h3>Members</h3>
-            <ul class="list-group">
-                <li class="list-group-item ">Abhishek Jindal <a id="icon" href="https://github.com/swissknife007"><i
-                            class="fab fa-github"></i></a></li>
-                <li class="list-group-item">Charles Yip Guoli<a id="icon" href="https://github.com/MaltoMight"><i
-                            class="fab fa-github"></i></a>
-                </li>
-                <li class="list-group-item">David Requena <a id="icon" href="https://github.com/arq1999"><i
-                            class="fab fa-github"></i></a>
-                </li>
-                <li class="list-group-item">Hossam A Zaki <a id="icon" href="https://github.com/hossam-zaki"> <i class=" fab
-                        fa-github"></i></a>
-                </li>
-                <li class="list-group-item">Tomi Olusina <a id="icon" href="https://github.com/oolusina"><i
-                            class="fab fa-github"></i></a></i></li>
-            </ul>
-        </div>
+</div>
+    <div class="container" style="text-align: center;">
+        <h3>Members</h3>
+        <ul class="list-group">
+            <li class="list-group-item ">Abhishek Jindal <a id="icon" href="https://github.com/swissknife007"><i
+                        class="fab fa-github"></i></a></li>
+            <li class="list-group-item">Charles Yip Guoli<a id="icon" href="https://github.com/MaltoMight"><i
+                        class="fab fa-github"></i></a>
+            </li>
+            <li class="list-group-item">David Requena <a id="icon" href="https://github.com/arq1999"><i
+                        class="fab fa-github"></i></a>
+            </li>
+            <li class="list-group-item">Hossam A Zaki <a id="icon" href="https://github.com/hossam-zaki"> <i class=" fab
+                    fa-github"></i></a>
+            </li>
+            <li class="list-group-item">Tomi Olusina <a id="icon" href="https://github.com/oolusina"><i
+                        class="fab fa-github"></i></a></i></li>
+        </ul>
+    </div>
+
+
+    <!--Simple Footer -->
 
         <!--Social and Share -->
         <br>
