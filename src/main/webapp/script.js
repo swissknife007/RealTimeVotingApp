@@ -53,9 +53,9 @@ window.onload = function () {
   };
 
   // Sets up map
-  document.getElementById("map_btn").onclick = function () {
+  if(document.getElementById("questionTypeMap").hidden != null) {
     if (document.getElementById('map') == null) {
-      var container = document.getElementById("container");
+      var container = document.getElementById("questionTypeMap");
       var div_map = document.createElement("div");
       div_map.id = "map";
       container.appendChild(div_map);
@@ -68,10 +68,7 @@ window.onload = function () {
         createEditMarker(event.latLng.lat(), event.latLng.lng());
       });
     }
-  };
-
-  // Deletes map
-  document.getElementById("map_del_btn").onclick = function () {
+  } else if (document.getElementById("questionTypeMap").hidden == null) {
     document.getElementById("map").remove();
     markerLats = [];
     markerLngs = [];
@@ -94,8 +91,7 @@ window.onload = function () {
   }
 };
 
-function addPictures(id)
-{
+function addPictures(id) {
     let vid = document.getElementById(id);
     let input = document.createElement("input");
     let optionCell = document.getElementById("optionCell2");
@@ -234,70 +230,82 @@ function createDisplayMarker(lat, lng, content) {
   marker.addListener('click', () => {
     infoWindow.open(map, marker);
   });
+  
   markerLats.push(lat);
   markerLngs.push(lng);
   markerContents.push(content);
   console.log(markerLats + "\n" + markerLngs + "\n" + markerContents);
 }
+
 var blobURL = "";
 //Get the BLOB URL once
-fetch('/blobstore-upload-url')
-          .then((response) => {
-            return response.text();
-          })
-          .then((imageUploadUrl) => {
-              console.log("After fetching the url " );
-              blobURL = imageUploadUrl;
-              console.log("BLOBURL is " +blobURL);
-            // const messageForm = document.getElementById('my-form');
-            // messageForm.action = imageUploadUrl;
-            // messageForm.classList.remove('hidden');
-          });
-function enableQuestion(id)
-{
-
+fetch('/blobstore-upload-url').then((response) => {
+        return response.text();
+    }).then((imageUploadUrl) => {
+        console.log("After fetching the url " );
+        blobURL = imageUploadUrl;
+        console.log("BLOBURL is " +blobURL);
+        // const messageForm = document.getElementById('my-form');
+        // messageForm.action = imageUploadUrl;
+        // messageForm.classList.remove('hidden');
+    });
+function enableQuestion(id) {
     const textURL = "/data";
+    const formId = "vote-form";
+
     const questionText = "questionText";
     const questionTypeText = "questionTypeText";
+    const questionPicture = "questionPicture";
     const questionTypePictures = "questionTypePictures";
-    const questionPictures = "questionPicture";
-    const formId = "vote-form";
+    const questionMap = "questionMap";
+    const questionTypeMap = "questionTypeMap";
+
     var textSection = document.getElementById(questionTypeText);
     var pictureSection = document.getElementById(questionTypePictures);
+    var mapSection = document.getElementById(questionTypeMap);
     var form = document.getElementById(formId);
     var enctypeValue = "multipart/form-data";
  
     // Text-type selected
-    if (id == questionText)
-    {
-        if (!(textSection.hidden))
-        {
+    if (id == questionText) {
+        if (!(textSection.hidden)) { // Uncheck
             document.getElementById(id).checked = false;
             textSection.hidden = true;
             pictureSection.hidden = true;
-        }
-        else{
+            mapSection.hidden = true;
+        } else { // Check
             form.action = textURL;
             form.removeAttribute("enctype");
-            pictureSection.hidden = true;
             textSection.hidden = false;
+            pictureSection.hidden = true;
+            mapSection.hidden = true;
         }
-
-    }
-    // Image-type selected
-    else 
-        // Unchecking the option marked
-       if (!(pictureSection.hidden))
-        {
+    } else if (id == questionPicture) { // Image-type selected
+       if (!(pictureSection.hidden)) { // Uncheck
             document.getElementById(id).checked = false;
             textSection.hidden = true;
             pictureSection.hidden = true;
-        }
+            mapSection.hidden = true;
+        } else { // Check
         //Change the URL request accordingly to the choice chosen accordingly
-        else{
             form.action = blobURL;
             form.enctype = enctypeValue;
             pictureSection.hidden = false;
             textSection.hidden = true;
+            mapSection.hidden = true;
         }
+    } else if (id == questionMap) { // Map-type selected
+        if (!(mapSection.hidden)) { // Uncheck
+            document.getElementById(id).checked = false;
+            textSection.hidden = true;
+            pictureSection.hidden = true;
+            mapSection.hidden = true;
+        } else { // Check
+            form.action = textURL;
+            form.removeAttribute("enctype");
+            mapSection.hidden = false;
+            textSection.hidden = true;
+            pictureSection.hidden = true;
+        }
+    }
 }

@@ -61,11 +61,15 @@
                                 <div class="row">
                                     <div class="col-sm-12 col-md-6 ">
                                         <input onclick="enableQuestion(this.id)" type="radio" id="questionText" name="questionType" value="questionText">
-                                        <label for="questionText">Text/map</label><br>
+                                        <label for="questionText">Text</label><br>
                                     </div>
                                     <div class="col-sm-12 col-md-6 ">
                                         <input onclick="enableQuestion(this.id)" type="radio" id="questionPicture" name="questionType" value="questionPicture">
                                         <label for="questionPicture">Picture</label><br>      
+                                    </div>
+                                    <div class="col-sm-12 col-md-6 ">
+                                        <input onclick="enableQuestion(this.id)" type="radio" id="questionMap" name="questionType" value="questionMap">
+                                        <label for="questionMap">Map</label><br>      
                                     </div>                              
                                 </div>
                         </tr>
@@ -81,16 +85,6 @@
                                         </br>
                                         <div class="col-sm-12 col-md-6 ">
                                             <input class="form-control" type="button" id="btn" value="Delete Options" />
-                                            </br>
-                                        </div>
-                                        </br>
-                                        <div class="col-sm-12 col-md-6 ">
-                                            <input class="form-control" type="button" id="map_btn" value="Add Map" />
-                                            </br>
-                                        </div>
-                                        </br>
-                                        <div class="col-sm-12 col-md-6 ">
-                                            <input class="form-control" type="button" id="map_del_btn" value="Delete Map" />
                                             </br>
                                         </div>
                                     </div>
@@ -120,6 +114,11 @@
                                         </div>                               
                                     </div>      
                                 </td>
+                            </tr>
+
+                            <!-- Map -->
+                            <tr id="questionTypeMap" hidden>
+                                <td style="vertical-align: top;">Options</td>
                             </tr>
 
                     </table>
