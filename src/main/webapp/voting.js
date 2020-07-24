@@ -2,13 +2,11 @@ function getInput() {
   var url_string = window.location.href;
   var url = new URL(url_string);
   var id = url.searchParams.get("id");
-  console.log(id);
   var route = "/id?id=" + id;
   try {
     fetch(route)
       .then((response) => response.json())
       .then((stats) => {
-        console.log(stats);
         if (stats.error) {
           document.getElementById("title").innerHTML = "404";
           var myobj = document.getElementById("btn-register");
@@ -21,7 +19,8 @@ function getInput() {
         var link = document.createTextNode("here!"); 
         a.append(link);
         a.title = "here!";  
-        a.href = "https://www.quora.com/" + stats.mostSimilarQuestion.replace(/\s+/g, '-');  
+        a.href = "https://www.quora.com/" + stats.mostSimilarQuestion.replace(/\s+/g, '-');
+        numOfInputs = stats.option.length; 
         for (i = 0; i < stats.option.length; i++) {
           document
             .getElementById("voting")
@@ -30,7 +29,7 @@ function getInput() {
           y.setAttribute("type", "radio");
           y.setAttribute("name", "choice");
           y.setAttribute("value", stats.option[i]);
-          console.log("STATS.OPTIONS IS  = " + stats.option[i]);
+          y.setAttribute("onclick","enableVote()");
           y.classList = "form-control";
           var label = document.createElement("label");
           label.appendChild(y);
@@ -42,7 +41,6 @@ function getInput() {
         }
         $.getJSON("https://extreme-ip-lookup.com/json/", function (data) {
           ip = data.query;
-          console.log(data);
           var url_string = window.location.href;
           var url = new URL(url_string);
           var id = url.searchParams.get("id");
@@ -64,6 +62,9 @@ function getInput() {
   }
 }
 
+function enableVote(){
+    document.getElementById("vote-register").disabled = false;
+}
 function Copy() {
   alert(
     "The URL of this page is: " +
@@ -72,7 +73,6 @@ function Copy() {
   );
   var Url = document.getElementById("url");
   Url.innerHTML = window.location.href;
-  console.log(Url.innerHTML);
   Url.select();
   document.execCommand("copy");
 }

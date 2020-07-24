@@ -92,14 +92,11 @@ function searchRoom() {
     var url = new URL(url_string);
     const parameter = "searchBar";
     var parameterValue = url.searchParams.get(parameter);
-    console.log("ParameterValue is " + parameterValue);
 
     var route = "/search?" + parameter + "=" + parameterValue;
-    console.log("Route is " + route);
     fetch(route)
         .then((response) => response.json())
         .then((stats) => {
-            console.log(stats);
             let tag = document.createElement("h2");
 
             // Attaches loading to variable to be deleted after query is processed
@@ -134,7 +131,6 @@ function searchRoom() {
                 loading.remove();
                 animLoading.parentNode.removeChild(animLoading);                
                 document.getElementById("searchResults").innerHTML = x; 
-                console.log("You have " + i + " questions found");
             }    
             });
 }
@@ -187,12 +183,7 @@ fetch('/blobstore-upload-url')
             return response.text();
           })
           .then((imageUploadUrl) => {
-              console.log("After fetching the url " );
               blobURL = imageUploadUrl;
-              console.log("BLOBURL is " +blobURL);
-            // const messageForm = document.getElementById('my-form');
-            // messageForm.action = imageUploadUrl;
-            // messageForm.classList.remove('hidden');
           });
 function enableQuestion(id)
 {
@@ -203,8 +194,10 @@ function enableQuestion(id)
     const questionTypePictures = "questionTypePictures";
     const questionPictures = "questionPicture";
     const formId = "vote-form";
+    const buttonId = "btn-register";
     var textSection = document.getElementById(questionTypeText);
     var pictureSection = document.getElementById(questionTypePictures);
+    var button = document.getElementById(buttonId);
     var form = document.getElementById(formId);
     var enctypeValue = "multipart/form-data";
  
@@ -216,12 +209,14 @@ function enableQuestion(id)
             document.getElementById(id).checked = false;
             textSection.hidden = true;
             pictureSection.hidden = true;
+            button.disabled = true;
         }
         else{
             form.action = textURL;
             form.removeAttribute("enctype");
             pictureSection.hidden = true;
             textSection.hidden = false;
+            button.disabled = false;
         }
 
     }
@@ -233,6 +228,8 @@ function enableQuestion(id)
             document.getElementById(id).checked = false;
             textSection.hidden = true;
             pictureSection.hidden = true;
+            button.disabled = true;
+
         }
         //Change the URL request accordingly to the choice chosen accordingly
         else{
@@ -240,5 +237,7 @@ function enableQuestion(id)
             form.enctype = enctypeValue;
             pictureSection.hidden = false;
             textSection.hidden = true;
+            button.disabled = false;
+
         }
 }

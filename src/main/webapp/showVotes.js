@@ -11,7 +11,6 @@ var url_string = window.location.href;
   fetch(route)
       .then((response) => response.json())
       .then((stats) => {
-        console.log(stats);
         if (stats == null)
         {
             document.getElementById('question').innerHTML = "ERROR! INVALID ID";
@@ -48,7 +47,6 @@ var url_string = window.location.href;
         }
         x+= "</ul>";
         
-        console.log(x);
         document.getElementById("options").innerHTML = x;
 
         const options = {
