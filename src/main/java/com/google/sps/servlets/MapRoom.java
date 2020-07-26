@@ -89,7 +89,7 @@ public class MapRoom extends HttpServlet {
         datastore.put(MapData);
     }
 
-    // Return JSON to testing
+    // want to call mapvoting.js not voting.js but cannot figure out how to choose
     response.setContentType("text/html");
     String html = "<h1>Loading...</h1> <meta http-equiv='refresh' content='1; url=https://summer20-sps-20.ue.r.appspot.com/votePage.html?id=" 
         + id + "' />";

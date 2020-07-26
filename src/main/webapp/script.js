@@ -75,6 +75,7 @@ window.onload = function () {
     markerContents = [];
   };
 
+  // HERE
   // Calls post function from MapRoom and passes in markers from global list
   // as parameters
   document.getElementById("map-register").onclick = function () {
@@ -86,7 +87,7 @@ window.onload = function () {
     markerLats = [];
     markerLngs = [];
     markerContents = [];
-    location.href = "https://8080-dot-12522647-dot-devshell.appspot.com/votePage";
+    //location.href = "https://8080-dot-12522647-dot-devshell.appspot.com/votePage";
     fetch('/mapRoom', {method: 'POST', body: params});
   }
 };
@@ -225,6 +226,20 @@ function fetchMarkers() {
 function createDisplayMarker(lat, lng, content) {
   const marker =
       new google.maps.Marker({position: {lat: lat, lng: lng}, map: map});
+
+  /*const text = document.createElement('h4');
+  text.innerHTML = content;
+  const del_but = document.createElement('button');
+  del_but.appendChild(document.createTextNode('Delete Marker'));
+
+  del_but.onclick = () => {
+    marker.setMap(null);
+  };
+
+  const contentString = document.createElement('div');
+  contentString.appendChild(text);
+  contentString.appendChild(document.createElement('br'));
+  contentStrinng.appendChild(del_but);*/
 
   const infoWindow = new google.maps.InfoWindow({content: content});
   marker.addListener('click', () => {
