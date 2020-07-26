@@ -89,7 +89,11 @@ window.onload = function () {
     markerContents = [];
     //location.href = "https://8080-dot-12522647-dot-devshell.appspot.com/votePage";
     fetch('/mapRoom', {method: 'POST', body: params})
+
+    //new changes here 7/26/2020
+    //It retrieves the URL send from the MapRoom.java and stores as response. 
     .then(response=>response.text())
+    //Assign the response to stats variable
     .then((stats)=>
     {
         console.log(stats);

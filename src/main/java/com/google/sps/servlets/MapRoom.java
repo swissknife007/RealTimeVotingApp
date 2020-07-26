@@ -93,6 +93,9 @@ public class MapRoom extends HttpServlet {
     response.setContentType("text/html");
     // String html = "<h1>Loading...</h1> <meta http-equiv='refresh' content='1; url=https://summer20-sps-20.ue.r.appspot.com/votePage.html?id=" 
     //     + id + "' />";
+
+
+    //Returns the URL to be redirect as response from fetch function called on script.js
     String html = "https://summer20-sps-20.ue.r.appspot.com/votePage.html?id=" + id;
     response.getWriter().println(html);
   }
