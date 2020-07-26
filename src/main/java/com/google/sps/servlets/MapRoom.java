@@ -91,8 +91,9 @@ public class MapRoom extends HttpServlet {
 
     // want to call mapvoting.js not voting.js but cannot figure out how to choose
     response.setContentType("text/html");
-    String html = "<h1>Loading...</h1> <meta http-equiv='refresh' content='1; url=https://summer20-sps-20.ue.r.appspot.com/votePage.html?id=" 
-        + id + "' />";
+    // String html = "<h1>Loading...</h1> <meta http-equiv='refresh' content='1; url=https://summer20-sps-20.ue.r.appspot.com/votePage.html?id=" 
+    //     + id + "' />";
+    String html = "https://summer20-sps-20.ue.r.appspot.com/votePage.html?id=" + id;
     response.getWriter().println(html);
   }
 }

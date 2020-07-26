@@ -88,7 +88,14 @@ window.onload = function () {
     markerLngs = [];
     markerContents = [];
     //location.href = "https://8080-dot-12522647-dot-devshell.appspot.com/votePage";
-    fetch('/mapRoom', {method: 'POST', body: params});
+    fetch('/mapRoom', {method: 'POST', body: params})
+    .then(response=>response.text())
+    .then((stats)=>
+    {
+        console.log(stats);
+        window.location.replace(stats);
+
+    });
   }
 };
 
