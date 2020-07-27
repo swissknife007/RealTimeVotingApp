@@ -7,7 +7,7 @@ function getVotes() {
 var url_string = window.location.href;
   var url = new URL(url_string);
   var id = url.searchParams.get("id");
-  var route = "/show?id=" + id;
+  var route = "/id?id=" + id;
   fetch(route)
       .then((response) => response.json())
       .then((stats) => {

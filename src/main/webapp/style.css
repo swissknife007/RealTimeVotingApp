@@ -47,6 +47,8 @@ td {
   border: thin solid rgb(239, 238, 238);
   height: 500px;
   width: 500px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .footer {

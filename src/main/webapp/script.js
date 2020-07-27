@@ -216,7 +216,6 @@ function createDisplayMarker(lat, lng, content) {
   markerLats.push(lat);
   markerLngs.push(lng);
   markerContents.push(content);
-  console.log(markerLats + "\n" + markerLngs + "\n" + markerContents);
 }
 
 var blobURL = "";
@@ -224,12 +223,7 @@ var blobURL = "";
 fetch('/blobstore-upload-url').then((response) => {
         return response.text();
     }).then((imageUploadUrl) => {
-        console.log("After fetching the url " );
         blobURL = imageUploadUrl;
-        console.log("BLOBURL is " +blobURL);
-        // const messageForm = document.getElementById('my-form');
-        // messageForm.action = imageUploadUrl;
-        // messageForm.classList.remove('hidden');
     });
 function enableQuestion(id) {
     const textURL = "/data";

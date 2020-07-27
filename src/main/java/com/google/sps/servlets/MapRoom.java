@@ -40,12 +40,6 @@ public class MapRoom extends HttpServlet {
   DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
   @Override
-  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    // Query to datastore
-    throw new IOException("Implement Get");
-  }
-
-  @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     // Posting to datastore
     // get all parameter names and its values from HTTP request

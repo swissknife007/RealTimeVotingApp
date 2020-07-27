@@ -16,8 +16,10 @@ package com.google.sps.servlets;
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Map;
 import java.util.UUID;
 
 import com.google.appengine.api.blobstore.BlobInfo;
@@ -28,16 +30,13 @@ import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 import com.google.appengine.api.images.ImagesService;
 import com.google.appengine.api.images.ImagesServiceFactory;
 import com.google.appengine.api.images.ServingUrlOptions;
-import java.io.IOException;
-import java.util.List;
 
-import java.util.Map;
+import java.io.IOException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
@@ -46,6 +45,12 @@ import com.google.gson.Gson;
 import com.google.sps.data.ComputeDistance;
 import com.google.sps.data.Survey;
 
+import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.Filter;
+import com.google.appengine.api.datastore.Query.FilterOperator;
+import com.google.appengine.api.datastore.Query.FilterPredicate;
+
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
 
@@ -53,8 +58,29 @@ public class DataServlet extends HttpServlet {
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    // Query to datastore
-    throw new IOException("Implement Get");
+    // old id
+    final String roomID = request.getParameter("id");
+    
+    Filter propertyFilter = new FilterPredicate("roomID", FilterOperator.EQUAL, roomID);
+    Query query = new Query("survey").setFilter(propertyFilter);
+    PreparedQuery results = datastore.prepare(query);
+    for (Entity entity : results.asIterable()) {
+      String questionValue = (String) entity.getProperty("question");
+      String questionTypeValue = (String) entity.getProperty("questionType");
+      List<String> optionValue = (List<String>) entity.getProperty("option");
+      String mostSimilar = (String) entity.getProperty("mostSimilarQuestion");
+
+      Survey survey = new Survey(questionValue, optionValue.toArray(new String[optionValue.size()]), mostSimilar,questionTypeValue);
+      Gson gson = new Gson();
+      String json = gson.toJson(survey);
+      response.setContentType("application/json;");
+      response.getWriter().println(json);
+      return;
+    }
+    response.setContentType("application/json;");
+    String str = "{\"error\":\"404\"}";
+    response.getWriter().println(str);
+
   }
 
   @Override
