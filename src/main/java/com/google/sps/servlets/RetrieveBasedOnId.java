@@ -114,9 +114,6 @@ public class RetrieveBasedOnId extends HttpServlet {
     datastore.put(voteData);
 
     response.setContentType("text/html;");
-    // String vote = "<h1>Thank you for voting! <br> Here is your link to check the
-    // result <br> https://summer20-sps-20.ue.r.appspot.com/showVotes.html?id=" + id
-    // + "</h1>";
     String vote = "<h1>Thank you for voting!</h1> <meta http-equiv='refresh' content='2; url=https://summer20-sps-20.ue.r.appspot.com/showVotes.html?id="
         + id + "' />";
     response.getWriter().println(vote);

@@ -1,8 +1,11 @@
+const USA_lat = 37.0902;
+const USA_lng = -95.7129;
+let map;
+
 function getInput() {
   var url_string = window.location.href;
   var url = new URL(url_string);
   var id = url.searchParams.get("id");
-  console.log(id);
   var route = "/id?id=" + id;
   try {
     fetch(route)
@@ -20,7 +23,7 @@ function getInput() {
         var link = document.createTextNode("here!"); 
         a.append(link);
         a.title = "here!";  
-        a.href = "https://www.quora.com/" + stats.mostSimilarQuestion.replace(/\s+/g, '-');  
+        //a.href = "https://www.quora.com/" + stats.mostSimilarQuestion.replace(/\s+/g, '-');  
         for (i = 0; i < stats.option.length; i++) {
           document
             .getElementById("voting")
@@ -28,15 +31,22 @@ function getInput() {
           var y = document.createElement("INPUT");
           y.setAttribute("type", "radio");
           y.setAttribute("name", "choice");
-          y.setAttribute("value", stats.option[i]);
-          console.log("STATS.OPTIONS IS  = " + stats.option[i]);
+          // gets content portion of string if map type
+          if (stats.questionType == "questionMap")
+            y.setAttribute("value", stats.option[i].split(",")[2]);
+          else
+              y.setAttribute("value", stats.option[i]);
+
           y.classList = "form-control";
           var label = document.createElement("label");
           label.appendChild(y);
-          if (stats.questionType == "questionPicture")
+          if (stats.questionType == "questionPicture") {
             label.innerHTML+= "<span> <img src='" + stats.option[i] + "'>";
-          else
+          } else if (stats.questionType == "questionMap") {
+            label.innerHTML += "<span> " + stats.option[i].split(",")[2] + "</span><br>";
+          } else {
             label.innerHTML += "<span> " + stats.option[i] + "</span><br>";
+          }
           document.getElementById("voting").appendChild(label);
         }
         $.getJSON("https://extreme-ip-lookup.com/json/", function (data) {
@@ -56,6 +66,17 @@ function getInput() {
           x.setAttribute("value", ip);
           form.appendChild(x);
         });
+        /*if (stats.questionType.equals("questionMap")) {
+            map = new google.maps.Map(
+                document.getElementById('map'),
+                {center: {lat: USA_lat, lng: USA_lng}, zoom: 4});
+
+            for (i = 0; i < stats.option.length; i++) {
+                String [] vals = stats.option.length[i].split(",", 0);
+                createDisplayMarker(vals[0], vals[1], vals[2]);
+            }
+            
+        }*/
       });
   } catch {
     document.getElementById("title").innerHTML = "404";
@@ -73,4 +94,14 @@ function Copy() {
   console.log(Url.innerHTML);
   Url.select();
   document.execCommand("copy");
+}
+
+function createDisplayMarker(lat, lng, content) {
+  const marker =
+      new google.maps.Marker({position: {lat: lat, lng: lng}, map: map});
+
+  const infoWindow = new google.maps.InfoWindow({content: content});
+  marker.addListener('click', () => {
+    infoWindow.open(map, marker);
+  });
 }

@@ -64,37 +64,34 @@ public class MapRoom extends HttpServlet {
         questionValueIndex[i] = questionValueIndex[i].toLowerCase();
     
     // Create entity to store data into database
-    final String surveyDataName = "map-survey";
+    final String surveyDataName = "survey";
     final String roomID = "roomID";
     final String timestamp = "timestamp";
     final String questionIndex = "questionIndex";
-    final String latitude = "latitude";
-    final String longitude = "longitude";
-    final String content = "content";
+    final String option = "option";
+    final String questionType = "questionType";
+    final String questionMap = "questionMap";
 
     //Add timestamp to database
     ZonedDateTime time = ZonedDateTime.now(ZoneId.of("US/Eastern"));
     String timestampValue = time.toString();
     UUID id = UUID.randomUUID();
 
+    final List<String> optionValue = new ArrayList<>();
     for (int ms = 0; ms < latValues.length; ms++) {
-        Entity MapData = new Entity(surveyDataName);
-        MapData.setProperty(roomID, id.toString());
-        MapData.setProperty(timestamp,timestampValue);
-        MapData.setProperty(question, questionValue);
-        MapData.setProperty(questionIndex, Arrays.asList(questionValueIndex));
-        MapData.setProperty(latitude, latValues[ms]);
-        MapData.setProperty(longitude, lngValues[ms]);
-        MapData.setProperty(content, contentValues[ms]);
-        datastore.put(MapData);
+        optionValue.add(latValues[ms] + "," + lngValues[ms] + "," + contentValues[ms]);
     }
 
-    // want to call mapvoting.js not voting.js but cannot figure out how to choose
+    Entity MapData = new Entity(surveyDataName);
+    MapData.setProperty(roomID, id.toString());
+    MapData.setProperty(timestamp,timestampValue);
+    MapData.setProperty(question, questionValue);
+    MapData.setProperty(questionIndex, Arrays.asList(questionValueIndex));
+    MapData.setProperty(questionType, questionMap);
+    MapData.setProperty(option, optionValue);
+    datastore.put(MapData);
+
     response.setContentType("text/html");
-    // String html = "<h1>Loading...</h1> <meta http-equiv='refresh' content='1; url=https://summer20-sps-20.ue.r.appspot.com/votePage.html?id=" 
-    //     + id + "' />";
-
-
     //Returns the URL to be redirect as response from fetch function called on script.js
     String html = "https://summer20-sps-20.ue.r.appspot.com/votePage.html?id=" + id;
     response.getWriter().println(html);

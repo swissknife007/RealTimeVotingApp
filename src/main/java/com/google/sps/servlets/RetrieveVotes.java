@@ -91,7 +91,11 @@ public class RetrieveVotes extends HttpServlet {
         for (int j =0; j < optionsAvailable.size();j++)
         {
             jsonObj = new JSONObject();
-            jsonObj.put("OptionName", optionsAvailable.get(j));
+            if (questionTypeValue.equals("questionMap")) {
+                jsonObj.put("OptionName", optionsAvailable.get(j).split(",",0)[2]);  
+            } else {  
+                jsonObj.put("OptionName", optionsAvailable.get(j));
+            }
             jsonObj.put("NumberOfVotes", hm.get(optionsAvailable.get(j)));
             jsonArray.put(jsonObj);
         }
