@@ -129,23 +129,12 @@ public class DataServlet extends HttpServlet {
     }
     else 
     {
-        // Text Question
-        System.out.println("This is questionText TYPE");
         // Retrieve the options values into string array then store into StringList for
         // datastore
         final String[] retrievedOptionValue = request.getParameterValues(option);
         final List<String> optionValue = new ArrayList<>();
         for (int i = 0; i < retrievedOptionValue.length; i++)
         optionValue.add(retrievedOptionValue[i]);
-
-        // Create object to store the survey info into JSON
-
-        Survey survey = new Survey(questionValue, retrievedOptionValue, mostSimilarQuestion,questionTypeValue);
-
-        // Convert JSON by using GSON library
-        Gson gson = new Gson();
-        String json = gson.toJson(survey);
-
 
         // Add timestamp to database
         Entity SurveyData = new Entity(surveyDataName);
@@ -160,7 +149,7 @@ public class DataServlet extends HttpServlet {
         datastore.put(SurveyData);
   }
 
-        // Return JSON to testing
+    // Return html to voting.js
     response.setContentType("text/html");
     String html = "<h1>Loading...</h1> <meta http-equiv='refresh' content='1; url=https://summer20-sps-20.ue.r.appspot.com/votePage.html?id="
         + id + "' />";

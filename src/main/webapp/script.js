@@ -75,7 +75,6 @@ window.onload = function () {
     markerContents = [];
   };
 
-  // HERE
   // Calls post function from MapRoom and passes in markers from global list
   // as parameters
   document.getElementById("map-register").onclick = function () {
@@ -87,19 +86,11 @@ window.onload = function () {
     markerLats = [];
     markerLngs = [];
     markerContents = [];
-    //location.href = "https://8080-dot-12522647-dot-devshell.appspot.com/votePage";
     fetch('/mapRoom', {method: 'POST', body: params})
 
-    //new changes here 7/26/2020
     //It retrieves the URL send from the MapRoom.java and stores as response. 
-    .then(response=>response.text())
-    //Assign the response to stats variable
-    .then((stats)=>
-    {
-        console.log(stats);
-        window.location.replace(stats);
-
-    });
+    .then(response=>response.text()).then((stats)=>
+        {window.location.replace(stats);});
   }
 };
 
@@ -200,7 +191,6 @@ function buildInfoWindow(lat, lng) {
   button.appendChild(document.createTextNode('Submit Marker'));
 
   button.onclick = () => {
-    //postMarker(lat, lng, textBox.value);
     createDisplayMarker(lat, lng, textBox.value);
     editMarker.setMap(null);
   };
@@ -212,26 +202,6 @@ function buildInfoWindow(lat, lng) {
 
   return containerDiv;
 }
-
-/** Sends a marker to the backend for saving. */
-function postMarker(lat, lng, content) {
-  const params = new URLSearchParams();
-  params.append('lat', lat);
-  params.append('lng', lng);
-  params.append('content', content);
-
-  fetch('/markers', {method: 'POST', body: params});
-}
-
-/** Fetches markers from the backend and adds them to the map.
-function fetchMarkers() {
-  fetch('/markers').then(response => response.json()).then((markers) => {
-    markers.forEach(
-        (marker) => {
-            createDisplayMarker(marker.lat, marker.lng, marker.content)
-        });
-  });
-} */
 
 /** Creates a marker that shows a read-only info window when clicked. */
 function createDisplayMarker(lat, lng, content) {

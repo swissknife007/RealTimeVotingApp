@@ -32,6 +32,7 @@ import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.gson.Gson;
+import com.google.sps.data.ComputeDistance;
 
 @WebServlet("/mapRoom")
 public class MapRoom extends HttpServlet {
@@ -60,8 +61,23 @@ public class MapRoom extends HttpServlet {
     String[] contentValues = request.getParameter(contents).split(",",0);
 
     // Lower case all string before send to DB
-    for (int i = 0; i < questionValueIndex.length;i++)
+    for (int i = 0; i < questionValueIndex.length;i++) {
         questionValueIndex[i] = questionValueIndex[i].toLowerCase();
+    }
+    //Add timestamp to database
+    ZonedDateTime time = ZonedDateTime.now(ZoneId.of("US/Eastern"));
+    String timestampValue = time.toString();
+    UUID id = UUID.randomUUID();
+
+    // Makes a list of strings containing the lat, long, and content for 
+    // each marker
+    final List<String> optionValue = new ArrayList<>();
+    for (int ms = 0; ms < latValues.length; ms++) {
+        optionValue.add(latValues[ms] + "," + lngValues[ms] + "," + contentValues[ms]);
+    }
+
+    ComputeDistance computer = new ComputeDistance(getServletContext());
+    String mostSimilarQuestion = computer.findSimilarStrings(questionValue);
     
     // Create entity to store data into database
     final String surveyDataName = "survey";
@@ -71,16 +87,7 @@ public class MapRoom extends HttpServlet {
     final String option = "option";
     final String questionType = "questionType";
     final String questionMap = "questionMap";
-
-    //Add timestamp to database
-    ZonedDateTime time = ZonedDateTime.now(ZoneId.of("US/Eastern"));
-    String timestampValue = time.toString();
-    UUID id = UUID.randomUUID();
-
-    final List<String> optionValue = new ArrayList<>();
-    for (int ms = 0; ms < latValues.length; ms++) {
-        optionValue.add(latValues[ms] + "," + lngValues[ms] + "," + contentValues[ms]);
-    }
+    final String mostSimilarQuestionLabel = "mostSimilarQuestion";
 
     Entity MapData = new Entity(surveyDataName);
     MapData.setProperty(roomID, id.toString());
@@ -89,6 +96,8 @@ public class MapRoom extends HttpServlet {
     MapData.setProperty(questionIndex, Arrays.asList(questionValueIndex));
     MapData.setProperty(questionType, questionMap);
     MapData.setProperty(option, optionValue);
+    MapData.setProperty(mostSimilarQuestionLabel, mostSimilarQuestion);
+
     datastore.put(MapData);
 
     response.setContentType("text/html");
