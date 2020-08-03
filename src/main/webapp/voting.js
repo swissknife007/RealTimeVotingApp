@@ -1,14 +1,16 @@
+const USA_lat = 37.0902;
+const USA_lng = -95.7129;
+let map;
+
 function getInput() {
   var url_string = window.location.href;
   var url = new URL(url_string);
   var id = url.searchParams.get("id");
-  console.log(id);
-  var route = "/id?id=" + id;
+  var route = "/data?id=" + id;
   try {
     fetch(route)
       .then((response) => response.json())
       .then((stats) => {
-        console.log(stats);
         if (stats.error) {
           document.getElementById("title").innerHTML = "404";
           var myobj = document.getElementById("btn-register");
@@ -29,20 +31,26 @@ function getInput() {
           var y = document.createElement("INPUT");
           y.setAttribute("type", "radio");
           y.setAttribute("name", "choice");
-          y.setAttribute("value", stats.option[i]);
-          console.log("STATS.OPTIONS IS  = " + stats.option[i]);
+          // gets content portion of string if map type
+          if (stats.questionType == "questionMap")
+            y.setAttribute("value", stats.option[i].split(",")[2]);
+          else
+              y.setAttribute("value", stats.option[i]);
+
           y.classList = "form-control";
           var label = document.createElement("label");
           label.appendChild(y);
-          if (stats.questionType == "questionPicture")
+          if (stats.questionType == "questionPicture") {
             label.innerHTML+= "<span> <img src='" + stats.option[i] + "'>";
-          else
+          } else if (stats.questionType == "questionMap") {
+            label.innerHTML += "<span> " + stats.option[i].split(",")[2] + "</span><br>";
+          } else {
             label.innerHTML += "<span> " + stats.option[i] + "</span><br>";
+          }
           document.getElementById("voting").appendChild(label);
         }
         $.getJSON("https://extreme-ip-lookup.com/json/", function (data) {
           ip = data.query;
-          console.log(data);
           var url_string = window.location.href;
           var url = new URL(url_string);
           var id = url.searchParams.get("id");
@@ -58,6 +66,18 @@ function getInput() {
           x.setAttribute("value", ip);
           form.appendChild(x);
         });
+
+        if (stats.questionType == "questionMap") {
+            map = new google.maps.Map(
+                document.getElementById('map'),
+                {center: {lat: USA_lat, lng: USA_lng}, zoom: 4});
+
+            for (i = 0; i < stats.option.length; i++) {
+                var vals = stats.option[i].split(",");
+                createDisplayMarker(vals[0], vals[1], vals[2]);
+            }
+            
+        }
       });
   } catch {
     document.getElementById("title").innerHTML = "404";
@@ -77,28 +97,14 @@ function Copy() {
   document.execCommand("copy");
 }
 
-function goBack() {
-  window.history.back();
+function createDisplayMarker(lat, lng, content) {
+  const marker = new google.maps.Marker({
+        position: {lat: parseFloat(lat), lng: parseFloat(lng)}, 
+        map: map
+    });
+
+  const infoWindow = new google.maps.InfoWindow({content: content});
+  marker.addListener('click', () => {
+    infoWindow.open(map, marker);
+  });
 }
-
-
-// function registerVote() {
-//   $.getJSON("https://extreme-ip-lookup.com/json/", function (data) {
-//     ip = data.query;
-//     console.log(data);
-//     var url_string = window.location.href;
-//     var url = new URL(url_string);
-//     var id = url.searchParams.get("id");
-//     var form = document.getElementById("voting");
-//     var z = document.createElement("INPUT");
-//     z.setAttribute("type", "hidden");
-//     z.setAttribute("name", "id");
-//     z.setAttribute("value", id);
-//     form.appendChild(z);
-//     var x = document.createElement("INPUT");
-//     x.setAttribute("type", "hidden");
-//     x.setAttribute("name", "id");
-//     x.setAttribute("value", ip);
-//     form.appendChild(y);
-//   });
-// }

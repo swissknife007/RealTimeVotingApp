@@ -13,8 +13,14 @@
 // limitations under the License.
 
 let map;
-/* Editable marker that displays when a user clicks in the map. */
+// Editable marker
 let editMarker;
+let markerLats = [];
+let markerLngs = [];
+let markerContents = [];
+
+const USA_lat = 37.0902;
+const USA_lng = -95.7129;
 
 async function getData() {
   throw "Impliment getData";
@@ -40,38 +46,55 @@ window.onload = function () {
     optionCell.appendChild(input);
     optionCell.appendChild(br);
   };
-  var btn = document.getElementById("btn");
-  btn.onclick = function () {
+  
+  document.getElementById("btn").onclick = function () {
     document.getElementById("Options").remove();
     document.getElementById("added").remove();
   };
 
-  var map_btn = document.getElementById("map_btn");
-  map_btn.onclick = function () {
+  // Sets up map
+  if(document.getElementById("questionTypeMap").hidden != null) {
     if (document.getElementById('map') == null) {
-      var container = document.getElementById("container");
+      var container = document.getElementById("questionTypeMap");
       var div_map = document.createElement("div");
       div_map.id = "map";
       container.appendChild(div_map);
 
       map = new google.maps.Map(
       document.getElementById('map'),
-      {center: {lat: 38.5949, lng: -94.8923}, zoom: 4});
-
+      {center: {lat: USA_lat, lng: USA_lng}, zoom: 4});
+      // Allows for marker placement
       map.addListener('click', (event) => {
-        createMarkerForEdit(event.latLng.lat(), event.latLng.lng());
+        createEditMarker(event.latLng.lat(), event.latLng.lng());
       });
-      //fetchMarkers();
-  }};
-
-  var map_del_btn = document.getElementById("map_del_btn");
-  map_del_btn.onclick = function () {
+    }
+  } else if (document.getElementById("questionTypeMap").hidden == null) {
     document.getElementById("map").remove();
+    markerLats = [];
+    markerLngs = [];
+    markerContents = [];
   };
+
+  // Calls post function from MapRoom and passes in markers from global list
+  // as parameters
+  document.getElementById("map-register").onclick = function () {
+    const params = new URLSearchParams();
+    params.append('lats', markerLats);
+    params.append('lngs', markerLngs);
+    params.append('contents', markerContents);
+    params.append('question', document.getElementById("question").value);
+    markerLats = [];
+    markerLngs = [];
+    markerContents = [];
+    fetch('/mapRoom', {method: 'POST', body: params})
+
+    //It retrieves the URL send from the MapRoom.java and stores as response. 
+    .then(response=>response.text()).then((stats)=>
+        {window.location.replace(stats);});
+  }
 };
 
-function addPictures(id)
-{
+function addPictures(id) {
     let vid = document.getElementById(id);
     let input = document.createElement("input");
     let optionCell = document.getElementById("optionCell2");
@@ -141,7 +164,7 @@ function searchRoom() {
 
 
 //Creates a marker that shows a textbox the user can edit
-function createMarkerForEdit(lat, lng) {
+function createEditMarker(lat, lng) {
   // If we're already showing an editable marker, then remove it.
   if (editMarker) {
     editMarker.setMap(null);
@@ -149,9 +172,9 @@ function createMarkerForEdit(lat, lng) {
 
   editMarker =
     new google.maps.Marker({position: {lat: lat, lng: lng}, map: map});
-}/*
+
   const infoWindow =
-    new google.maps.InfoWindow({content: buildInfoWindowInput(lat, lng)});
+    new google.maps.InfoWindow({content: buildInfoWindow(lat, lng)});
 
   // When the user closes the editable info window, remove the marker.
   google.maps.event.addListener(infoWindow, 'closeclick', () => {
@@ -162,14 +185,13 @@ function createMarkerForEdit(lat, lng) {
 }
 
 //Creates an editable textbox and a submit button for marker
-function buildInfoWindowInput(lat, lng) {
+function buildInfoWindow(lat, lng) {
   const textBox = document.createElement('textarea');
   const button = document.createElement('button');
   button.appendChild(document.createTextNode('Submit Marker'));
 
   button.onclick = () => {
-    postMarker(lat, lng, textBox.value);
-    createMarkerForDisplay(lat, lng, textBox.value);
+    createDisplayMarker(lat, lng, textBox.value);
     editMarker.setMap(null);
   };
 
@@ -179,66 +201,87 @@ function buildInfoWindowInput(lat, lng) {
   containerDiv.appendChild(button);
 
   return containerDiv;
-}*/
+}
+
+/** Creates a marker that shows a read-only info window when clicked. */
+function createDisplayMarker(lat, lng, content) {
+  const marker =
+      new google.maps.Marker({position: {lat: lat, lng: lng}, map: map});
+
+  const infoWindow = new google.maps.InfoWindow({content: content});
+  marker.addListener('click', () => {
+    infoWindow.open(map, marker);
+  });
+  
+  markerLats.push(lat);
+  markerLngs.push(lng);
+  markerContents.push(content);
+}
+
 var blobURL = "";
 //Get the BLOB URL once
-fetch('/blobstore-upload-url')
-          .then((response) => {
-            return response.text();
-          })
-          .then((imageUploadUrl) => {
-              console.log("After fetching the url " );
-              blobURL = imageUploadUrl;
-              console.log("BLOBURL is " +blobURL);
-            // const messageForm = document.getElementById('my-form');
-            // messageForm.action = imageUploadUrl;
-            // messageForm.classList.remove('hidden');
-          });
-function enableQuestion(id)
-{
-
+fetch('/blobstore-upload-url').then((response) => {
+        return response.text();
+    }).then((imageUploadUrl) => {
+        blobURL = imageUploadUrl;
+    });
+function enableQuestion(id) {
     const textURL = "/data";
+    const formId = "vote-form";
+
     const questionText = "questionText";
     const questionTypeText = "questionTypeText";
+    const questionPicture = "questionPicture";
     const questionTypePictures = "questionTypePictures";
-    const questionPictures = "questionPicture";
-    const formId = "vote-form";
+    const questionMap = "questionMap";
+    const questionTypeMap = "questionTypeMap";
+
     var textSection = document.getElementById(questionTypeText);
     var pictureSection = document.getElementById(questionTypePictures);
+    var mapSection = document.getElementById(questionTypeMap);
     var form = document.getElementById(formId);
     var enctypeValue = "multipart/form-data";
  
     // Text-type selected
-    if (id == questionText)
-    {
-        if (!(textSection.hidden))
-        {
+    if (id == questionText) {
+        if (!(textSection.hidden)) { // Uncheck
             document.getElementById(id).checked = false;
             textSection.hidden = true;
             pictureSection.hidden = true;
-        }
-        else{
+            mapSection.hidden = true;
+        } else { // Check
             form.action = textURL;
             form.removeAttribute("enctype");
-            pictureSection.hidden = true;
             textSection.hidden = false;
+            pictureSection.hidden = true;
+            mapSection.hidden = true;
         }
-
-    }
-    // Image-type selected
-    else 
-        // Unchecking the option marked
-       if (!(pictureSection.hidden))
-        {
+    } else if (id == questionPicture) { // Image-type selected
+       if (!(pictureSection.hidden)) { // Uncheck
             document.getElementById(id).checked = false;
             textSection.hidden = true;
             pictureSection.hidden = true;
-        }
+            mapSection.hidden = true;
+        } else { // Check
         //Change the URL request accordingly to the choice chosen accordingly
-        else{
             form.action = blobURL;
             form.enctype = enctypeValue;
             pictureSection.hidden = false;
             textSection.hidden = true;
+            mapSection.hidden = true;
         }
+    } else if (id == questionMap) { // Map-type selected
+        if (!(mapSection.hidden)) { // Uncheck
+            document.getElementById(id).checked = false;
+            textSection.hidden = true;
+            pictureSection.hidden = true;
+            mapSection.hidden = true;
+        } else { // Check
+            form.action = textURL;
+            form.removeAttribute("enctype");
+            mapSection.hidden = false;
+            textSection.hidden = true;
+            pictureSection.hidden = true;
+        }
+    }
 }

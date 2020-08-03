@@ -14,15 +14,20 @@
 
 package com.google.sps.servlets;
 
+import java.util.*;
+import java.net.*;
 import java.io.IOException;
 import java.util.List;
+import java.util.ArrayList;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
 
+import com.google.appengine.api.datastore.Blob;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
@@ -31,8 +36,7 @@ import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.Filter;
 import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.FilterPredicate;
-import com.google.appengine.repackaged.com.google.gson.Gson;
-import com.google.sps.data.Encryption;
+import com.google.gson.Gson;
 import com.google.sps.data.Survey;
 
 @WebServlet("/id")
@@ -43,36 +47,81 @@ public class RetrieveBasedOnId extends HttpServlet {
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+      try{
+      final String id = "id";
+      final String roomID = "roomID";
+      final String idValue = request.getParameter(id);
+      final String entity_questionDB = "survey";
+      String questionTypeValue = null;
+      Query Firstquery = new Query(entity_questionDB).addFilter(roomID,FilterOperator.EQUAL,idValue);
+      PreparedQuery FirstResults = datastore.prepare(Firstquery);
+      String questionValue = null;
+      List<String> optionsAvailable = new ArrayList<>();
 
-    // old id
-    final String roomID = request.getParameter("id");
+     //Retrieve all the OPTIONS available
+      for (Entity FirstEntity:FirstResults.asIterable()){
+        questionValue = (String) FirstEntity.getProperty("question");
+        questionTypeValue = (String)FirstEntity.getProperty("questionType");
+        optionsAvailable = (List<String>) FirstEntity.getProperty("option"); 
+
+      }
     
-    Filter propertyFilter = new FilterPredicate("roomID", FilterOperator.EQUAL, roomID);
-    Query query = new Query("survey").setFilter(propertyFilter);
-    PreparedQuery results = datastore.prepare(query);
-    for (Entity entity : results.asIterable()) {
-      String questionValue = (String) entity.getProperty("question");
-      String questionTypeValue = (String) entity.getProperty("questionType");
-      List<String> optionValue = (List<String>) entity.getProperty("option");
-      String mostSimilar = (String) entity.getProperty("mostSimilarQuestion");
+      if (questionValue == null) 
+        throw new Exception("Error! Invalid ID");
+        final String entity_voteDB = "vote";
+        Query Secondquery = new Query(entity_voteDB).addFilter(roomID,FilterOperator.EQUAL,idValue);
+        PreparedQuery SecondResults = datastore.prepare(Secondquery);
+        String retur = new String();
+        
+        //Assign all options available to 0 to start counting 
+        Map<String, Integer> hm = new HashMap<String, Integer>();
+        for (int i = 0; i < optionsAvailable.size(); i++)
+        {
+            hm.put(optionsAvailable.get(i),0);
+        }
 
-      Survey survey = new Survey(questionValue, optionValue.toArray(new String[optionValue.size()]), mostSimilar,questionTypeValue);
-      Gson gson = new Gson();
-      String json = gson.toJson(survey);
-      response.setContentType("application/json;");
-      response.getWriter().println(json);
-      return;
-    }
-    response.setContentType("application/json;");
-    String str = "{\"error\":\"404\"}";
-    response.getWriter().println(str);
+        //Retrieve all votes computed and iterate to count repeated votes.
+        for (Entity SecondEntity:SecondResults.asIterable()){
+            retur = (String) SecondEntity.getProperty("choice");
+            retur = retur.substring(retur.lastIndexOf("/")+1,retur.length());
+            for (int j = 0; j < optionsAvailable.size();j++){
+                if (optionsAvailable.get(j).contains(retur)) // not triggering this function
+                {
+                    hm.put(optionsAvailable.get(j),(hm.get(optionsAvailable.get(j))+1));
+                }
+            }
+        }
+        JSONObject json = new JSONObject();
+        JSONArray jsonArray = new JSONArray();
+        // JSONArray jsonArray2 = new JSONArray();
+        JSONObject jsonObj;
 
-  }
+        for (int j =0; j < optionsAvailable.size();j++)
+        {
+            jsonObj = new JSONObject();
+            if (questionTypeValue.equals("questionMap")) {
+                jsonObj.put("OptionName", optionsAvailable.get(j).split(",",0)[2]);  
+            } else {  
+                jsonObj.put("OptionName", optionsAvailable.get(j));
+            }
+            jsonObj.put("NumberOfVotes", hm.get(optionsAvailable.get(j)));
+            jsonArray.put(jsonObj);
+        }
+        json.put("question",questionValue);
+        json.put("questionType", questionTypeValue);
+        json.put("options",jsonArray);
+        response.setContentType("application/json");
+        response.getWriter().println(json.toString());
+      }
+        catch(Exception error)
+        {
+            String sendingError = null;
+            response.getWriter().println(sendingError);
+        }
+}
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    Encryption.registerEncryption();
-
     final String question = "question";
     final String option = "choice";
     final String roomID = "roomID";
@@ -81,7 +130,6 @@ public class RetrieveBasedOnId extends HttpServlet {
     final String chosenValue = request.getParameter(option);
     List<String> test = new ArrayList<>();
     test.add(chosenValue);
-    System.out.println("Chosen Value is " + chosenValue);
     final String ip = request.getParameter(ipAddress);
     final String id = request.getParameter(roomID);
 
@@ -92,18 +140,12 @@ public class RetrieveBasedOnId extends HttpServlet {
       String ipValue = (String) entity.getProperty("IP");
       if (ipValue.equals(ip)) {
         response.setContentType("text/html;");
-        // String vote = "<h1>You have already voted for this survey! <br> You can check
-        // the results here <br>
-        // https://summer20-sps-20.ue.r.appspot.com/showVotes.html?id=" + id
-        // + "</h1>";
         String vote = "<h1>You have already voted for this survey!</h1> <meta http-equiv='refresh' content='2; url = https://summer20-sps-20.ue.r.appspot.com/showVotes.html?id="
             + id + "' />";
         response.getWriter().println(vote);
         return;
       }
     }
-
-    // Blob blob = new Blob(Encryption.encrypt(ip));
 
     final String votingDataName = "vote";
     Entity voteData = new Entity(votingDataName);
@@ -114,9 +156,6 @@ public class RetrieveBasedOnId extends HttpServlet {
     datastore.put(voteData);
 
     response.setContentType("text/html;");
-    // String vote = "<h1>Thank you for voting! <br> Here is your link to check the
-    // result <br> https://summer20-sps-20.ue.r.appspot.com/showVotes.html?id=" + id
-    // + "</h1>";
     String vote = "<h1>Thank you for voting!</h1> <meta http-equiv='refresh' content='2; url=https://summer20-sps-20.ue.r.appspot.com/showVotes.html?id="
         + id + "' />";
     response.getWriter().println(vote);

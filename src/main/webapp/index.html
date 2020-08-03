@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
         integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 
-    <title>Voting App</title>
+    <title>Votability</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Cardo:wght@700&family=Josefin+Sans&display=swap"
         rel="stylesheet">
@@ -21,17 +21,16 @@
     </link>
     <script src="script.js"></script>
     <!-- API Key restricted set up on google cloud -->
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDFqi_fBQV7louPU53yrBCIzx0e3n0tn7o"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=MAP_KEY_API"></script>
 </head>
 
 <body>
     <div class="content">
         <div class="jumbotron" style="text-align: center; margin: 0px;">
-            <h1 class="display-4">Real-Time Voting App</h1>
+            <h1 class="display-4">Votability</h1>
             <p class="lead">This is a Project For Summer SPS2020. Its an app that allows you to vote in real
                 time</p>
             <hr class="my-4">
-
         </div>
 <form action="/search.html" method="GET" id="search-form">
     <div id="container-search" class="container" style="text-align:center;">
@@ -62,11 +61,15 @@
                                 <div class="row">
                                     <div class="col-sm-12 col-md-6 ">
                                         <input onclick="enableQuestion(this.id)" type="radio" id="questionText" name="questionType" value="questionText">
-                                        <label for="questionText">Text/map</label><br>
+                                        <label for="questionText">Text</label><br>
                                     </div>
                                     <div class="col-sm-12 col-md-6 ">
                                         <input onclick="enableQuestion(this.id)" type="radio" id="questionPicture" name="questionType" value="questionPicture">
                                         <label for="questionPicture">Picture</label><br>      
+                                    </div>
+                                    <div class="col-sm-12 col-md-6 ">
+                                        <input onclick="enableQuestion(this.id)" type="radio" id="questionMap" name="questionType" value="questionMap">
+                                        <label for="questionMap">Map</label><br>      
                                     </div>                              
                                 </div>
                         </tr>
@@ -82,16 +85,6 @@
                                         </br>
                                         <div class="col-sm-12 col-md-6 ">
                                             <input class="form-control" type="button" id="btn" value="Delete Options" />
-                                            </br>
-                                        </div>
-                                        </br>
-                                        <div class="col-sm-12 col-md-6 ">
-                                            <input class="form-control" type="button" id="map_btn" value="Add Map" />
-                                            </br>
-                                        </div>
-                                        </br>
-                                        <div class="col-sm-12 col-md-6 ">
-                                            <input class="form-control" type="button" id="map_del_btn" value="Delete Map" />
                                             </br>
                                         </div>
                                     </div>
@@ -123,9 +116,15 @@
                                 </td>
                             </tr>
 
+                            <!-- Map -->
+                            <tr id="questionTypeMap" hidden>
+                                <td style="vertical-align: top;">Options</td>
+                            </tr>
+
                     </table>
                 <br></br>
                 <input class="btn btn-primary" type="submit" id="btn-register" value="Click Here to Create a Room">
+                <input class="btn btn-primary" type="button" id="map-register" value="Click for a Map Room">
                 <br></br>
                 <!-- <button onclick=""> click here to create a room</button> -->
 

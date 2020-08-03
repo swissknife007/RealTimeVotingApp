@@ -7,11 +7,10 @@ function getVotes() {
 var url_string = window.location.href;
   var url = new URL(url_string);
   var id = url.searchParams.get("id");
-  var route = "/show?id=" + id;
+  var route = "/id?id=" + id;
   fetch(route)
       .then((response) => response.json())
       .then((stats) => {
-        console.log(stats);
         if (stats == null)
         {
             document.getElementById('question').innerHTML = "ERROR! INVALID ID";
@@ -48,7 +47,6 @@ var url_string = window.location.href;
         }
         x+= "</ul>";
         
-        console.log(x);
         document.getElementById("options").innerHTML = x;
 
         const options = {
