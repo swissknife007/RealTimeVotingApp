@@ -308,14 +308,14 @@ function enableQuestion(id) {
 function validateInput(){
     var inputs = document.getElementsByName("option");
     var isEqual = false;
+
+    loop:  // Label to be used to stop double loops
     for (var i = 0; i < inputs.length; i++)
         for(var j = i+1; j < inputs.length; j++)
             if (inputs[i].value == inputs[j].value)
-                isEqual = true;
-
-    if (isEqual)
-    {
-        alert("Invalid Options!");
-        event.preventDefault();     
-    }
+            {
+                alert("Invalid Option!");
+                event.preventDefault();
+                break loop;
+            }
 }
