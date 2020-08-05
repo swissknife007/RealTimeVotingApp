@@ -115,8 +115,4 @@ function enableSubmit()
     submitButton.removeAttribute("disabled");
 
 }
-// window.onload = function() {
-// document.getElementByName("choice").onclick= function(){
-//     console.log("tEST AUHAUHASUHAUHAUHAU");
-//     }
-// }
+
