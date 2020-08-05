@@ -235,12 +235,16 @@ function enableQuestion(id) {
     const questionTypePictures = "questionTypePictures";
     const questionMap = "questionMap";
     const questionTypeMap = "questionTypeMap";
+    const survey = "btn-register";
+    const map = "map-register";
 
     var textSection = document.getElementById(questionTypeText);
     var pictureSection = document.getElementById(questionTypePictures);
     var mapSection = document.getElementById(questionTypeMap);
     var form = document.getElementById(formId);
     var enctypeValue = "multipart/form-data";
+    var surveyButton = document.getElementById(survey);
+    var mapButton = document.getElementById(map);
  
     // Text-type selected
     if (id == questionText) {
@@ -249,12 +253,17 @@ function enableQuestion(id) {
             textSection.hidden = true;
             pictureSection.hidden = true;
             mapSection.hidden = true;
+            surveyButton.hidden = true;
+            mapButton.hidden = true;
         } else { // Check
             form.action = textURL;
             form.removeAttribute("enctype");
             textSection.hidden = false;
             pictureSection.hidden = true;
             mapSection.hidden = true;
+            surveyButton.hidden = false;
+            surveyButton.value = "Click to Create a Room";
+            mapButton.hidden = true;
         }
     } else if (id == questionPicture) { // Image-type selected
        if (!(pictureSection.hidden)) { // Uncheck
@@ -262,6 +271,8 @@ function enableQuestion(id) {
             textSection.hidden = true;
             pictureSection.hidden = true;
             mapSection.hidden = true;
+            surveyButton.hidden = true;
+            mapButton.hidden = true;
         } else { // Check
         //Change the URL request accordingly to the choice chosen accordingly
             form.action = blobURL;
@@ -269,6 +280,9 @@ function enableQuestion(id) {
             pictureSection.hidden = false;
             textSection.hidden = true;
             mapSection.hidden = true;
+            surveyButton.hidden = false;
+            surveyButton.value = "Click to Create a Picture Room";
+            mapButton.hidden = true;
         }
     } else if (id == questionMap) { // Map-type selected
         if (!(mapSection.hidden)) { // Uncheck
@@ -276,12 +290,16 @@ function enableQuestion(id) {
             textSection.hidden = true;
             pictureSection.hidden = true;
             mapSection.hidden = true;
+            surveyButton.hidden = true;
+            mapButton.hidden = true;
         } else { // Check
             form.action = textURL;
             form.removeAttribute("enctype");
             mapSection.hidden = false;
             textSection.hidden = true;
             pictureSection.hidden = true;
+            surveyButton.hidden = true;
+            mapButton.hidden = false;
         }
     }
 }
