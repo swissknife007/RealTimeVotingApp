@@ -31,6 +31,7 @@ function getInput() {
           var y = document.createElement("INPUT");
           y.setAttribute("type", "radio");
           y.setAttribute("name", "choice");
+          y.setAttribute("onclick", "enableSubmit()");
           // gets content portion of string if map type
           if (stats.questionType == "questionMap")
             y.setAttribute("value", stats.option[i].split(",")[2]);
@@ -108,3 +109,14 @@ function createDisplayMarker(lat, lng, content) {
     infoWindow.open(map, marker);
   });
 }
+function enableSubmit()
+{
+    var submitButton = document.getElementById("vote-register");
+    submitButton.removeAttribute("disabled");
+
+}
+// window.onload = function() {
+// document.getElementByName("choice").onclick= function(){
+//     console.log("tEST AUHAUHASUHAUHAUHAU");
+//     }
+// }
