@@ -78,7 +78,7 @@ function getInput() {
                 createDisplayMarker(vals[0], vals[1], vals[2]);
             }
             
-        }
+        } else document.getElementById('map').remove();
       });
   } catch {
     document.getElementById("title").innerHTML = "404";
