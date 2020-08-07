@@ -32,54 +32,59 @@
                 time</p>
             <hr class="my-4">
         </div>
-<form action="/search.html" method="GET" id="search-form">
-    <div id="container-search" class="container" style="text-align:center;">
-        <h2> Enter the question title to be searched</h2>
-        <br><br>
-        <input id="searchBar" name="searchBar" type="text" required class="form-control" placeholder="Enter a room title to search for">
-        <input class="btn btn-primary" type="submit" id="btn-search" value="Click here to search for the room">
-        <br><br>
-        <h2 id="answer"></h2>
-    </div>
-</form>
+        <form action="/search.html" method="GET" id="search-form">
+            <div id="container-search" class="container" style="text-align:center;">
+                <h2> Enter the question title to be searched</h2>
+                <br><br>
+                <input id="searchBar" name="searchBar" type="text" required class="form-control"
+                    placeholder="Enter a room title to search for">
+                <input class="btn btn-primary" type="submit" id="btn-search" value="Click here to search for the room">
+                <br><br>
+                <h2 id="answer"></h2>
+            </div>
+        </form>
 
 
-<div class="questionSection">
-        <form action="/data" method="POST" id="vote-form">
-            <div id="container" class="container" style="text-align: center;">
-                <br></br>
-                <h2> Create a room to vote</h2><br><br>
-                <table>
-                    <div class="row-2">
-                        <div class="col mb-4">
-                            <input name="question" type="text" id="question" required class="form-control"
-                                placeholder="Question">
-                        </div>
-                        <tr>
-                            <td style="vertical-align: top;">Question Type</td>
-                            <td id="questionTypeCell">
-                                <div class="row">
-                                    <div class="col-sm-12 col-md-6 ">
-                                        <input onclick="enableQuestion(this.id)" type="radio" id="questionText" name="questionType" value="questionText">
-                                        <label for="questionText">Text</label><br>
+        <div class="questionSection">
+            <form action="/data" method="POST" id="vote-form">
+                <div id="container" class="container" style="text-align: center;">
+                    <br></br>
+                    <h2> Create a room to vote</h2><br><br>
+                    <table>
+                        <div class="row-2">
+                            <div class="col mb-4">
+                                <input name="question" type="text" id="question" required class="form-control"
+                                    placeholder="Question">
+                            </div>
+                            <tr>
+                                <td style="vertical-align: top;">Question Type</td>
+                                <td id="questionTypeCell">
+                                    <div class="row">
+                                        <div class="col-sm-12 col-md-6 ">
+                                            <input onclick="enableQuestion(this.id)" type="radio" id="questionText"
+                                                name="questionType" value="questionText">
+                                            <label for="questionText">Text</label><br>
+                                        </div>
+                                        <div class="col-sm-12 col-md-6 ">
+                                            <input onclick="enableQuestion(this.id)" type="radio" id="questionPicture"
+                                                name="questionType" value="questionPicture">
+                                            <label for="questionPicture">Picture</label><br>
+                                        </div>
+                                        <div class="col-sm-12 col-md-6 ">
+                                            <input onclick="enableQuestion(this.id)" type="radio" id="questionMap"
+                                                name="questionType" value="questionMap">
+                                            <label for="questionMap">Map</label><br>
+                                        </div>
                                     </div>
-                                    <div class="col-sm-12 col-md-6 ">
-                                        <input onclick="enableQuestion(this.id)" type="radio" id="questionPicture" name="questionType" value="questionPicture">
-                                        <label for="questionPicture">Picture</label><br>      
-                                    </div>
-                                    <div class="col-sm-12 col-md-6 ">
-                                        <input onclick="enableQuestion(this.id)" type="radio" id="questionMap" name="questionType" value="questionMap">
-                                        <label for="questionMap">Map</label><br>      
-                                    </div>                              
-                                </div>
-                        </tr>
-                        <!-- Question Text -->
+                            </tr>
+                            <!-- Question Text -->
                             <tr id="questionTypeText" hidden>
                                 <td style="vertical-align: top;">Options</td>
                                 <td id="optionCell">
                                     <div class="row">
                                         <div class="col-sm-12 col-md-6 ">
-                                            <input class="form-control" type="button" id="addOption" value="Add Options" />
+                                            <input class="form-control" type="button" id="addOption"
+                                                value="Add Options" />
                                             </br>
                                         </div>
                                         </br>
@@ -96,23 +101,26 @@
 
                             <!-- Picture  -->
                             <tr id="questionTypePictures" hidden>
-                                <td style="vertical-align: top;">Options</td> 
+                                <td style="vertical-align: top;">Options</td>
                                 <td id="optionCell2">
                                     <div class="col-sm-12 col-md-6 ">
-                                        <input onclick="addPictures(this.id)" class="form-control" type="button" id="addPicture" value="Add More Pictures" />
-                                    </br>
-                                        </div>  
+                                        <input onclick="addPictures(this.id)" class="form-control" type="button"
+                                            id="addPicture" value="Add More Pictures" />
+                                        </br>
+                                    </div>
                                     <div class="row">
                                         <!-- Fix  -->
                                         <div class="col-sm-12 col-md-6 ">
-                                            <input name="image" class="addFile" type="file" id="addFile" value="Add Pictures" accept="image/png, image/jpeg"  />
+                                            <input name="image" class="addFile" type="file" id="addFile"
+                                                value="Add Pictures" accept="image/png, image/jpeg" />
                                             </br>
                                         </div>
                                         <div class="col-sm-12 col-md-6 ">
-                                            <input name="image" class="addFile" type="file" id="addFile" value="Add Pictures" accept="image/png, image/jpeg"  />
+                                            <input name="image" class="addFile" type="file" id="addFile"
+                                                value="Add Pictures" accept="image/png, image/jpeg" />
                                             </br>
-                                        </div>                               
-                                    </div>      
+                                        </div>
+                                    </div>
                                 </td>
                             </tr>
 
@@ -122,37 +130,39 @@
                             </tr>
 
                     </table>
-                <br></br>
-                <input onclick="validateInput()" class="btn btn-primary" type="submit" id="btn-register" value="Click to Create a Room" hidden>
-                <input class="btn btn-primary" type="button" id="map-register" value="Click to Create a Map Room" hidden >
-                <br></br>
-                <!-- <button onclick=""> click here to create a room</button> -->
+                    <br></br>
+                    <input onclick="validateInput()" class="btn btn-primary" type="submit" id="btn-register"
+                        value="Click to Create a Room" hidden>
+                    <input class="btn btn-primary" type="button" id="map-register" value="Click to Create a Map Room"
+                        hidden>
+                    <br></br>
+                    <!-- <button onclick=""> click here to create a room</button> -->
 
-                
-            </div>
-        </form>
-</div>
-    <div class="container" style="text-align: center;">
-        <h3>Members</h3>
-        <ul class="list-group">
-            <li class="list-group-item ">Abhishek Jindal <a id="icon" href="https://github.com/swissknife007"><i
-                        class="fab fa-github"></i></a></li>
-            <li class="list-group-item">Charles Yip Guoli<a id="icon" href="https://github.com/MaltoMight"><i
-                        class="fab fa-github"></i></a>
-            </li>
-            <li class="list-group-item">David Requena <a id="icon" href="https://github.com/arq1999"><i
-                        class="fab fa-github"></i></a>
-            </li>
-            <li class="list-group-item">Hossam A Zaki <a id="icon" href="https://github.com/hossam-zaki"> <i class=" fab
+
+                </div>
+            </form>
+        </div>
+        <div class="container" style="text-align: center;">
+            <h3>Members</h3>
+            <ul class="list-group">
+                <li class="list-group-item ">Abhishek Jindal <a id="icon" href="https://github.com/swissknife007"><i
+                            class="fab fa-github"></i></a></li>
+                <li class="list-group-item">Charles Yip Guoli<a id="icon" href="https://github.com/MaltoMight"><i
+                            class="fab fa-github"></i></a>
+                </li>
+                <li class="list-group-item">David Requena <a id="icon" href="https://github.com/arq1999"><i
+                            class="fab fa-github"></i></a>
+                </li>
+                <li class="list-group-item">Hossam A Zaki <a id="icon" href="https://github.com/hossam-zaki"> <i class=" fab
                     fa-github"></i></a>
-            </li>
-            <li class="list-group-item">Tomi Olusina <a id="icon" href="https://github.com/oolusina"><i
-                        class="fab fa-github"></i></a></i></li>
-        </ul>
-    </div>
+                </li>
+                <li class="list-group-item">Tomi Olusina <a id="icon" href="https://github.com/oolusina"><i
+                            class="fab fa-github"></i></a></i></li>
+            </ul>
+        </div>
 
 
-    <!--Simple Footer -->
+        <!--Simple Footer -->
 
         <!--Social and Share -->
         <br>
@@ -167,8 +177,8 @@
                         <script async defer crossorigin="anonymous"
                             src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v7.0&appId=2667458256844253&autoLogAppEvents=1"
                             nonce="3bSmYODx"></script>
-                        <div class="fb-share-button" data-href="https://dtest" data-layout="button_count"
-                            data-size="small"><a target="_blank"
+                        <div class="fb-share-button" data-href="" data-layout="button_count" data-size="small"><a
+                                target="_blank"
                                 href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdtest%2F&amp;src=sdkpreparse"
                                 class="fb-xfbml-parse-ignore">Share</a></div>
 
