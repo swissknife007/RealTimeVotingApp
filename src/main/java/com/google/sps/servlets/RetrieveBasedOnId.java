@@ -132,7 +132,6 @@ public class RetrieveBasedOnId extends HttpServlet {
     test.add(chosenValue);
     final String ip = request.getParameter(ipAddress);
     final String id = request.getParameter(roomID);
-
     Filter propertyFilter = new FilterPredicate("roomID", FilterOperator.EQUAL, id);
     Query query = new Query("vote").setFilter(propertyFilter);
     PreparedQuery voteResults = datastore.prepare(query);
